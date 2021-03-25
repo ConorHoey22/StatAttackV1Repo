@@ -1,0 +1,513 @@
+Firebase 
+-- Updating firebase can sometimes result in functions not working
+-- uninstall it 
+-- reinstall it is all you can do. npm install firebase , check updates for versions
+
+
+Bugs 
+--UI Validation for Player registeration, cannot get invaild invite and teaminvitecode alerts to appear
+--Create a Team - cant select Soccer 
+-- UI Validation Adding a Player - CANT use the alert  as it will create 2 players??
+=ON Expo Mobile, if the user selects a email from the reccommended list , it crashes app. 
+USER MUST ENTER THE EMAIL
+-- WHEN USER ENTER INCORRECT PASSWORd (on Mobile) ERROR APPEARS
+CANt use auto populate on login screen as it wont recognise you actually enter somehting
+
+
+//Possble BUG to look out for - perfrom a goal and then close the app - Create a new game with same player with same number then
+ executegoal - StartingArray still saved and keeps goal = 1 when it should be default
+ // Maybe we need to ensure that onload array is removed from the data and set to 0
+    //Possible Bug saves the last game as i saw it  goals = 2 when it should have only been 1 goal
+
+
+ 
+-------------THIS NEEDS TO BE DEVELOPED ONCE/ TESTED ONCE RELEASED TO APP STORE
+-- ON LOGGED IN AT ALL TIMES UNLESS YOU SIGN OUT 
+-- Once ONLINE you need get all the team players so that the user can create the teamsheet OFFLINE
+-- BACK UP Server data , daily!
+
+
+Testing for when the APP is in the APP STORE
+
+-- HOW will the app work. So the user will log in and obtain all the data that is need through the homescreen 
+-- WE would ask the user to possibly log in before and after gmaeday / when making changes to the team roster so that they can update the database and device stored data]
+-- look at the correction above , I'm not  100% on this but we will need to further test this when we have the app on the app store so that we can see what happens when the user closes the app, will the device that data? is Async storage best way to go ? 
+-- We will also need to ensure that the user is constantly logged in which I cant test right not ON EXPO.
+
+
+OFFLINE mode
+
+------ MAY NEED TO SAVE Myuserid as Asyncstorage or 
+-- I think you need to store all the players in Asyncstorage 
+-- If the user is offline , they do not see their team members . so we need to save them in local 
+-- CHECk within setupstatsapp if the generated firebase key can be obtained while offline - line 213
+--COrrection - NEed to test as I go along, 
+I think that so right now we obtain the all the data 
+that we need to use the app by calling all firebase GET ROUTES within the HOMESCREEN 
+which then i think stores on the device and used while offline
+
+Offline capabilities
+At the point when clients are disconnected from the internet, the Realtime Database SDKs employ local cache on the device to store changes. Later when the device comes online, the local data is automatically synchronized to Realtime Database. We can enable disk persistence to save the data offline from the following lines of code:
+
+//Offline support
+FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+
+
+-- HOW will the app work. So the user will log in and obtain all the data that is need through the homescreen 
+-- WE would ask the user to possibly log in before and after gmaeday / when making changes to the team roster so that they can update the database and device stored data]
+-- look at the correction above , I'm not  100% on this but we will need to further test this when we have the app on the app store so that we can see what happens when the user closes the app, will the device that data? is Async storage best way to go ? 
+-- We will also need to ensure that the user is constantly logged in which I cant test right not ON EXPO.
+
+
+ // ---------------------------------------RISK Acceptance-------------------------------------------
+    // The odds of the team having the same userid within this very low as you can only have 30 players
+    // when you sub a player the selected player is automatically put on the list this isnt a huge issue
+
+     -- RISK ACCEPTANCE -- Mobile version its never going to be pin point as the device can be very small. 
+
+     -- Risk Acceptance -- no back bottom for mobile as its uses the full screen for the image , 
+     odds on users not being able to go back is silm as android u can click back button 
+     , its more apple i am unsure about 
+
+
+Task to be done before stats app
+
+
+ Setup stats app 
+//setup 
+//TRAINING MODE
+        /TImestamp when you created the game just for filering games in the future , not essential right now
+        //DO WE NEED A COUNTER HERE FOR A MAX SUB BENCH
+    //-- Validation to ensure that you cant use the same kit number
+
+
+//RESEt the minimum players in setup as we have it to 3 for GAA 
+
+
+//AMOUNT OF GAMES COUNTER , so you can only save 30 games to Team and then like the stats stay with the players profile tho
+    
+
+
+
+
+
+//BEFORE DEMO 
+MAKE it that you must have at least 11(Soccer) 15 GAA starting player and at least 1 person on the bench at all times (So you need 1 in the subbench array within Setup) 
+test layout with over 15/11 players in starting and bench
+
+        Suggestion
+        //Could we have like different alerts like ,green (good ) , yellow, amber , red for event Patterns
+
+
+Current bug/tasks
+StatsTable
+-- Select Field postion needs sorted!
+
+--Total team stats frontend i think you need to just move this 
+
+
+
+----------------------------------------TASKS THAT NEED DONE TO Priority-----------------------
+- Select a Field position and frontend of it (we cant do that plotting thing on mobile - what can we do) 
+
+
+//MyTeam - login as a player and you cant view. 
+//MyProfile - sign in as player and there in nothing
+
+
+
+--Total events  in a game so we need to add totalGameShots in StatsApp to the YOURTEAM game record
+
+-- totals team stats in dB , need to send all totals to db after submit game (StatsApp)
+-- Player Profiles
+Team Profile
+-- we want the latest 5 games to appear in the team games list
+--How do other users view games as they wont be able to get the userid
+
+--------SETUPSTATSAPP = Differences in Soccer submit need to add Opponents
+--Soccer needs an Opponents section in setupstatsapp
+
+-- Limit to X amount of games that you can save , and also Team Profile set amount 
+-- this will then be used in the setupstatsapp so u cant click Gameday until u remove a game?
+-- Delete a game record - within my TeamProfile? 
+-- Limit will be checked - if <1 then the button will not appear to search for the games
+
+-- not enough players screen needs to have a button to redirect
+
+
+-- Change background for create a team etc and registeration
+
+--Put scroll on each view as its not working on mobilephone 
+
+--ManageTeam we need view players - Use frontend tool to design
+
+-we have a demo field position as i cant seem to get the ploting working on mobile
+
+--Reset view - without having to start the timer> - say you are at HT and then waiting for kickoff 
+-- Event occured  field pattern Positions - lost the ball in this area or 10 shots on target from this array , maybe not every event needs this
+
+Detailed analysis
+    -- Possession (How do i calculate this)
+    -- Pie chart needed?
+    -- Players to watch 
+    -- Players Patterns
+    -- Team Pattern
+
+Post Game 
+    -- Review game appears again
+    -- Return to Main Menu
+
+
+
+Player Profiles
+--we have a button on main Menu
+-- Admin can view playerr Profiles from ManageTeam - This is where we send the USerID from ManageTeam to Profile page which is then used to retrieve data
+--on the player profile page we get the Myuserid which on load will retrieve the related data using that id from the DB
+
+
+
+Team Profile - review previous games (Maybe only review your own team not others??)
+Scoreboard - Score can be messy looking depending on the screen size - try FLEXWRAP or increase height a bit
+Successful and unsuccessful events - shots on target , off target , unsuccessful passes and all the other events  - which also includes Repeated patterns in those
+
+
+--Are we able to retrieve the sportType if the user is offine?
+
+--Bug on mobile the Opponentsbutton is not displaying correctly
+-------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+Current Tasks
+Profiles/playercards - view other players profile by search
+Undo Event after it has already executed (udeo Goal , Sub) 
+
+
+-this should only appear if there is a repeat event
+change PASSWORD
+change email 
+Legal stuff
+MAke the soccer version Identical as you have to set up/if statements
+Foul -yellow card, red, black card FOR GAA , yellow , red - Soccer
+assist
+
+soccer view needs fixed . there is no sub feature added  frontend
+
+
+This weekend
+- Select a Field position and frontend of it is Priority
+-we have a demo field position as i cant seem to get the ploting working on mobile
+
+
+
+    detailed analysis Section 
+        -Possession - won the ball lost , 
+        -percentages 
+        --shots 
+            percentage of shots on target
+            Divide the number of shots by the number of shots ontarget. shots Successful/total shots
+
+    
+    ---Plot points - Field event selection (Advanced not buttons )
+    --correct field position terms
+    
+    Store timestamp of the sub action 
+    How do we calculate minutes played?
+    Post Game - 
+    --TEST SOCCER
+    TEST(User is offine , completes a game and then ensure the data is sent back to firebase when the user the comes back online )
+    (Check does the game get submitted to FB even if user closes the app after submittion) display Total team stats , store in firebase 
+
+
+    -SeTup stats app bug
+        -- When the user uses up all possible players and adds them to the stats array and then trys to addPlayer again the array is empty and because of the validation we cannot proceed , if the user hits the back button it goes back to the MEnu 
+        -- if the user hits the back button it goes back to the MEnu  , we need to cahnge this to go back to option Setup (page beforea)
+
+
+
+HALF TIME -   or just
+        //Stats analysis -Graphs? or just stats?
+
+    
+
+
+
+
+
+
+
+
+
+//Possible bug -  Start , click a player ,timer stops , clear timer without choosing an event
+
+
+
+
+
+
+--Stats completed
+    Goal
+
+- event Pattern display  -- Current
+    --IF Repeated eventtype = goal or pass or fouls , if it happens throughout the game 
+    -- Identical eventtype and player -  lost the ball by number 7  if it happens x number of times throughout the ga
+
+
+--- Display previous event on the field selection , within Post game and half time 
+
+
+--- Sub player / Replace with Replacement/Subsitiution player
+----------cant we have a resub on ?? or once you sub thats it ? status= Subbed
+we need a way to prevent the user from resubbing the player back on ???
+or maybe just leave it to allowing them to resub if they wanted to , not a big deal
+
+-- Player selection 
+    --working but what if there is a 
+    3 digit number or more in a few and then like does the buttons go down the next row or off the screen.
+
+----event history section 
+    -- display kit number and event type amd timestamp (position?)
+
+--- Half time
+Post game analyse Page 
+Review games
+
+--Add all possible events and all secondary events attached to primary events - GAA Kickout -> sideline or -> won break  
+--------------------------------------------------------------------------
+
+
+
+//Try get rid of the top naviagtion part as will reduce space and shouldnt be in the Stats app page
+    //how do we track Opponents stats ? or do we
+    //MAKE SUre you change Setup Min teamsheet in submit Functions as we have it set up for test
+    // DO WE NEED TO TAKE STATS For the Opponents TEAm ? as how will we change the playerkitnumber/Playerselection?
+    //Chane code to selectedstarting11 to selectedstartingteam
+
+PROFILES NEEDED
+--Scouting Platform?
+        --If clubs didnt want to share players accounts , we could draw them out with something, 2% off or something
+        -- Also since the user creates the account , technically its there right to share their data , we would have to have an option whether they want to share their stats(THis should be done during registeration)
+
+
+
+
+
+
+    //Disable ability to press player kit numbers after like the timer button does grey out . Be nice if we highlighted the choosen button a differnt color. instead of making it disappear
+
+    //OnLoad of the stats app , push all stats to the relevant record so that goals will =0 in the record , we need it this way for totals
+
+
+    //Half time - View team stats, individuals , possession, graphs etc
+    //Sub
+    //Fulltimebutton
+
+
+
+GAA
+
+    Kickout - won the ball from kickout / loss the ball
+    Possession - how do we calculate that?
+    Possession lost
+    Goal
+    Score(Point)
+    Tackle - Successful/unsuccessful
+    Pass - Successful/Lost the ball
+    Shot - On / off target
+    Foul - Warning - Yellow - Red - Black
+    Won the Ball
+    Concede Point - how do we track Opponents stats ? or do we
+    Concede Goal
+
+
+Possible Stats
+    --Miss free kick
+    --Scored from set piece
+    --Pen   -Score from Pen / Miss
+    -- Cleansheet GK+Defenders
+
+
+
+
+
+
+
+
+    -Shot   , Shot on Target , Shot off target
+    -Goal,  = includes shot on target?
+    -Score point (What should we say for this Point score or Score (Point) ) , 
+    -Fouls 
+    -Tackle , unsuccessful
+    -Pass , unsuccessful
+    -concede goal
+    - Lost the Ball
+     -interception 
+    Additional to confirm
+    -Win ball 
+    -Kickout - this should generate new options , lost kickout or won kickout?
+    -Score from fouls
+     
+    Concede Goal -how do we track Opponents stats ? or do we
+
+    
+Soccer
+    -Shot   , Shot on Target 
+    -Goal, 
+        Possession - how do we calculate that?
+    -Tackle , unsuccessful
+    -Pass , unsuccessful
+    -concede goal
+  - Lost the Ball
+   - foul - Warning, Yellow, Red
+
+    Additional to confirm
+    -Header()
+    -Score from fouls
+    corners , freekick
+        -- Cleansheet GK+Defenders
+
+            
+
+
+
+
+
+
+
+
+
+--OFFLine Mode 
+
+
+-- Create a Game   
+ 
+    -- Create TeamSheet
+
+        -  Create A Game record within firebase
+                -- attach UserID that created the game 
+                -- Create and Attach players to the game 
+                    --attach list of stats to that record
+
+     --Save all game stats with Asyncstorage after the game so that you can then upload to server??
+     -- or will Firebase auto save?
+
+
+
+
+
+Testing needed
+
+-- Player sign up and enter team invite code and also their player invite code 
+-- This wil attach their UID to the relevant players record **
+--  Make it that the TeamAdmin must set a unique teaminvitecode and unique playercode (DONE - Testing needed) 
+-- with the playercodes it will only need to be unique within that team players list 
+-- but for teaminvitecode it must be Completely unique within the teams list 
+
+
+~DEMO THIS WEEK
+    Sign up HeadAnalyst & TeamAnalyst
+        -Make teaminvitecode completely unique, make it that other users can have the same
+        - Ui field Validation
+        - Testing 
+
+    HeadAnalyst Creating Players(Non registered)
+        -   HeadAnalyst will then create players with a max of playerlimit which is set during HeadAnalyst registeration (we create these accounts)
+        -- Validation that the playerinviteCode is completely unique within the HeadAnalyst's TEAM.
+        --  Testing  
+
+    Sign up as a player 
+        - UserPlayer enters teaminvitecode on Sign up (Validation needed here , if no match , still create but do notify them that )
+        - User enter player invitecode on sign up (Validation needed here , if no match, still create but do notify them that ))
+        - Backend wil then find a the HeadAnalyst by the matching teaminvitecode which will retrieve the HeadAnalyst UID 
+        - With the HeadAnalyst UID, we then user this to find the matching team.
+        - Then the backend will search within that matching team under the subfolder (/players) which will then search for the squad player created with the matching playerinviteCode
+        --Then we push the UID of the now registered userplayer into the that teams players record. 
+
+    Login
+        -  Ui field Validation 
+        -  Testing
+
+    AppNavigation
+        - Test as a HeadAnalyst or TeamAnalyst or Player
+
+    ManageTeam
+    -   BE able to view all players within your team and if they are registered to UserID or AppNavigation
+    -   Delete a player from the squad
+    -   delete the team
+
+
+
+
+
+
+
+
+
+--Check if the user is online or offline, 
+we need a way of preventing them from accessing specific pages which will just cause problems 
+if they arent online
+
+-- Offline stuff
+    --Save user data to mobile so the team details and user
+    -- MAKE SURE THAT THE USER KNOWs that they must come online before game day to update stuff
+
+
+--Update firebase DB rules, security risk i got through email
+
+
+--POST Sign UP as a player and what Stats from that player is pushed to the now registered player
+
+
+
+Leave Team and Join a new team without creating a brand new account
+-- Can we allow stats to carry on, is it needed?
+
+
+Setup stats app 
+ {/* list of players within the teamsheet + Sub bench list 
+ A button which will remove from the bench depending 
+ on what their status (Starting Team or Sub) 
+ they button will display differently and return them tothe availableteamsheet
+
+
+BUG
+ THE bug is that from the Player selection dropdown , 
+ the value we send to the backend is the key of the team/players{key}  
+ ITs fine for adding but for removal we need to use the TeamsheetList/SubBenchList 
+ which does not contain the PlayerName , So how will the user identify which player they are removing.
+ 
+
+
+
+
+
+
+---MORe specific player position needed for GAA and SOccer
+- Offline mode , obtain all players once you are logged on and store locally 
+and then say 2 days later you are offline it wont matter as they will stay locally saved even though you have closed the APP 
+    -Stats do not save to the userplayer if the gameType is Training
+
+
+Stats app
+-- Everything 
+-- Offline mode , upload data when connection is found
+    -Stats do not save to the userplayer if the gameType is Training
+
+    --When submitting a stat it will add by either playerUIF 
+    but will also send their stats to their personal account using userID
+    --IF USerID = "" then use playeruid , We cannot send stats to their personal account as it does not exist yet
+
+
+ADD A PLAYER 
+-- Profiles
+
+
+
+Frontend 
+--Everything
+
+ManageTeam
+-- THEN HAVE A TEAM DASHBOARD TO MANAGE THE TEAM , delete, edit invitecode/name

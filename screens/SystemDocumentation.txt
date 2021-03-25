@@ -1,0 +1,111 @@
+// ---------------------------------------RISK Acceptance-------------------------------------------
+    // The odds of the team having the same userid within this very low as you can only have 30 players
+    // when you sub a player the selected player is automatically put on the list this isnt a huge issue
+
+     -- RISK ACCEPTANCE -- Mobile version its never going to be pin point as the device can be very small. 
+
+     -- Risk Acceptance -- no back bottom for mobile as its uses the full screen for the image , 
+     odds on users not being able to go back is silm as android u can click back button 
+     , its more apple i am unsure about 
+
+
+dd
+
+
+---------------- MORE USER Friendly Setup Stats App ----------------------------------------- DONE
+
+  -- First the user i asked to enter the Opponenets Name 
+      -- onSubmit  Next stage or if empty then prompt user
+  
+  -- User is asked to select starting 11/15 and SubBench as it is normally done 
+    -- User is asked to select Opponents starting 11//15 and SubBench as it is normally done 
+  
+  -- Once user submits one player for their team or Opponents the ability to view Teamsheet appears
+   --DElete a player all ready capable- i think this just needs to improved design of the list 
+
+  --Once user has selected 11 or 15 players , the ability to Submit team selection appear(Process to stats APP)
+-----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+  --------------------HOW TO ADD A STAT-----------------------------
+  //To create a stats you need to go to ObtainFieldPositionSelected , 
+  then in the IF STATEMENT you copy the condition with what the eventTYpe is 
+  and then conditon with the selectedPlayer 
+  which considers if its the opponenets or Yourteam
+  *WHEN WE ARE GOING TO ADD ALL THE STATS CHECK THEM ALL , OpponentsNEED AN execute function*
+
+  --Things to update
+    -End Game backend - db totals
+    -Event Selection frontend&back
+    -total team stats , front&back
+    -total Opponents stats , front&back
+    -Player Profile, front&back
+    -Team Profile, front&back
+    =Detailed analysis, front&back
+    -ObtainFieldPositionSelected
+    -executegoal etc
+
+
+  -- How do we send field location of each event to the database , do we have multiple fields / rows created?
+  -- COuld we store it all into one array and store the array value in the Firebase Db and then on the app filter the array to display data 
+   
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+----------------------------------------- FIELD TAGGING Stats App / View GAME ---------------------------------
+
+     // ---------------------------------------RISK Acceptance-------------------------------------------
+    // The odds of the team having the same userid within this very low as you can only have 30 players
+    // when you sub a player the selected player is automatically put on the list this isnt a huge issue
+
+     -- RISK ACCEPTANCE -- Mobile version its never going to be pin point as the device can be very small. 
+
+
+
+  https://stackoverflow.com/questions/39631895/how-to-set-image-width-to-be-100-and-height-to-be-auto-in-react-native
+
+  --within StatsApp 
+
+  --we use  the below then in style we call imageGAA or soccer to make it more responsive fit 
+
+  const win = Dimensions.get('window');
+  const ratioGaaView = win.width/703;
+  const ratioSoccerView = win.width/359;
+
+
+  imageGAA:{
+      width: win.width,
+      height: 399 * ratioGaaView, //399 is actual height of image
+      top:'10%'
+
+  },
+
+  imageSoccer:{
+      width: win.width,
+      height: 240 * ratioSoccerView, //399 is actual height of image
+      top:'10%'
+  },
+
+
+
+View Game
+--In stats app if the screenHeight + screenwidth is < setfieldImageWidth + setfieldImageHeight then the image field selection is a button so like where on the field (Make the user aware of this)
+  -- if the screenwidth + screenHeight is >= ... then image field selection is displayed
+
+ if(screenWidth != this.state.StatsStoredUsingScreenWidth && screenHeight != this.state.StatsStoredUsingScreenHeight)
+    
+        if(screenWidth < 703 || screenHeight < 399)
+          --Alert user that device is too small as there screen is smaller than the actual field images width + height
+            --ScrollView is implemented
+        
+    set the width + height of the image to same device screen size as the device size the stats were taken on 
+   <Image style ={{width: this.state.StatsStoredUsingScreenWidth, height: this.state.StatsStoredUsingScreenHeight}} 
+
+------------------------------------------------------------------------------------------------------------------------------------------
+

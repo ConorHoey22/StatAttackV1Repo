@@ -1,0 +1,506 @@
+//This document will be used to say what items are in place or need done 
+//This will also include details of each section and how stable it is and validation needed
+
+FUTURE developments - FRONTEND 
+https://codepen.io/paulnoble/pen/PwOxOY
+3D pitch and line up like Skysports or on Tv
+
+-------------Bugs that occur in development
+-- IF touchobacity/button is not responsive apply  position: 'absolute', to style of the object
+-- When in stats app - detailed analsis i cant undo the field with plots with the start button
+
+
+
+TASKS To be looked at 
+--SportType within Viewgame should be got from the team record and we need to find a alternative to myuserid
+-- View each page/screen as a player and another TA as the HEAD team analyst USER ID is needed for it all so we need to solve this
+
+-- test need / patch maybe needed = So what if the Opponent in that game doesnt have an events 
+and then the user trys to see the users stats -- What do they see?
+
+
+-- NEDD TO LOCK APP TO LANDSCAPE
+
+
+saddsaadsdssdFdfs
+TEST GFI
+
+--TODAYs TASKs------------------------------------
+
+
+
+  --Opponents  field selection and View Games Opponents
+
+  -- REVIEW GAME BUG in individual it displays field
+
+  -- review game Stats app - field positions (PC and tablet will be fine but i think mobile will be an issue 
+      - We will have to put an alert saying review field location mode is unavailable for mobile , so maybe if screenwidth == .. or screenheight then opeiton is not displayed)
+
+
+
+
+  --Stats app
+   // Percentages - DISABLEd THIS AS BUG
+    -- UNDO event button
+    --Stats app -  FIX needed GAA doesnt have event History or Event Patterns where Soccer mode does
+    Bug - With delete a game - gameobj.screenwidth
+
+
+Training mode - stats app needs implemented in setup and stats app itself
+
+--Opponents ViewGame needs implemented now
+--View a specific player stats (VIEW GAME)
+--view game back button for field image view
+
+--setupstatsapp --  Make sure that the user must select 15/11 players for the starting team as 
+-- the counter increments with subbench selection which is an issue as what if u only select a subbench
+
+
+--sTats app - Field tagging
+-- When using a mobile its hard to plot points at the top as the controlpanel container and when the user clicks there 
+or beside it it can go off the field. COuld we create a boundary like unresponsive if you click that area or responsive if you click the button to undo event
+so like on Fieldselection start button and other buttons expect undo button is removed 
+
+
+
+
+
+currently working on soccermode for stats app - Scoreboard we are at // line 6312
+
+review an individual player - front end bug 
+
+
+when you click review game buttons - NOthing is responsive , we had this issue before - look above absolute position needed i think
+  --review game - detail - your team - review teame events and field locations - Select an event appears - hit Start - selection does not disappear
+
+
+
+
+----- Stats app 5% for a undo button
+----- viewGame needs a Soccer mode - currently on this , its not responsive as  i would like as the image gets cut off unlike the GAA on , maybe we need a bigger image same as GAA one
+  -- current issue is when your using a small device - mobile , its not responsive , think it may be stats app
+--Event history and patterns in STATS app both gAa and soccer
+
+
+Test 1 - Stats app using tablet view game using tablet , PC , mobile) - PASS
+       - Try more unique position like goal-lines - FAIL - PLot was not displayed in Viewgame
+          --Test in Game Review game and View Game
+
+Test 2 - Stats app using PC view game using PC , tablet,  mobile) FAIL - 1 plot failed on the far left
+      - Try more unique position like goal-lines
+
+Test 3 - Stats app using Mobile view game using  mobile , tablet,  PC) - PASS BUT FRONTend fail on Mobile 
+       - Try more unique position like goal-lines
+
+
+       --boundary so like an outer border around the Field images
+       - issue may be because of a of the touch obacity , as on tablet the bottom //side lines are not 
+
+
+
+
+      FIX test------ GAA Image
+      Test 1 - Stats app using tablet view game using tablet , PC , mobile) 
+          result: Tablet Pass - PC PASS - Mobile Fail(Points were off)
+
+      Test 2 - Stats app using PC view game using PC , tablet,  mobile)
+           result: Tablet Pass - PC PASS - Mobile Fail(Points were off)
+
+      Test 3 - Stats app using Mobile view game using  mobile , tablet,  PC) 
+          result: Mobile - Pass , Tablet Pass - PC PASS
+
+      FIX test------ Soccer Image
+      Test 1 - Stats app using tablet view game using tablet , PC , mobile) 
+      Test 2 - Stats app using PC view game using PC , tablet,  mobile)
+      Test 3 - Stats app using Mobile view game using  mobile , tablet,  PC) 
+
+
+
+--------- NEED TO RE DEVELOP this game -- SCROLLVIEW DOESNT WORK anymore
+
+     issue right now is that mobile view as we have a nav bar which means the image is not fully displayed pn mobile
+
+
+    alert needs to be closed / removed as it re pops up again if u leave it to long open
+
+     -- RISK ACCEPTANCE -- Mobile version its never going to be pin point as the device can be very small. 
+
+
+
+--------------------------------- ALL USERS --------------------------------------
+
+RESET THEIR password  OR Email??
+CHANGE PASSWORD
+
+
+
+----------------- Player Mode -----------------------------------
+
+   
+--SportType within Viewgame should be got from the team record and we need to find a alternative to myuserid
+  -- MyTeam - need to pass the Team ID to the Player user account 
+  -- So once the user enters in their invitecode+teaminvitecode and its a match then add the TeamID to their record
+
+--What if a player wants to leave a team
+  -- we need to remove the TeamID value 
+  -- Need to remove the player from team/Players collection? ,, will the team lose data on this player then tho? that will be an issue
+
+--what if a player wants to join a new team
+
+
+-- View the entire app as a player what can they access , make a list a test
+  --
+
+-- View the entire app as a Team analsyt what can they access , make a list a test
+  -- Can they use the stats app?
+  -- Can they add players to the team?
+  --  --only allow the HeadTeamAdmin delete game
+
+-- View the entire app as a HeadTeam analsyt what can they access , make a list a test
+  -- MyTeam could be like only editable for HEAd TEAM analsyt
+     -- where is View my Team could be for players/team analsyt -- READ ONLY
+     --  --only allow the HeadTeamAdmin delete game
+
+------------------------------------------------------------------------
+
+--------------------------- Team analyst Mode (THis is not the same as HeadTeamAdmin as they create the team etc) --------------------------------
+
+-- We need to allow the team analyst to have the ability to add new players 
+
+-- setupstatsapp access and submittion
+
+-- Stats app access and submittion
+
+--everything that the HeadTeamAdmin can do i think 
+
+--------------------------------------------------------------------------
+
+
+------------------------------------- HeadTeamAdmin mode -----------------------------------------------
+
+
+-- Access / Permissions Settings for HeadTeamAdmin
+
+--------------------------------------------------------------------------------------------------------
+
+
+
+
+
+  //Soccer EnD GAME Logic needed
+
+  ---PLAyer has the ability to view their stats from a specific game- also USER RECORD
+          --USER
+              --Event
+                  --GAMEID
+                  -- Opponents Name
+                    -- Position they played
+
+
+
+
+
+
+  -- Soccer needs updated also (just the frontend)
+  --touches
+-- Unique stats - that not normal for some apps - location 
+-- App / Web version for field selection prob may need different images - TEST this as web looks badly
+
+
+
+
+
+
+
+FOR THE DEMO 
+--change setupstatsapp so that they have to enter 15 or 11
+-- PLAYERS CANT VIEW THEIR Own TEAM YET 
+-- TEAM analsyt cant either only HeadTeamAdmin 
+-- THERE IS LIMITED EVENTS IN STATS APP AS I HAVENT CODED THEM IN YET AS I NEEDED CONFIRMATION ON IF THEY ARE RIGHT FIRST
+-- onlY GOALS I THINK IS WORKINK AND SUB PLAYER
+-- event patterns only occurs >=4
+-- WE ALSO NEED THE LENGTH OF TIME THE PLAYED, SO SAY THE PLAYER GETS SUBBED OFF RECORD THAT LENGTH OF TIME HE PLAYED
+
+--GET better images for field selection ?
+
+----Soccer mode needs fully tested and prob will need an update within Stats App
+
+//currently only implemented in the db and logic
+            totalGoals: firebase.database.ServerValue.increment(Goals),
+                            totalShots: firebase.database.ServerValue.increment(Shots),
+                            totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
+
+-- test  SubOnPlayer  = async() => { ------ DOes this do anything?
+
+--DO GAA HAVE SHOTS on target?
+
+
+WE ARe here
+Join team problem below
+so  to join a team you need the team ID so its the HeadTeamAdmin USERID which will then allow the user to join that team.
+So we could make it that the player needs to ask the HeadTeamAdmin to give their userId to them. 
+HTA will then need a way to find them - Maybe put this on the Manageteam
+
+
+
+
+//Is there a way to remove the android nav bar?
+
+// - event Patterns not working - need to double check that 
+
+
+// Clean up job of unused code and DB fields
+
+
+/// -- Detailed anaysis within stats app
+
+/// SOCCER mode needs to have a Opponents mode
+
+
+// Yellow warning on device 
+
+/ style warnings on the Console - look at web
+
+-- ensure that the app cant go portrait
+
+
+-------------exceptions needed
+-- invalid Team invite code exception for - existing player accounts reg
+-- exception for invalid teaminvite and player invitecode
+-- badly formatted email and already in use email
+
+
+--THIs WEEKEnd
+--NEW PLAYER ACCOUNT BUG - we need them to specify the SPORT as its needed for MyProfile
+
+-- new player needs the ability to JOIN A TEAM 
+
+
+
+STATS App
+--STAT holder needs to store plot coorinates and store in DB of each event  
+ think as then post game you can view where all the stats occured
+        --First step - after Event Selection , make plotfield appear  
+        --On plot selection then send to  ObtainFieldPositionSelected function which has execute
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------SUPER USER CREATION -- -
+do we create this manually by altering the DB once we go LIVE
+
+
+
+
+What if the player wants to keep his account and leave to join a new team
+-- Teams/players account would need to remove the USERID and replace with random include
+
+What if the Team admin deletes the user from the account , what happens when the user trys to view MYTeam 
+
+
+
+//-------------------------Welcome Page-------------------------------------
+
+    *NEEDED*
+
+--automatically log someone in 
+-----------------------------------------------------------------------------
+
+
+//------------------------Login----------------------------------------------
+
+
+------------------------------------------------------------------------------
+
+//--------------------------Sign Up--------------------------------------------
+------ New Accounts
+    --validation = Email already used (frontend display messages) . currently it just doesn't execute the function 
+
+
+  MORE Email validation (if u user enters an invalid email it doesnt alert them at the min )  , password , length must be >6
+
+
+    
+firebase.database().ref('/users').orderByChild("email").equalTo(userEmail).once('value').then(function(snapshot) {
+      if (snapshot.val() !== null) {
+        console.log("emails exists")
+        // handle error
+      } else {
+        console.log("emails do not exists")
+        // push record to Firebase
+      }
+    });
+
+
+
+
+
+
+-------Existing Player Accounts
+--validation = Email already used (frontend display messages) . currently it just doesn't execute the function
+
+firebase.database().ref('/users').orderByChild("email").equalTo(userEmail).once('value').then(function(snapshot) {
+      if (snapshot.val() !== null) {
+        console.log("emails exists")
+        // handle error
+      } else {
+        console.log("emails do not exists")
+        // push record to Firebase
+      }
+    });
+
+
+-------------------------------------------------------------------------------
+
+
+
+
+//Player View
+    -- frontend
+    //MyProfile - sign in as player and there in nothing
+    //MyProfile - GAA + Soccer mode
+    HOW CAN WE ALLOW OTHER TEAMs/ USER GET THE TEAMS/ PLAYERS STATS
+    
+What if the Team admin deletes the user from the account , what happens when the user trys to view MYTeam 
+
+
+//TeamView
+//-MyTeam - login as a player and you cant view. 
+GAA + Soccer mode
+
+
+
+//------------------------Team Profile---------------------------------------
+--The way that i have it created that only the HeadTeamAdmin can view MyTeam 
+-- How do we alter this so that teamadmins and HeadTeamAdmin can do this
+--- If(userType == 'HeadTeam' , else if (userType == 'teamadmin')
+
+
+
+What if the Team admin deletes the PLAYER from the account , what happens when the user trys to view MYTeam 
+
+
+//When there is not records within the team and the user click REview previous games it crashes
+
+
+//----------------------- View Game ----------------------------------------- 
+--The way that i have it created that only the HeadTeamAdmin can view MyTeam 
+-- How do we alter this so that teamadmins and HeadTeamAdmin can do this
+--- If(userType == 'HeadTeam' , else if (userType == 'teamadmin')
+
+
+-- then front end
+
+//----------------------- Join a Team -----------------------------------------
+//This is for if someone leaves a team or creates a new player account this will allow them to join a team
+
+// Can they reobtain stats before they were register? so like say they play for Warrenpoint 20/21 
+//and then they sign for newry 21/22 but didnt get join the team(Newry)
+// until half way through the season but newry had already been tracking his stats with temporary player account 
+
+-------------------------------------------------------------------------------
+
+//------------------------ Create a Team---------------------------------------
+GAA + Soccer mode
+-------------------------------------------------------------------------------
+
+//------------------------ Add a Player ---------------------------------------
+GAA + Soccer mode
+
+-- View Player within your team, will this function only show the Player record since they joined your team - '/teams/players' or will it show both user record and player?
+  --We could do both - so create a file called ExternalPlayerProf
+  which uses the player USID which is sent from the playerID (team/players) 
+  to the page and then use the var in Firebase db
+-------------------------------------------------------------------------------
+
+//------------------------- Manage Team ---------------------------------------
+GAA + Soccer mode
+
+View Player button and functionality
+
+--The way that i have it created that only the HeadTeamAdmin can  Manage the team
+-- How do we alter this so that teamadmins and HeadTeamAdmin can do this
+--- If(userType == 'HeadTeam' , else if (userType == 'teamadmin')
+
+
+
+
+-------------------------------------------------------------------------------
+
+//------------------------- Set up Stats App ----------------------------------
+    -- not enough players screen , cant go back without restarting app
+    GAA + Soccer mode
+
+
+Bug within setup team , if you dont add a player it can send u to Opponents  setup  (STILL EXISTS BUT I dunno how to trigger this)
+
+
+
+-------------------------------------------------------------------------------
+
+//------------------------StatsApp--------------------------------------------
+    -- All event need implement 
+    
+    GAA + Soccer mode
+    --Send update Games played record on playeraccount + user
+
+  BUG - click sub player and then say u made a mistake and click Undo Event. the Player kit numbers frontend disappears? 
+
+      --   user clicks player 
+      --   sub event
+      -- SubBench appears (displaySubBench == true
+      -- User then decides no , i dont want to execute this sub so they click UNDO EVENT button
+      UndoEvent() - setstate SubBench == false , this.setState({displayStartingTeam: true}); 
+      -- Bug is here where the player Selection does not reappear to the correct state
+
+
+    -- Addition frontend work to implement other events 
+    -- Field Position Selection (need to decide if we do this as buttons or touch as the touch is harder and not working with android / mobiles)
+
+    -unique DATA - Dublin hasnt scored from play since .. `
+
+
+//Send STAts to Team/Players also temporary Accounts
+//First we needed to add stat holders/ totals within teams/players records
+
+
+
+CREATE a Guide on how you add a new STAT to the code 
+  -- Update Player register
+  -- Add player 
+  -- StatsApp
+
+
+
+-------------------------------------------------------------------------------
+
+
+
+
+// Review Game
+
+// Detailled analsis 
+
+//Offline mode that need to be TESTED
+
+//Db and host
+
+
