@@ -314,9 +314,6 @@ import { ImageEditor } from 'react-native';
         var PlayerList;
 
 
-      
-
-
         const checkplayercounter = this.state.playercounter;
         const checkteamplayerlimit = this.state.teamplayerlimit;
 
@@ -324,7 +321,7 @@ import { ImageEditor } from 'react-native';
         {
             AddPlayerView = (
                 <View>
-                    <Text style={styles.myText}>Your team player limit has been hit.  Please either delete a player from your team or contact us to upgrade you package </Text>
+                    <Text style={styles.myText}>Your Team player limit has been hit.  Please either delete a player from your team or contact us to upgrade you package </Text>
                 </View>
             );
         }
@@ -332,36 +329,50 @@ import { ImageEditor } from 'react-native';
 
             AddPlayerView = (
                 <View>
-                    <Text style={styles.myText}> Please enter your full name:</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholderTextColor="#aaaaaa"
-                        placeholder='Please enter your full name'
-                        // onChangeText={(text) => setFullName(text)}
-                        onChangeText={(text) => this.setState({fullName:text})}
-                        value={this.state.fullName}
-                        underlineColorAndroid="transparent"
-                        autoCapitalize="none"
-                    />
 
-                
-                    <Text style={styles.myText}>*Players will enter this code when registering to join a team</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholderTextColor="#aaaaaa"
-                        placeholder='Please enter your invite code'
-                        // onChangeText={(text) => setInviteCode(text)}
-                        onChangeText={(text) => this.setState({inviteCode:text})}
-                        value={this.state.inviteCode}
-                        underlineColorAndroid="transparent"
-                        autoCapitalize="none"
-                    />
+                    <ScrollView>
+                    <View style={styles.textcolumn}>
+                            <Text style={styles.BlackTextBold}> Create a Player record: </Text>
+                        <View style={styles.columnView}>
+                                <Text style={styles.BlackText}> Please enter their full name:</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholderTextColor="#aaaaaa"
+                                    placeholder='Please enter your full name'
+                                    // onChangeText={(text) => setFullName(text)}
+                                    onChangeText={(text) => this.setState({fullName:text})}
+                                    value={this.state.fullName}
+                                    underlineColorAndroid="transparent"
+                                    autoCapitalize="none"
+                                />
 
-                    <View style={styles.footerView}>
-                        <TouchableOpacity style={styles.button} onPress={this.addPlayer}>
-                        <Text style={styles.buttonTitle}>Click here to add the player</Text>
-                        </TouchableOpacity>
-                    </View>
+                            </View>
+
+                            <View style={styles.columnView}>
+                                <Text style={styles.BlackText}>*Players will enter this code when registering to join a team</Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholderTextColor="#aaaaaa"
+                                        placeholder='Please enter your invite code'
+                                        // onChangeText={(text) => setInviteCode(text)}
+                                        onChangeText={(text) => this.setState({inviteCode:text})}
+                                        value={this.state.inviteCode}
+                                        underlineColorAndroid="transparent"
+                                        autoCapitalize="none"
+                                    />
+                            </View>
+
+                            <View style={styles.footerView}>
+                                <TouchableOpacity style={styles.exitRedButton} onPress={this.addPlayer}>
+                                    <Text style={styles.myText}>Click here to add the player</Text>
+                                </TouchableOpacity>
+                            </View>
+                            
+                        </View>
+                        
+                        </ScrollView>
+
+         
 
                 </View>
             );
@@ -376,46 +387,59 @@ import { ImageEditor } from 'react-native';
                 
               
 
-                <View>
-                <View style={styles.footerText}>
-                    <Text style={styles.myText}>Your Team Members (* Scroll down to view more *)</Text>
-                            <FlatList
-                                data={this.state.listPlayers}
-                                style={styles.footerText}
-                                renderItem={({ item }) => (
-                                    <View style={styles.textWrapper}>
+                // <View styles= {{flex: 1, alignItems: 'center', justifyContent: 'center' }}> 
+
+
+                    <View>
+                    
+                  
+                        <Text style={styles.WhiteTextBold}>Your Team Members</Text>
+                   
+                        <FlatList
+                            data={this.state.listPlayers}
+                        
+                            renderItem={({ item }) => (
+                                <View style={styles.textWrapper}>
+                                    
+                                            <Text style = {styles.PlayerName}>Player Name: {item.fullName}</Text>
+
+                                                    <View style={styles.columnView}>
+                                                        <TouchableOpacity style={styles.exitRedButton} onPress={() => this.ViewPlayer(item.key)}>
+                                                            <Text style={styles.myText}>View Player</Text>
+                                                        </TouchableOpacity>
+                                                    </View> 
+
+
+                                                    <View style={styles.columnView}>    
+                                                        <TouchableOpacity style={styles.RedButton} onPress={() => this.RemovePlayer(item.key)}>                           
+                                                            {/* <Text style={styles.myText}>Remove Player</Text>  */}
+                                                            <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                                        </TouchableOpacity>
+                                                    </View> 
 
                                         
-                                        <View>
-                                        <Text style={styles.footerText}>Player Name: {item.fullName}</Text>
-                                        </View>
 
-
-                                            <TouchableOpacity style={styles.button} onPress={() => this.ViewPlayer(item.key)}>
-                                                <Text style={styles.buttonTitle}>View Player</Text>
-                                            </TouchableOpacity>
-                                        
-                                            <TouchableOpacity style={styles.button} onPress={() => this.RemovePlayer(item.key)} >
-                                                <Text style={styles.buttonTitle}>Remove Player</Text>
-                                            </TouchableOpacity>
+                                </View>
                                 
-                                        
+                        
+                                
+                            )}
                             
-                                    </View>
-                                )}
-                            
-                                />
+                            />
+
+                    </View>
+
+            // </View>
                     
-                            </View>
-
+                     
+            
+           
           
-          
-                </View> 
-                    
+       
 
 
 
-
+                   
 
 
 
@@ -429,13 +453,15 @@ import { ImageEditor } from 'react-native';
         }
         
 
-        //Currenlty here , exception due to using scrollview over a flatlists , logbox creates more exception- reseach more on utube
 
         return(
-            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'  ,    backgroundColor: '#252626',  fontSize: 20,}}>
-             {AddPlayerView}
+         
+            <ScrollView contentContainerStyle={{  flex: 1 ,backgroundColor: '#242424', alignItems: "center"}}>
 
-             {PlayerList}
+
+                    {AddPlayerView} 
+         
+   
             </ScrollView>
          
         )
@@ -447,80 +473,174 @@ import { ImageEditor } from 'react-native';
 const styles = StyleSheet.create({
 
     Text: {
-        paddingLeft: 40
+        paddingLeft: 40,
+        color: 'white',
+        fontWeight: "bold",
     },
 
-    container: { 
-        flex: 1 ,
-        backgroundColor: '#242424', 
+    
+    ExitButton:{
+        width:50,
+        height: 48,
+    },
+
+
+    container: {
+        backgroundColor: '#242424',
+        alignItems: 'center',
+   
+    },
+
+  
+    StatRow: {
+        flex:1,
+       flexDirection:"column",
+       
+        marginBottom:10,
+        backgroundColor: "#33343F",
+        
+
+    },
+
+    StatColumn: {
+        flex:1,
+        flexDirection:"column",
+     
+        backgroundColor: "#33343F",
+ 
+    },
+    columnView: {
+        
+        paddingTop:10,
+          paddingBottom:10,
+          paddingLeft: 10,
+          paddingRight: 10,
+          alignItems: 'center',
+
+    },
+
+    PlayerName:{
+
+        paddingBottom: 30,
+        paddingRight: 50,
+        color: 'black',
+        alignItems: 'center',
+        fontWeight: "bold",
+        justifyContent:'center',
     },
 
     textWrapper: {
-      height: hp('100%'), // 70% of height device screen
-      width: wp('80%') ,  // 80% of width device screen
+
       flexDirection:"row",
-      justifyContent:'space-between',
-      alignItems: 'center',
-      height: 50,
-      borderRadius: 5,
- 
+      justifyContent:'center',
+
       backgroundColor: 'white',
-      marginTop: 30,
+      alignItems: 'center',
+      borderColor:'#C30000',
+      width: '100%',
+      borderWidth: 4,
+      marginTop: 10,
       marginBottom: 10,
-      marginLeft: 60,
-      marginRight: 10,
     
-      paddingLeft: 6,
+      
+      paddingTop:10,
+     paddingLeft: 10,
+      borderRadius: 10,
 
     },
+
+    textcolumn: {
+
+        flexDirection:"column",
+        justifyContent:'center',
+        width: '100%',
+        backgroundColor: 'white',
+        alignItems: 'center',
+        borderColor:'#C30000',
+         borderWidth: 4,
+        // marginTop: 10,
+        // marginBottom: 10,
+  
+ 
+        //  paddingTop:10,
+        //  paddingLeft: 10,
+        // borderRadius: 10,
+        padding: 50,
+        marginTop: 100,
+  
+      },
     myText: {
-      fontSize: hp('5%'),// End result looks like the provided UI mockup
-      color: 'black',
-      fontSize: hp('2%'),
+
+      color: 'white',
+      alignItems: 'center',
+
+      paddingTop: 5
   
     },
 
+    dcontainer: {
+        backgroundColor: 'white',
+        height:'100%',
+        alignItems: "center",
+        fontSize: 20,
+       
+    },
+
+
     input: {
-        height: 48,
+        height: 60,
+        width:200,
+        borderWidth: 2,
         borderRadius: 5,
         overflow: 'hidden',
         backgroundColor: 'white',
+        borderColor:'#C30000',
         marginTop: 10,
         marginBottom: 10,
         marginLeft: 30,
         marginRight: 30,
         paddingLeft: 16
     },
-    button: {
-        backgroundColor: '#FF6D01',
-        padding: 15,
-        
+    exitRedButton: {
+        backgroundColor: '#C30000',
+        paddingBottom: 30,
+        paddingLeft: 16,
+        paddingRight: 16,
         borderRadius: 5,
         alignItems: "center",
-        justifyContent:'space-between'
+        justifyContent: 'space-around'
     },
+
   
-    buttonTitle: {
+    exitRedButtonTitle: {
         color: 'white',
         fontSize: hp('2%'),
    
     },
 
-    myText:{
-        color: 'white',
-        fontSize: hp('2%'),
-        marginTop: 10,
-        marginBottom: 10,
-        marginLeft: 30,
-        marginRight: 30,
-        paddingLeft: 16
+    BlackText:{
+        color: 'black',
+    },
+ 
+  
+    BlackTextBold:{
+        color: 'black',
+        fontWeight: "bold",
+
     },
 
     
+    WhiteTextBold:{
+        color: 'white',
+        fontWeight: "bold",
+
+    },
+    
     footerView: {
-        flex: 1,
+        marginTop: 30,
+        marginBottom: 30,
         alignItems: "center",
-        marginTop: 20
+  
         
     },
     footerText: {
@@ -530,9 +650,19 @@ const styles = StyleSheet.create({
     },
     footerLink: {
         color: "#788eec",
-   
         fontSize: hp('2%') 
     },
+    headerContainer:{ 
+
+        backgroundColor: 'white',
+        alignItems: "center",
+        borderWidth: 4,
+        borderRadius: 20,
+        borderColor:'#C30000',
+        fontWeight: "bold",
+
+    },
+
   });
 
 

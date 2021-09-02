@@ -49,7 +49,10 @@ class PlayerRegistrationScreen extends Component{
         this.setState(state);
       }
     
-    
+      onButtonPress = () =>
+      {
+         this.props.navigation.navigate('Login');
+      }
 
 
 
@@ -128,6 +131,7 @@ class PlayerRegistrationScreen extends Component{
                                                     userType:   userType,
                                                     sportType: sportType,
                                                     inviteCode: inviteCode,
+                                                    hasATeam:true,
                                                     totalGoals:0,
                                                     totalPoints:0,
                                                     totalPasses: 0,
@@ -146,9 +150,7 @@ class PlayerRegistrationScreen extends Component{
                                                     usersRef
                                                         .set(data)
                                                         .then(() => {
-                                                            // this.setState({
-                                                            //      isLoading: true,
-                                                            //   })
+                                                        
                                                         
 
                                         
@@ -159,9 +161,24 @@ class PlayerRegistrationScreen extends Component{
                                             
                                                      
                                                      
-                                                        alert('Account Created Successfully. Try to logging in');
+                                                        Alert.alert('Account Created Successfully. Try to logging in' ,  
+                                                      [
+                                                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                                                        {text: 'Yes', onPress:  () => navigation.navigate('Login')},
+                                                      ],
+                                                      { cancelable: false }
+                                                    );
+                          
+                                                      
+                                                      
+                                                      
+                                                      
+                                                      
+                                                    //   , this.props.navigation.navigate('Login'));
+                                                        //Send user to Login screen 
 
-                                                
+
+
                                             });
 
 
@@ -223,7 +240,7 @@ class PlayerRegistrationScreen extends Component{
                             .auth()
                             .createUserWithEmailAndPassword(email, password)
                                 .then((response) => {
-                                     const uid = response.uid
+                                     const uid = response.user.uid
                                         
                                         const userType = "Player"
                                         const data = {
@@ -517,11 +534,9 @@ class PlayerRegistrationScreen extends Component{
 const stylesPlayerReg = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#252626'
+        backgroundColor: '#252626',
     },
-    title: {
-
-    },
+   
     logo: {
         flex: 1,
         height: 120,
@@ -531,6 +546,7 @@ const stylesPlayerReg = StyleSheet.create({
     },
     input: {
         height: 48,
+
         borderRadius: 5,
         overflow: 'hidden',
         backgroundColor: 'white',
@@ -541,12 +557,14 @@ const stylesPlayerReg = StyleSheet.create({
         paddingLeft: 16
     },
     button: {
-        backgroundColor: '#FF6D01',
+        backgroundColor: '#C30000',
         marginLeft: 30,
         marginRight: 30,
         marginTop: 20,
         height: 48,
         borderRadius: 5,
+        borderWidth: 2,
+        borderColor:'#000000',
         alignItems: "center",
         justifyContent: 'center'
     },

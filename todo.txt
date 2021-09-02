@@ -4,49 +4,63 @@
 FUTURE developments - FRONTEND 
 https://codepen.io/paulnoble/pen/PwOxOY
 3D pitch and line up like Skysports or on Tv
+-- removing TA privaleges - 1account for as my users - this will be test on deployment
 
--------------Bugs that occur in development
+
+
+
+-------------Bugs that occur in development-----------
 -- IF touchobacity/button is not responsive apply  position: 'absolute', to style of the object
 -- When in stats app - detailed analsis i cant undo the field with plots with the start button
 
 
 
+currently working on 
+**- Opponents field selection and View Games Opponents (TEST if it only shows opponent events not the other team) **
+  -=-improve Frontend and test on different devices 
+  --Starting with Website and work are way down to smaller devices
+
+  - sub a player 
+- need to save how long they played subded on and off player  ----- how to calculate the minutes played line 983
+
 TASKS To be looked at 
---SportType within Viewgame should be got from the team record and we need to find a alternative to myuserid
--- View each page/screen as a player and another TA as the HEAD team analyst USER ID is needed for it all so we need to solve this
+- sign up as player - Existing we want it to navigate to Login (CANT get this to work  . tried alert)
+- More Stats
 
--- test need / patch maybe needed = So what if the Opponent in that game doesnt have an events 
-and then the user trys to see the users stats -- What do they see?
-
-
--- NEDD TO LOCK APP TO LANDSCAPE
-
-
-saddsaadsdssdFdfs
-TEST GFI
-
---TODAYs TASKs------------------------------------
+- Training mode - stats app needs implemented in setup and stats app itself
+- REVIEW GAME BUG in individual it displays field - STATS APP SCREEN
+- review game Stats app - field positions (PC and tablet will be fine but i think mobile will be an issue 
+    -- We will have to put an alert saying review field location mode is unavailable for mobile , so maybe if screenwidth == .. or screenheight then opeiton is not displayed)
+-- Percentages within stats app , View game and Team Profile and then Player Profile also - DISABLEd THIS AS BUG
+-- Player Profile / Player View - need a list of things we want to show them 
+    --Team Profile
+    -- their own profile with stats + Percentages
+    -- Can they view other teammates Percentages??
 
 
 
-  --Opponents  field selection and View Games Opponents
-
-  -- REVIEW GAME BUG in individual it displays field
-
-  -- review game Stats app - field positions (PC and tablet will be fine but i think mobile will be an issue 
-      - We will have to put an alert saying review field location mode is unavailable for mobile , so maybe if screenwidth == .. or screenheight then opeiton is not displayed)
+RISK ACCEPTANCE features
+--Mobile version its never going to be pin point as the device can be very small. 
+        --issue right now is that mobile view as we have a nav bar which means the image is not fully displayed pn mobile
 
 
 
 
-  --Stats app
-   // Percentages - DISABLEd THIS AS BUG
-    -- UNDO event button
-    --Stats app -  FIX needed GAA doesnt have event History or Event Patterns where Soccer mode does
+Bugs
+-- possibly A Bug in sub (Your team ) - try do it really fast
+
+-- View Game (Field position) Frontend needs to far better 
+-What we want is like a white background around the field and more nice looking 
+
+
+    //How to delete a user safely. as deleting A HeadTeamAdmin would not be good as it would corrupt the team record?
+
+  
+
+
     Bug - With delete a game - gameobj.screenwidth
+    --sub a player -- need to save how long they played subded on and off player
 
-
-Training mode - stats app needs implemented in setup and stats app itself
 
 --Opponents ViewGame needs implemented now
 --View a specific player stats (VIEW GAME)
@@ -55,75 +69,16 @@ Training mode - stats app needs implemented in setup and stats app itself
 --setupstatsapp --  Make sure that the user must select 15/11 players for the starting team as 
 -- the counter increments with subbench selection which is an issue as what if u only select a subbench
 
-
---sTats app - Field tagging
--- When using a mobile its hard to plot points at the top as the controlpanel container and when the user clicks there 
-or beside it it can go off the field. COuld we create a boundary like unresponsive if you click that area or responsive if you click the button to undo event
-so like on Fieldselection start button and other buttons expect undo button is removed 
-
-
-
-
-
-currently working on soccermode for stats app - Scoreboard we are at // line 6312
-
 review an individual player - front end bug 
 
 
-when you click review game buttons - NOthing is responsive , we had this issue before - look above absolute position needed i think
-  --review game - detail - your team - review teame events and field locations - Select an event appears - hit Start - selection does not disappear
 
 
 
 
------ Stats app 5% for a undo button
------ viewGame needs a Soccer mode - currently on this , its not responsive as  i would like as the image gets cut off unlike the GAA on , maybe we need a bigger image same as GAA one
-  -- current issue is when your using a small device - mobile , its not responsive , think it may be stats app
---Event history and patterns in STATS app both gAa and soccer
 
+--------
 
-Test 1 - Stats app using tablet view game using tablet , PC , mobile) - PASS
-       - Try more unique position like goal-lines - FAIL - PLot was not displayed in Viewgame
-          --Test in Game Review game and View Game
-
-Test 2 - Stats app using PC view game using PC , tablet,  mobile) FAIL - 1 plot failed on the far left
-      - Try more unique position like goal-lines
-
-Test 3 - Stats app using Mobile view game using  mobile , tablet,  PC) - PASS BUT FRONTend fail on Mobile 
-       - Try more unique position like goal-lines
-
-
-       --boundary so like an outer border around the Field images
-       - issue may be because of a of the touch obacity , as on tablet the bottom //side lines are not 
-
-
-
-
-      FIX test------ GAA Image
-      Test 1 - Stats app using tablet view game using tablet , PC , mobile) 
-          result: Tablet Pass - PC PASS - Mobile Fail(Points were off)
-
-      Test 2 - Stats app using PC view game using PC , tablet,  mobile)
-           result: Tablet Pass - PC PASS - Mobile Fail(Points were off)
-
-      Test 3 - Stats app using Mobile view game using  mobile , tablet,  PC) 
-          result: Mobile - Pass , Tablet Pass - PC PASS
-
-      FIX test------ Soccer Image
-      Test 1 - Stats app using tablet view game using tablet , PC , mobile) 
-      Test 2 - Stats app using PC view game using PC , tablet,  mobile)
-      Test 3 - Stats app using Mobile view game using  mobile , tablet,  PC) 
-
-
-
---------- NEED TO RE DEVELOP this game -- SCROLLVIEW DOESNT WORK anymore
-
-     issue right now is that mobile view as we have a nav bar which means the image is not fully displayed pn mobile
-
-
-    alert needs to be closed / removed as it re pops up again if u leave it to long open
-
-     -- RISK ACCEPTANCE -- Mobile version its never going to be pin point as the device can be very small. 
 
 
 
@@ -131,6 +86,9 @@ Test 3 - Stats app using Mobile view game using  mobile , tablet,  PC) - PASS BU
 
 RESET THEIR password  OR Email??
 CHANGE PASSWORD
+
+     -- risk Acceptance -- We need to test this out once we fully deploy -- 1 HeadTeamAdmin account will be used by other staff on the team 
+     -  We need to test this when the app is deployed to check if we can have 2 stats app games running at same time and both logined into the same account
 
 
 
@@ -270,19 +228,10 @@ HTA will then need a way to find them - Maybe put this on the Manageteam
 -- badly formatted email and already in use email
 
 
---THIs WEEKEnd
---NEW PLAYER ACCOUNT BUG - we need them to specify the SPORT as its needed for MyProfile
-
--- new player needs the ability to JOIN A TEAM 
 
 
 
-STATS App
---STAT holder needs to store plot coorinates and store in DB of each event  
- think as then post game you can view where all the stats occured
-        --First step - after Event Selection , make plotfield appear  
-        --On plot selection then send to  ObtainFieldPositionSelected function which has execute
-  
+
 
 
 
@@ -450,7 +399,6 @@ View Player button and functionality
     GAA + Soccer mode
 
 
-Bug within setup team , if you dont add a player it can send u to Opponents  setup  (STILL EXISTS BUT I dunno how to trigger this)
 
 
 
@@ -478,8 +426,6 @@ Bug within setup team , if you dont add a player it can send u to Opponents  set
     -unique DATA - Dublin hasnt scored from play since .. `
 
 
-//Send STAts to Team/Players also temporary Accounts
-//First we needed to add stat holders/ totals within teams/players records
 
 
 

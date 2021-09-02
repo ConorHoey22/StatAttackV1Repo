@@ -14,6 +14,7 @@ import { firebaseConfig } from './config/config';
   
 // Info pages
 import Welcome from './screens/WelcomeScreen/WelcomeScreen';
+import RegisterTeamAdminInfo from './screens/RegisterTeamAdminInfo/RegisterTeamAdminInfo';
 
 
 // Login
@@ -166,6 +167,15 @@ const AppNavigator = createStackNavigator({
     },
   },
 
+  RegisterTeamAdminInfo: {
+    screen: RegisterTeamAdminInfo,
+    navigationOptions: {
+      title: 'Register My Team',
+
+    },
+  },
+
+
 
 });
 
@@ -175,7 +185,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    backgroundColor: "#242424"
+    backgroundColor: "#33343F"
 
 
   

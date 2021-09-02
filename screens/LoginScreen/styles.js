@@ -4,10 +4,19 @@ import { color } from 'react-native-reanimated';
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#242424',
+        backgroundColor: '#252626',
     },
-    title: {
-
+       
+    Text:{
+        color: "white",
+        fontSize:18,
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 16,
+        marginRight: 30,
+        paddingLeft: 16,
+       
+        justifyContent:'center'
     },
     logo: {
         flex: 1,
@@ -16,17 +25,17 @@ export default StyleSheet.create({
         alignSelf: "center",
         margin: 30
     },
-    input: {
-        height: 48,
-        borderRadius: 5,
-        overflow: 'hidden',
-        backgroundColor: 'white',
-        marginTop: 10,
-        marginBottom: 10,
-        marginLeft: 30,
-        marginRight: 30,
-        paddingLeft: 16
-    },
+    // input: {
+    //     height: 48,
+    //     borderRadius: 5,
+    //     overflow: 'hidden', 
+
+    //     marginTop: 10,
+    //     marginBottom: 10,
+    //     marginLeft: 30,
+    //     marginRight: 30,
+    //     paddingLeft: 16
+    // },
     button: {
         backgroundColor: '#FF6D01',
         marginLeft: 30,

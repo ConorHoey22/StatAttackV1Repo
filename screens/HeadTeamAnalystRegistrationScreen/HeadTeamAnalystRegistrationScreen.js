@@ -93,8 +93,11 @@ export default class HeadTeamAnalystRegistrationScreen extends Component{
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((response) => {
-                const uid = response.uid;
+                const uid = response.user.uid;
                 const userType = "HeadTeamAnalyst";
+
+
+                console.log(uid);
                 const data2 = {
                     id: uid,
                     email: this.state.email,
@@ -113,10 +116,9 @@ export default class HeadTeamAnalystRegistrationScreen extends Component{
                      usersRef
                          .set(data2)
                               .then(() => {
-                                        this.setState({
-                                            isLoading: true,
-                                        })
                                     
+
+                                        alert('Account created');
                                         this.props.navigation.navigate('Login')
                                     })
                                     .catch((error) => {

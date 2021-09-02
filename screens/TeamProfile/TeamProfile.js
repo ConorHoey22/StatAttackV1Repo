@@ -1,7 +1,7 @@
 import React, { useEffect, useState , Component  } from 'react'
 import {FlatList, StyleSheet,Keyboard, Text, View , ScrollView, TouchableOpacity,TextInput ,Picker, Button , Alert} from 'react-native'
 
-// import * as firebase from 'firebase/app';
+
 import firebase from 'firebase/app'
 import 'firebase/auth';
 import 'firebase/database';
@@ -23,7 +23,7 @@ class TeamProfile extends Component {
             SportType: '',
             inviteCode:'',
             hasATeam: false,
-            userType: [],
+            userType: '',
             totalTeamGoals: 0,
             totalTeamPoints: 0,
             totalTeamPasses: 0,
@@ -38,7 +38,8 @@ class TeamProfile extends Component {
             tempArr:[],
             tempArr1:[],
             tempPlayer:[],
-
+           
+            gamecounter:0,
             OpponentsStatsRecordKey:'',
             gameRecordsArray:[],
 
@@ -47,67 +48,103 @@ class TeamProfile extends Component {
     }
 
     componentDidMount(){
-        this.getTeamDetails();
-        this.getTeamStats();
-        this.getTeamGames();
+
+        //Obtain userType on load
+
+        var myUserId = firebase.auth().currentUser.uid;
+
+        firebase.database().ref('/users').child(myUserId)
+        .on('value', snapshot => {
+            const userObj = snapshot.val();
+
+            let userType = userObj.userType;
+            this.setState({userType:userType});
+
         
 
+        });
+
+
+        //Obtain Team ID if the userType == TeamAnalyst
+
+             this.getTeamDetails();
+             this.getTeamStats();
+             this.getTeamGames();
+
+    
             //Display Batch of Games
             this.setState({displayGamesBtn: false});
-
-         
-
 
     }
 
     getTeamDetails = async() => {
 
         var myUserId = firebase.auth().currentUser.uid;
-        firebase.database().ref('/teams').child(myUserId)
-        .on('value', snapshot => {
-            const userObj = snapshot.val();
 
-            let SportType = userObj.SportType;
-            this.setState({SportType:SportType});
 
-            let TeamName = userObj.TeamName;
-            this.setState({TeamName:TeamName});
+                 
+    
+       
+            firebase.database().ref('/teams').child(myUserId)
+            .on('value', snapshot => {
+                const userObj = snapshot.val();
 
-      
-            
-            
-        });
+                let SportType = userObj.SportType;
+                this.setState({SportType:SportType});
+
+                let TeamName = userObj.TeamName;
+                this.setState({TeamName:TeamName});
+
+                let gamecounter = userObj.gamecounter;
+                this.setState({gamecounter:gamecounter});
+            });
+
+
+   
+
+
+
+     
     }
 
 
     getTeamStats = async() => {
 
+
         var myUserId = firebase.auth().currentUser.uid;
-        firebase.database().ref('/teams').child(myUserId).child('Stats')
-        .on('value', snapshot => {
-            const userObj = snapshot.val();
+ 
+        //check if stats exist - Exception
+            firebase.database().ref('/teams').child(myUserId).child('Stats')
+            .on('value', snapshot => {
 
-         
+                if(snapshot.exists())
+                {
 
-            let totalTeamGoals = userObj.totalTeamGoals;
-            this.setState({totalTeamGoals:totalTeamGoals});
+                    const userObj = snapshot.val();
 
-            // let totalTeamPoints = userObj.totalTeamPoints;
-            // this.setState({totalTeamPoints:totalTeamPoints});
+                    let totalTeamGoals = userObj.totalTeamGoals;
+                    this.setState({totalTeamGoals:totalTeamGoals});
 
+                    // let totalTeamPoints = userObj.totalTeamPoints;
+                    // this.setState({totalTeamPoints:totalTeamPoints});
 
-            // let totalTeamPasses = userObj.totalTeamPasses;
-            // this.setState({totalTeamPasses:totalTeamPasses});
+                    // let totalTeamPasses = userObj.totalTeamPasses;
+                    // this.setState({totalTeamPasses:totalTeamPasses});
 
-            let totalTeamShots = userObj.totalTeamShots;
-            this.setState({totalTeamShots:totalTeamShots});
+                    let totalTeamShots = userObj.totalTeamShots;
+                    this.setState({totalTeamShots:totalTeamShots});
 
-            let totalTeamShotsOnTarget = userObj.totalTeamShotsOnTarget;
-            this.setState({totalTeamShotsOnTarget:totalTeamShotsOnTarget});
+                    let totalTeamShotsOnTarget = userObj.totalTeamShotsOnTarget;
+                    this.setState({totalTeamShotsOnTarget:totalTeamShotsOnTarget});
 
-            
-            
-        });
+                }
+                else
+                {
+                  //This will not look for the totals which results in the totals keeping the state of 0 
+                }
+
+            });
+                
     }
 
 
@@ -130,12 +167,8 @@ class TeamProfile extends Component {
                 snapshot.forEach(function(childSnapshot) {
               
                 var key = childSnapshot.key;
-    
-                 
+      
                 gameRecordsArray.push(key);
-
-        
-    
 
                 })
 
@@ -150,7 +183,7 @@ class TeamProfile extends Component {
         var tempArr = this.state.tempArr;
         var tempArr1 = this.state.tempArr1;
         var gameRecordsArray = this.state.gameRecordsArray;
-
+        var SportType = this.state.SportType;
 
       
 
@@ -165,7 +198,7 @@ class TeamProfile extends Component {
     
             firebase.database().ref('/teams').child(myUserId).child('games').child(gameRecordsArray[i]).child('YourTeamStats')
            .on('value', snapshot => {
-                console.log(snapshot.val());
+          
 
                         tempArr = this.snapshotToArray(snapshot);
                         console.log(tempArr);
@@ -173,20 +206,39 @@ class TeamProfile extends Component {
                         for(var i = 0; i < tempArr.length; i++)
                         {
                         
+                                if(SportType == 'GAA')
+                                {
+                                    var data = {
+                                    
+                                        StatsRecordKey: tempArr[i].key,
+                                        GameRecordKey: tempArr[i].GameRecordKey,
+                                        UsersGAAGoals: tempArr[i].UsersGAAGoals,
+                                        UsersGAAPoints: tempArr[i].UsersGAAPoints,
+                                        OpponentsName: tempArr[i].OpponentsName,
+                                        OpponentsGAAGoals:tempArr[i].OpponentsGAAGoals,
+                                        OpponentsGAAPoints:tempArr[i].OpponentsGAAPoints
+                                        
+                                    };
 
-                                var data = {
-                                    
-                                    StatsRecordKey: tempArr[i].key,
-                                    GameRecordKey: tempArr[i].GameRecordKey,
-                                    UsersGAAGoals: tempArr[i].UsersGAAGoals,
-                                    UsersGAAPoints: tempArr[i].UsersGAAPoints,
-                                    OpponentsName: tempArr[i].OpponentsName,
-                                    OpponentsGAAGoals:tempArr[i].OpponentsGAAGoals,
-                                    OpponentsGAAPoints:tempArr[i].OpponentsGAAPoints
-                                    
+                                    this.state.GameViewList.push(data);
                                 }
-
-                                this.state.GameViewList.push(data);
+                                else if(SportType == 'Soccer')
+                                {
+                                   
+                                        var dataSoccer = {
+                                        
+                                            StatsRecordKey: tempArr[i].key,
+                                            GameRecordKey: tempArr[i].GameRecordKey,
+                                            UsersSoccerGoals: tempArr[i].UsersSoccerGoals,
+                                        
+                                            OpponentsName: tempArr[i].OpponentsName,
+                                            OpponentsSoccerGoals:tempArr[i].OpponentsSoccerGoals,
+                                        
+                                            
+                                        };
+    
+                                        this.state.GameViewList.push(dataSoccer);
+                                }
 
      
                         }
@@ -262,6 +314,7 @@ class TeamProfile extends Component {
             var ViewGames;
             var ViewGamesBtn;
             var SportType = this.state.SportType;
+            var gamecounter = this.state.gamecounter;
 
             var displayGamesBtn = this.state.displayGamesBtn;
 
@@ -269,32 +322,44 @@ class TeamProfile extends Component {
             {
                 ProfileData = ( 
                     <View style={styleProfile.headerContainer}>
-                        <Text style={styleProfile.buttonTitle}>{this.state.TeamName}</Text>
-                        <Text style={styleProfile.buttonTitle}>Sport: {this.state.SportType}</Text>
+                        <Text style={styleProfile.Text}>{this.state.TeamName}</Text>
+                        <Text style={styleProfile.Text}>Sport: {this.state.SportType}</Text>
                     </View>
                 );
 
                 TeamStatsData = (
     
-
-
                     <View style={styleProfile.StatRow}>
                         <View style={styleProfile.StatColumn}>
              
-                            <Text style={styleProfile.buttonTitle}>Goals: {this.state.totalTeamGoals}</Text>
-                            <Text style={styleProfile.buttonTitle}>Points: {this.state.totalTeamPoints}</Text>
-                            <Text style={styleProfile.buttonTitle}>Passes: {this.state.totalTeamPasses}</Text>
-                            <Text style={styleProfile.buttonTitle}>Shots: {this.state.totalTeamShots}</Text>
+                            <Text style={styleProfile.Text}>Goals: {this.state.totalTeamGoals}</Text>
+                            <Text style={styleProfile.Text}>Points: {this.state.totalTeamPoints}</Text>
+                            <Text style={styleProfile.Text}>Passes: {this.state.totalTeamPasses}</Text>
+                            <Text style={styleProfile.Text}>Shots: {this.state.totalTeamShots}</Text>
                   
                         </View>
 
                         <View style={styleProfile.StatColumn}>
-                            <Text style={styleProfile.buttonTitle}>Points: {this.state.totalTeamPoints}</Text>
-                            <Text style={styleProfile.buttonTitle}>Red Cards: {this.state.totalTeamRedCards}</Text>
-                            <Text style={styleProfile.buttonTitle}>Yellow Cards: {this.state.totalTeamYellowCards}</Text>
+                            <Text style={styleProfile.Text}>Red Cards: {this.state.totalTeamRedCards}</Text>
+                            <Text style={styleProfile.Text}>Yellow Cards: {this.state.totalTeamYellowCards}</Text>
                         </View>
                     </View>
                 );
+
+                if(gamecounter = 0)
+                {
+                    TeamStatsData = (
+                        <View style={styleProfile.StatRow}>
+                            <View style={styleProfile.StatColumn}>
+                                <Text style={styleProfile.Text}>This team has not played a game yet</Text>
+                            </View>
+                        </View>
+                    );
+                }
+            
+            
+
+               
 
                 if(displayGamesBtn == true)
                 {
@@ -308,22 +373,22 @@ class TeamProfile extends Component {
                                         
                                             <View style={styleProfile.container}>
                                                     <View style={styleProfile.headerContainer}>
-                                                        <Text style={styleProfile.buttonTitle}>{this.state.TeamName} vs {item.OpponentsName} </Text>
+                                                        <Text style={styleProfile.Text}>{this.state.TeamName} vs {item.OpponentsName} </Text>
                                                     </View>
                                                     
                                                     <View style={styleProfile.dataContainer}>
 
                                                         <View style={styleProfile.StatRow}>
 
-                                                                    <Text style={styleProfile.buttonTitle}>{this.state.TeamName} </Text>
-                                                                    <Text style={styleProfile.buttonTitle}>{item.UsersGAAGoals} : {item.UsersGAAPoints} </Text>
+                                                                    <Text style={styleProfile.Text}>{this.state.TeamName} </Text>
+                                                                    <Text style={styleProfile.Text}>{item.UsersGAAGoals} : {item.UsersGAAPoints} </Text>
 
                                                         </View>
 
                                                         <View style={styleProfile.StatRow}>
 
-                                                                    <Text style={styleProfile.buttonTitle}>{item.OpponentsName} </Text>
-                                                                    <Text style={styleProfile.buttonTitle}>{item.OpponentsGAAGoals} : {item.OpponentsGAAPoints} </Text>
+                                                                    <Text style={styleProfile.Text}>{item.OpponentsName} </Text>
+                                                                    <Text style={styleProfile.Text}>{item.OpponentsGAAGoals} : {item.OpponentsGAAPoints} </Text>
 
                                                         </View>     
                                                             
@@ -331,13 +396,13 @@ class TeamProfile extends Component {
                                                         <View style={styleProfile.StatRow}>
                                                         
                                                                 <TouchableOpacity style={styleProfile.button} onPress={() => this.props.navigation.navigate('ViewGame', { GameRecordKey : item.GameRecordKey, StatsRecordKey: item.StatsRecordKey})}> 
-                                                                    <Text style={styleProfile.buttonTitle}>Click here to view this games</Text>
+                                                                    <Text style={styleProfile.Text}>Click here to view this games</Text>
                                                                 </TouchableOpacity>
                                                         </View>
                                                         
                                                         <View style={styleProfile.StatRow}>
                                                                 <TouchableOpacity style={styleProfile.button} onPress={() => this.RemoveGame(item.GameRecordKey)}>
-                                                                    <Text style={styleProfile.buttonTitle}>DELETE THIS GAME</Text>
+                                                                    <Text style={styleProfile.Text}>DELETE THIS GAME</Text>
                                                                 </TouchableOpacity>
                                                         </View>
                                                             
@@ -362,7 +427,7 @@ class TeamProfile extends Component {
                     ViewGamesBtn = (
                         <View style={styleProfile.buttonPosition}>
                             <TouchableOpacity style={styleProfile.button} onPress={this.filterTeamGames}>
-                                <Text style={styleProfile.buttonTitle}>View Games</Text>
+                                <Text style={styleProfile.Text}>View Games</Text>
                             </TouchableOpacity>
                         </View>
                   );
@@ -377,35 +442,33 @@ class TeamProfile extends Component {
            
                 ProfileData = ( 
                     <View style={styleProfile.headerContainer}>
-                        <Text style={styleProfile.buttonTitle}>{this.state.TeamName}</Text>
-                        <Text style={styleProfile.buttonTitle}>Sport: {this.state.SportType}</Text>
+                        <Text style={styleProfile.Text}>{this.state.TeamName}</Text>
+                        <Text style={styleProfile.Text}>Sport: {this.state.SportType}</Text>
                     </View>
                 );
 
                 TeamStatsData = (
-    
-
 
                     <View style={styleProfile.StatRow}>
                         <View style={styleProfile.StatColumn}>
              
-                            <Text style={styleProfile.buttonTitle}>Goals: {this.state.totalTeamGoals}</Text>
-                            <Text style={styleProfile.buttonTitle}>Passes: {this.state.totalTeamPasses}</Text>
-                            <Text style={styleProfile.buttonTitle}>Shots: {this.state.totalTeamShots}</Text>
+                            <Text style={styleProfile.Text}>Goals: {this.state.totalTeamGoals}</Text>
+                            <Text style={styleProfile.Text}>Passes: {this.state.totalTeamPasses}</Text>
+                            <Text style={styleProfile.Text}>Shots: {this.state.totalTeamShots}</Text>
                   
                         </View>
 
                         <View style={styleProfile.StatColumn}>
                    
-                            <Text style={styleProfile.buttonTitle}>Red Cards: {this.state.totalTeamRedCards}</Text>
-                            <Text style={styleProfile.buttonTitle}>Yellow Cards: {this.state.totalTeamYellowCards}</Text>
+                            <Text style={styleProfile.Text}>Red Cards: {this.state.totalTeamRedCards}</Text>
+                            <Text style={styleProfile.Text}>Yellow Cards: {this.state.totalTeamYellowCards}</Text>
                         </View>
                     </View>
                 );
 
                 if(displayGamesBtn == true)
                 {
-                      // take away button and only display games
+                   
 
                       ViewGames = (
        
@@ -415,22 +478,22 @@ class TeamProfile extends Component {
                                         
                                             <View style={styleProfile.container}>
                                                     <View style={styleProfile.headerContainer}>
-                                                        <Text style={styleProfile.buttonTitle}>{this.state.TeamName} vs {item.OpponentsName} </Text>
+                                                        <Text style={styleProfile.Text}>{this.state.TeamName} vs {item.OpponentsName} </Text>
                                                     </View>
                                                     
                                                     <View style={styleProfile.dataContainer}>
 
                                                         <View style={styleProfile.StatRow}>
 
-                                                                    <Text style={styleProfile.buttonTitle}>{this.state.TeamName} </Text>
-                                                                    <Text style={styleProfile.buttonTitle}>{item.UsersGAAGoals} : {item.UsersGAAPoints} </Text>
+                                                                    <Text style={styleProfile.Text}>{this.state.TeamName} </Text>
+                                                                    <Text style={styleProfile.Text}>{item.UsersSoccerGoals}</Text>
 
                                                         </View>
 
                                                         <View style={styleProfile.StatRow}>
 
-                                                                    <Text style={styleProfile.buttonTitle}>{item.OpponentsName} </Text>
-                                                                    <Text style={styleProfile.buttonTitle}>{item.OpponentsGAAGoals} : {item.OpponentsGAAPoints} </Text>
+                                                                    <Text style={styleProfile.Text}>{item.OpponentsName} </Text>
+                                                                    <Text style={styleProfile.Text}>{item.OpponentsSoccerGoals}</Text>
 
                                                         </View>     
                                                             
@@ -438,13 +501,13 @@ class TeamProfile extends Component {
                                                         <View style={styleProfile.StatRow}>
                                                         
                                                                 <TouchableOpacity style={styleProfile.button} onPress={() => this.props.navigation.navigate('ViewGame', { GameRecordKey : item.GameRecordKey, StatsRecordKey: item.StatsRecordKey})}> 
-                                                                    <Text style={styleProfile.buttonTitle}>Click here to view this games</Text>
+                                                                    <Text style={styleProfile.Text}>Click here to view this games</Text>
                                                                 </TouchableOpacity>
                                                         </View>
                                                         
                                                         <View style={styleProfile.StatRow}>
                                                                 <TouchableOpacity style={styleProfile.button} onPress={() => this.RemoveGame(item.GameRecordKey)}>
-                                                                    <Text style={styleProfile.buttonTitle}>DELETE THIS GAME</Text>
+                                                                    <Text style={styleProfile.Text}>DELETE THIS GAME</Text>
                                                                 </TouchableOpacity>
                                                         </View>
                                                             
@@ -469,7 +532,7 @@ class TeamProfile extends Component {
                     ViewGamesBtn = (
                         <View style={styleProfile.buttonPosition}>
                             <TouchableOpacity style={styleProfile.button} onPress={this.filterTeamGames}>
-                                <Text style={styleProfile.buttonTitle}>View Games</Text>
+                                <Text style={styleProfile.Text}>View Games</Text>
                             </TouchableOpacity>
                         </View>
                   );
@@ -486,7 +549,7 @@ class TeamProfile extends Component {
             
 
             return (
-                <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'  ,  backgroundColor: '#252626', alignItems: "center", fontSize: 20,}}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'  ,  backgroundColor: '#252626', alignItems: "center", fontSize: 20}}>
        
                     {ProfileData}
                
@@ -508,29 +571,41 @@ class TeamProfile extends Component {
 
 const styleProfile = StyleSheet.create({
     container: {
-        backgroundColor: '#242424', 
-      
-        alignItems: "center",
+  
         fontSize: 20,
        
     },
     
     dcontainer: {
-        backgroundColor: '#242424', 
+        backgroundColor: '#C30000',
         height:'100%',
         alignItems: "center",
-        fontSize: 20,
+        // fontSize: 20,
        
+    },
+
+    Text:{
+        color: "white",
+        fontSize:14,
+        marginTop: 5,
+        marginBottom: 5,
+        marginLeft: 5,
+        marginRight: 5,
+        paddingLeft: 5,
+        fontWeight: "bold",
+        justifyContent:'center',
+        textAlign: 'center',
     },
     
     headerContainer:{ 
 
-        backgroundColor: '#FF6D01',
+        backgroundColor: '#C30000',
         alignItems: "center",
         borderWidth: 4,
+        borderRadius: 20,
         borderColor:'#ffffff',
-         alignItems: 'center',
-        width: wp('50%') ,  // % of width device screen
+        alignItems: 'center',
+        width: wp('80%') ,  // % of width device screen
         marginTop:30,
         padding:4,
   
@@ -540,49 +615,51 @@ const styleProfile = StyleSheet.create({
 
     dataContainer: {
         // height: hp('50%'), // 70% of height device screen
-        width: wp('50%') ,  // % of width device screen
-        backgroundColor: '#424242', 
+        width: wp('80%') ,  // % of width device screen
+       
         alignItems: "center",
+        backgroundColor: "#33343F",
+
         borderWidth: 4,
+        borderRadius: 20,
         borderColor:'#ffffff',
- 
         marginBottom:10
     },
+
 
     StatRow: {
         flex:1,
         flexDirection:"row",
         alignItems: "center",
-        marginBottom:10
+        marginBottom:10,
+        backgroundColor: "#33343F",
     },
 
     StatColumn: {
         flex:1,
         flexDirection:"column",
         padding: 50,
-        marginBottom:10
+        marginBottom:10,
+        backgroundColor: "#33343F",
+ 
     },
 
-    buttonPosition:{
-        alignItems: "center",
-    },
 
+
+  
     button: {
-        width: '80%',
-        paddingTop:8,
-        paddingBottom:8,
-        borderRadius:7,
+        backgroundColor: '#C30000',
+        marginLeft: 30,
+        marginRight: 30,
         marginTop: 20,
-        fontSize: 20,
-        backgroundColor: '#FF6D01',
+        height: 48,
+        borderRadius: 5,
         alignItems: "center",
+        justifyContent: 'center',
+        width: '50%',
+        textAlign: 'center',
     },
-    buttonTitle: {
-        color:'#ffffff',
-        fontSize: 16,
-        fontWeight: "bold"
-    },
-
+ 
 });
 
 export default TeamProfile;

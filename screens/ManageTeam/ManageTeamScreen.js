@@ -105,40 +105,62 @@ import { BorderlessButton } from 'react-native-gesture-handler';
     
 
     render (){
- 
+        var PlayerList;
+       
+       
+            PlayerList = (
+                    
+
+                <View>
+                    
+                        <Text style={styles.WhiteTextBold}>Your Team Members</Text>
+                
+                        <FlatList
+                            data={this.state.listPlayers}
+                        
+                            renderItem={({ item }) => (
+                                <View style={styles.textWrapper}>
+                                    
+                                            <Text style = {styles.PlayerName}>Player Name: {item.fullName}</Text>
+
+                                                    <View style={styles.columnView}>
+                                                        <TouchableOpacity style={styles.exitRedButton} onPress={() => this.ViewPlayer(item.key)}>
+                                                            <Text style={styles.myText}>View Player</Text>
+                                                        </TouchableOpacity>
+                                                    </View> 
+
+
+                                                    <View style={styles.columnView}>    
+                                                        <TouchableOpacity style={styles.RedButton} onPress={() => this.RemovePlayer(item.key)}>                           
+                                                            {/* <Text style={styles.myText}>Remove Player</Text>  */}
+                                                            <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                                        </TouchableOpacity>
+                                                    </View> 
+
+                                        
+
+                                </View>
+                                
+                        
+                                
+                            )}
+                            
+                            />
+
+                </View>
+
+
+            );
+
+    
+
         return(
-  
-            <ScrollView style={styles.container}>
-                   <FlatList
-                       data={this.state.listPlayers}
-                       style={styles.container}
-                       renderItem={({ item }) => (
-                           <View style={styles.textWrapper}>
-                                <Text>Player Name: {item.fullName}</Text>
 
-                                            <View style={styles.columnView}>
-                                                <TouchableOpacity style={styles.button} onPress={() => this.ViewPlayer(item.key)}>
-                                                    <Text style={styles.buttonTitle}>View Player</Text>
-                                                </TouchableOpacity>
-                                            </View>
-
-
-                                            <View style={styles.columnView}>    
-                                                <TouchableOpacity style={styles.button} onPress={() => this.RemovePlayer(item.key)}>                           
-                                                    <Text style={styles.buttonTitle}>Remove Player</Text>
-                                                </TouchableOpacity>
-                                            </View>
-
-                           </View>
-                          
-                   
-                          
-                       )}
-                     
-                       />
-
+         
+            <ScrollView contentContainerStyle ={{ flex: 1 ,backgroundColor: '#242424' , alignItems: "center"}}>
+                {PlayerList}
             </ScrollView>
-           
+        
             
          
         )
@@ -156,11 +178,7 @@ const styles = StyleSheet.create({
 
     },
 
-    container: { 
-        flex: 1,  
-        backgroundColor: '#252626'
- 
-    },
+  
 
     textWrapper: {
       height: hp('100%'), // 70% of height device screen
@@ -184,39 +202,8 @@ const styles = StyleSheet.create({
       fontSize: hp('5%') // End result looks like the provided UI mockup
     },
 
-    input: {
-        height: 48,
-        borderRadius: 5,
-        overflow: 'hidden',
-        backgroundColor: 'white',
-        marginTop: 10,
-        marginBottom: 10,
-        marginLeft: 30,
-        marginRight: 30,
-        paddingLeft: 16
-    },
-    button: {
-        backgroundColor: '#FF6D01',
-        padding: 15,
-        
-        borderRadius: 5,
-        alignItems: "center",
-        justifyContent:'space-between'
-    },
-    button1: {
-        backgroundColor: '#788eec',
 
-        padding: 15,
-        
-        borderRadius: 5,
-        alignItems: "center",
-        justifyContent:'space-between'
-    },
-    buttonTitle: {
-        color: 'white',
-        fontSize: hp('2%'),
-
-    },
+   
     footerView: {
         flex: 1,
         alignItems: "center",
@@ -236,9 +223,197 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         backgroundColor: 'black',
     },
-    columnView:{
-        flexDirection: 'column',  
-    }
+ 
+
+    Text: {
+        paddingLeft: 40,
+        color: 'white',
+        fontWeight: "bold",
+    },
+
+    
+    ExitButton:{
+        width:50,
+        height: 48,
+    },
+
+
+    container: {
+        backgroundColor: '#242424',
+        alignItems: 'center',
+   
+    },
+
+  
+    StatRow: {
+        flex:1,
+       flexDirection:"column",
+       
+        marginBottom:10,
+        backgroundColor: "#33343F",
+        
+
+    },
+
+    StatColumn: {
+        flex:1,
+        flexDirection:"column",
+     
+        backgroundColor: "#33343F",
+ 
+    },
+    columnView: {
+        
+        paddingTop:10,
+          paddingBottom:10,
+          paddingLeft: 10,
+          paddingRight: 10,
+          alignItems: 'center',
+
+    },
+
+    PlayerName:{
+
+        paddingBottom: 30,
+        paddingRight: 50,
+        color: 'black',
+        alignItems: 'center',
+        fontWeight: "bold",
+        justifyContent:'center',
+    },
+
+    textWrapper: {
+
+      flexDirection:"row",
+      justifyContent:'center',
+
+      backgroundColor: 'white',
+      alignItems: 'center',
+      borderColor:'#C30000',
+      width: '100%',
+      borderWidth: 4,
+      marginTop: 10,
+      marginBottom: 10,
+    
+      
+      paddingTop:10,
+     paddingLeft: 10,
+      borderRadius: 10,
+
+    },
+
+    textcolumn: {
+
+        flexDirection:"column",
+        justifyContent:'center',
+        width: '100%',
+        backgroundColor: 'white',
+        alignItems: 'center',
+        borderColor:'#C30000',
+        borderWidth: 4,
+        marginTop: 10,
+        marginBottom: 10,
+  
+ 
+         paddingTop:10,
+         paddingLeft: 10,
+        borderRadius: 10,
+  
+      },
+    myText: {
+
+      color: 'white',
+      alignItems: 'center',
+
+      paddingTop: 5
+  
+    },
+
+    dcontainer: {
+        backgroundColor: 'white',
+        height:'100%',
+        alignItems: "center",
+        fontSize: 20,
+       
+    },
+
+
+    input: {
+        height: 60,
+        width:190,
+        borderWidth: 2,
+        borderRadius: 5,
+        overflow: 'hidden',
+        backgroundColor: 'white',
+        borderColor:'#C30000',
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 30,
+        marginRight: 30,
+        paddingLeft: 16
+    },
+    exitRedButton: {
+        backgroundColor: '#C30000',
+        paddingBottom: 30,
+        paddingLeft: 16,
+        paddingRight: 16,
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: 'space-around'
+    },
+
+  
+    exitRedButtonTitle: {
+        color: 'white',
+        fontSize: hp('2%'),
+   
+    },
+
+    BlackText:{
+        color: 'black',
+    },
+ 
+  
+    BlackTextBold:{
+        color: 'black',
+        fontWeight: "bold",
+
+    },
+
+    
+    WhiteTextBold:{
+        color: 'white',
+        fontWeight: "bold",
+        marginTop: '5%',
+     
+    },
+    
+    footerView: {
+        marginTop: 30,
+        marginBottom: 30,
+        alignItems: "center",
+  
+        
+    },
+    footerText: {
+        color: 'black',
+        fontSize: hp('2%'),
+        
+    },
+    footerLink: {
+        color: "#788eec",
+        fontSize: hp('2%') 
+    },
+    headerContainer:{ 
+
+        backgroundColor: 'white',
+        alignItems: "center",
+        borderWidth: 4,
+        borderRadius: 20,
+        borderColor:'#C30000',
+        fontWeight: "bold",
+
+    },
 
 });
 

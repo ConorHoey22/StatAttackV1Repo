@@ -1,21 +1,19 @@
 import React, { useEffect, useState, Component } from 'react'
-import { Image, Text, StatusBar, TextInput, FlatList, TouchableOpacity, View ,Button ,ScrollView, Alert , StyleSheet, SegmentedControlIOSComponent} from 'react-native'
+import { Image, Text, StatusBar, TextInput,  FlatList, TouchableOpacity, View ,Button ,ScrollView, Alert , StyleSheet, SegmentedControlIOSComponent} from 'react-native'
 // import styles from './styles';
 
 import firebase from 'firebase/app'
 import 'firebase/auth';
 import 'firebase/database';
 
-import {Picker} from '@react-native-community/picker';
 
 import { useNavigation } from '@react-navigation/native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
+import { Picker } from "@react-native-picker/picker";
 
 
-//ADD to OpponentsTeamsheet - View 
-//View all OpponentTeamsheet
 
 export default class SetupStatsApp extends Component {
     constructor(props) {
@@ -135,9 +133,6 @@ export default class SetupStatsApp extends Component {
         var myUserId = firebase.auth().currentUser.uid;
         var tempArr = [];
 
-
-        console.log(tempArr);
-      
 
         firebase.database().ref('/teams').child(myUserId).child('/players').orderByChild('AvailableStatus').equalTo(1)
             .on('value', snapshot => {
@@ -364,12 +359,11 @@ export default class SetupStatsApp extends Component {
                    
                     }
 
-            
+                    //Get User 
+                    const usersRef = firebase.database().ref('/users')
+                    usersRef.child(myUserId)
 
-                    //Update game counter for the team record 
-                    firebase.database().ref('/teams').child(myUserId)
-                    .child('games').child('gamecounter')
-                    .set(firebase.database.ServerValue.increment(1))
+
 
                  
 
@@ -517,8 +511,7 @@ export default class SetupStatsApp extends Component {
                     .child('games').child('gamecounter')
                     .set(firebase.database.ServerValue.increment(1))
 
-                 
-
+                
                   
                     // Navigate to Stats App and send across game ID/key
                     this.props.navigation.navigate('StatsApp', {
@@ -1067,7 +1060,7 @@ AddToSubBench = async( itemKey ) => {
                                                 fullName: fullName,
                                                 playerPosition: SelectedPlayerPositionData,
                                                 playerKitNumber: SelectedPlayerKitNumberData,
-                                                status:'StartingTeam',
+                                                status:'SubBench',
                                                 Goals: 0,
                                                 Passes: 0,
                                                 Shots:0,
@@ -1324,492 +1317,7 @@ AddToSubBench = async( itemKey ) => {
     }
 
 
-        Starting11ListToSubBench = async( itemKey ) => {
-            
-            var SelectedPlayerData = this.state.selectedPlayer;
-            var SelectedPlayerPositionData = this.state.selectedPlayerPosition;
-            var SelectedPlayerKitNumberData = this.state.selectedPlayerKitNumber;
-            var SelectedOpponentsName = this.state.OpponentsName;
-
-            //Selected Player Validation
-            if(SelectedPlayerData == "")
-            {
-                alert("Please select a valid player");
-            }
-            else
-            {
-
-                //Valid Selected Player , We will now check the position
-
-                //Selected Player Position Validation
-                if(SelectedPlayerPositionData == "")
-                {
-                    alert("Please select a valid position");
-                }
-                else
-                {
-                    //Valid Selected Player & Position , We will now check the kit number
-
-                        if(SelectedPlayerKitNumberData == "")
-                        {
-                            alert("Please enter a kit number");
-                        }
-                        else if(isNaN(SelectedPlayerKitNumberData))
-                        {
-                            alert("Please enter a valid kit number. This must be a number!");
-                        }
-                        else
-                        {
-                            //All inputs are valid , We will no setState and add into the TeamsheetArray and Remove from AvailablePlayers Array
-                            this.setState({ SelectedPlayerData: this.state.selectedPlayer });
-
-
-                            this.setState({ SelectedPlayerPositionData: this.state.selectedPlayerPosition });
-
-
-                            this.setState({ SelectedPlayerKitNumberData: this.state.selectedPlayerKitNumber });
-                            
-                          
-                            this.setState({ SelectedOpponentsName:this.state.OpponentsName})
-
-                            //All inputs are valid , We will no setState and add into the TeamsheetArray and Remove from AvailablePlayers Array
-                            this.setState({ SelectedStarting11ToSubPlayer: this.state.SelectedStarting11ToSubPlayer });
-
-                            var myUserId = firebase.auth().currentUser.uid;
-                          
-
-                         
-                                //Remove from Starting11List 
-                                //Add to SubBenchList
-                                var dd = {
-                                    SubStatus: 1,
-                                    starting11Status:0,
-                                    AvailableStatus: 0
-                                };
-
-
-                                       //Update Starting 11 Variable to 1(True)
-                                       firebase.database().ref('/teams').child(myUserId).child('/players').child(SelectedPlayerData)
-                                       .update(dd);
-
-                            //  });
-
-                  
-                            
-                    
-                        }
-
-                   
-              
-                    }
-
-                }
-
-            
-            }
-
-
-        AvailablePlayersListToTeamSheet = async() => {
-
-            var SelectedPlayerData = this.state.selectedAvailablePlayer;
-            var SelectedPlayerPositionData = this.state.selectedAvailablePlayerPosition;
-            var SelectedPlayerKitNumberData = this.state.selectedAvailablePlayerKitNumber;
-
-
-            //Selected Player Validation
-            if(SelectedPlayerData == "")
-            {
-                alert("Please select a valid player");
-            }
-            else
-            {
-
-                //Valid Selected Player , We will now check the position
-
-                //Selected Player Position Validation
-                if(SelectedPlayerPositionData == "")
-                {
-                    alert("Please select a valid position");
-                }
-                else
-                {
-                    //Valid Selected Player & Position , We will now check the kit number
-
-                        if(SelectedPlayerKitNumberData == "")
-                        {
-                            alert("Please enter a kit number");
-                        }
-                        else if(isNaN(SelectedPlayerKitNumberData))
-                        {
-                            alert("Please enter a valid kit number. This must be a number!");
-                        }
-                        else
-                        {
-                            //All inputs are valid , We will no setState and add into the TeamsheetArray and Remove from AvailablePlayers Array
-                            this.setState({ SelectedPlayerData: this.state.selectedPlayer });
-
-
-                            this.setState({ SelectedPlayerPositionData: this.state.selectedPlayerPosition });
-
-
-                            this.setState({ SelectedPlayerKitNumberData: this.state.selectedPlayerKitNumber });
-                            
-                          
-                            this.setState({ SelectedOpponentsName:this.state.OpponentsName})
-
-                  
-                            //Add player to the Teamsheet Array
-
-                            var myUserId = firebase.auth().currentUser.uid;
-
-               
-
-                            var dd = {
-                                SubStatus: 0,
-                                starting11Status:1,
-                                AvailableStatus: 0
-                            };
-
-                           
-                                //Update Starting 11 Variable to 1(True)
-                                firebase.database().ref('/teams').child(myUserId).child('/players').child(SelectedPlayerData)
-                                .update(dd);
-
-
-                        }
-
-                }
-
-            }
-
-
-        }
-        
-        AvailablePlayersListToSubBench= async() => {
-            var SelectedPlayerData = this.state.selectedSubPlayer;
-            var SelectedPlayerPositionData = this.state.selectedSubPlayerPosition;
-            var SelectedPlayerKitNumberData = this.state.selectedSubPlayerKitNumber;
-
-
-            //Selected Player Validation
-            if(SelectedPlayerData == "")
-            {
-                alert("Please select a valid player");
-            }
-            else
-            {
-
-                //Valid Selected Player , We will now check the position
-
-                //Selected Player Position Validation
-                if(SelectedPlayerPositionData == "")
-                {
-                    alert("Please select a valid position");
-                }
-                else
-                {
-                    //Valid Selected Player & Position , We will now check the kit number
-
-                        if(SelectedPlayerKitNumberData == "")
-                        {
-                            alert("Please enter a kit number");
-                        }
-                        else if(isNaN(SelectedPlayerKitNumberData))
-                        {
-                            alert("Please enter a valid kit number. This must be a number!");
-                        }
-                        else
-                        {
-                            //All inputs are valid , We will no setState and add into the TeamsheetArray and Remove from AvailablePlayers Array
-                            this.setState({ SelectedPlayerData: this.state.selectedPlayer });
-
-
-                            this.setState({ SelectedPlayerPositionData: this.state.selectedPlayerPosition });
-
-
-                            this.setState({ SelectedPlayerKitNumberData: this.state.selectedPlayerKitNumber });
-                            
-                          
-                            this.setState({ SelectedOpponentsName:this.state.OpponentsName})
-
-                  
-                            //Add player to the Teamsheet Array
-
-                            var myUserId = firebase.auth().currentUser.uid;
-
-               
-                            var dd = {
-                                SubStatus: 1,
-                                starting11Status:0,
-                                AvailableStatus: 0
-                            };
-
-                           
-                                //Update Starting 11 Variable to 1(True)
-                                firebase.database().ref('/teams').child(myUserId).child('/players').child(SelectedPlayerData)
-                                .update(dd);
-
-
-                        }
-
-                }
-
-            }
-
-        }
-
-
-        TeamSheetToAvailableList = async() => {
-                 
-            var SelectedPlayerData = this.state.selectedPlayer;
-            var SelectedPlayerPositionData = this.state.selectedPlayerPosition;
-            var SelectedPlayerKitNumberData = this.state.selectedPlayerKitNumber;
-            var SelectedOpponentsName = this.state.OpponentsName;
-
-            //Selected Player Validation
-            if(SelectedPlayerData == "")
-            {
-                alert("Please select a valid player");
-            }
-            else
-            {
-
-                //Valid Selected Player , We will now check the position
-
-                //Selected Player Position Validation
-                if(SelectedPlayerPositionData == "")
-                {
-                    alert("Please select a valid position");
-                }
-                else
-                {
-                    //Valid Selected Player & Position , We will now check the kit number
-
-                        if(SelectedPlayerKitNumberData == "")
-                        {
-                            alert("Please enter a kit number");
-                        }
-                        else if(isNaN(SelectedPlayerKitNumberData))
-                        {
-                            alert("Please enter a valid kit number. This must be a number!");
-                        }
-                        else
-                        {
-                            //All inputs are valid , We will no setState and add into the TeamsheetArray and Remove from AvailablePlayers Array
-                            this.setState({ SelectedPlayerData: this.state.selectedPlayer });
-
-
-                            this.setState({ SelectedPlayerPositionData: this.state.selectedPlayerPosition });
-
-
-                            this.setState({ SelectedPlayerKitNumberData: this.state.selectedPlayerKitNumber });
-                            
-                          
-                            this.setState({ SelectedOpponentsName:this.state.OpponentsName})
-
-                            //All inputs are valid , We will no setState and add into the TeamsheetArray and Remove from AvailablePlayers Array
-                            this.setState({ SelectedStarting11ToSubPlayer: this.state.SelectedStarting11ToSubPlayer });
-
-                            var myUserId = firebase.auth().currentUser.uid;
-                          
-
-                            
-
-                                //Remove from Starting11List 
-                                //Add to SubBenchList
-                                var dd = {
-                                    SubStatus: 0,
-                                    starting11Status:0,
-                                    AvailableStatus: 1
-                                };
-
-
-                                       //Update Starting 11 Variable to 1(True)
-                                       firebase.database().ref('/teams').child(myUserId).child('/players').child(SelectedPlayerData)
-                                       .update(dd);
-
-                         
-
-                  
-                            
-                    
-                        }
-
-                   
-              
-                    }
-
-                }
-        }
-
-        SubBenchToAvailableList = async() => {
-            var SelectedPlayerData = this.state.selectedSubPlayer;
-            var SelectedPlayerPositionData = this.state.selectedSubPlayerPosition;
-            var SelectedPlayerKitNumberData = this.state.selectedSubPlayerKitNumber;
-            var SelectedOpponentsName = this.state.OpponentsName;
-
-            //Selected Player Validation
-            if(SelectedPlayerData == "")
-            {
-                alert("Please select a valid player");
-            }
-            else
-            {
-
-                //Valid Selected Player , We will now check the position
-
-                //Selected Player Position Validation
-                if(SelectedPlayerPositionData == "")
-                {
-                    alert("Please select a valid position");
-                }
-                else
-                {
-                    //Valid Selected Player & Position , We will now check the kit number
-
-                        if(SelectedPlayerKitNumberData == "")
-                        {
-                            alert("Please enter a kit number");
-                        }
-                        else if(isNaN(SelectedPlayerKitNumberData))
-                        {
-                            alert("Please enter a valid kit number. This must be a number!");
-                        }
-                        else
-                        {
-                            //All inputs are valid , We will no setState and add into the TeamsheetArray and Remove from AvailablePlayers Array
-                            this.setState({ SelectedPlayerData: this.state.selectedSubPlayer });
-
-
-                            this.setState({ SelectedPlayerPositionData: this.state.selectedSubPlayerPosition });
-
-
-                            this.setState({ SelectedPlayerKitNumberData: this.state.selectedSubPlayerKitNumber });
-                            
-                          
-                            this.setState({ SelectedOpponentsName:this.state.OpponentsName})
-
-                            //All inputs are valid , We will no setState and add into the TeamsheetArray and Remove from AvailablePlayers Array
-                            this.setState({ SelectedStarting11ToSubPlayer: this.state.SelectedStarting11ToSubPlayer });
-
-                            var myUserId = firebase.auth().currentUser.uid;
-                          
-
-                            
-
-                                //Remove from Starting11List 
-                                //Add to SubBenchList
-                                var dd = {
-                                    SubStatus: 0,
-                                    starting11Status:0,
-                                    AvailableStatus: 1
-                                };
-
-
-                                       //Update Starting 11 Variable to 1(True)
-                                       firebase.database().ref('/teams').child(myUserId).child('/players').child(SelectedPlayerData)
-                                       .update(dd);
-
-                         
-
-                  
-                            
-                    
-                        }
-
-                   
-              
-                    }
-
-                }
-        }
-
-        SubBenchToTeamSheetList= async() => {
-            var SelectedPlayerData = this.state.selectedSubPlayer;
-            var SelectedPlayerPositionData = this.state.selectedSubPlayerPosition;
-            var SelectedPlayerKitNumberData = this.state.selectedSubPlayerKitNumber;
-            var SelectedOpponentsName = this.state.OpponentsName;
-
-            //Selected Player Validation
-            if(SelectedPlayerData == "")
-            {
-                alert("Please select a valid player");
-            }
-            else
-            {
-
-                //Valid Selected Player , We will now check the position
-
-                //Selected Player Position Validation
-                if(SelectedPlayerPositionData == "")
-                {
-                    alert("Please select a valid position");
-                }
-                else
-                {
-                    //Valid Selected Player & Position , We will now check the kit number
-
-                        if(SelectedPlayerKitNumberData == "")
-                        {
-                            alert("Please enter a kit number");
-                        }
-                        else if(isNaN(SelectedPlayerKitNumberData))
-                        {
-                            alert("Please enter a valid kit number. This must be a number!");
-                        }
-                        else
-                        {
-                            //All inputs are valid , We will no setState and add into the TeamsheetArray and Remove from AvailablePlayers Array
-                            this.setState({ SelectedPlayerData: this.state.selectedSubPlayer });
-
-
-                            this.setState({ SelectedPlayerPositionData: this.state.selectedSubPlayerPosition });
-
-
-                            this.setState({ SelectedPlayerKitNumberData: this.state.selectedSubPlayerKitNumber });
-                            
-                          
-                            this.setState({ SelectedOpponentsName:this.state.OpponentsName})
-
-                            //All inputs are valid , We will no setState and add into the TeamsheetArray and Remove from AvailablePlayers Array
-                            this.setState({ SelectedStarting11ToSubPlayer: this.state.SelectedStarting11ToSubPlayer });
-
-                            var myUserId = firebase.auth().currentUser.uid;
-                          
-
-                            
-
-                                //Remove from Starting11List 
-                                //Add to SubBenchList
-                                var dd = {
-                                    SubStatus: 0,
-                                    starting11Status:1,
-                                    AvailableStatus: 0
-                                };
-
-
-                                       //Update Starting 11 Variable to 1(True)
-                                       firebase.database().ref('/teams').child(myUserId).child('/players').child(SelectedPlayerData)
-                                       .update(dd);
-
-                         
-
-                  
-                            
-                    
-                        }
-
-                   
-              
-                    }
-
-                }
-        }
-
-
      
-        
-
     
 
 
@@ -2187,30 +1695,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
            
             }
 
-     
-
-
     
-
-
-
-
-
-
-
-
-
-      
-
-            
-          
-       
-        
-    
-
-
-     
-
     render (){
         
         var GameDaySelected = this.state.GameDaySelected;
@@ -2250,7 +1735,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                 <View  style={{alignItems:'center'}}>
                     <Text style = {styles.Text}> Please note that within "Training Mode" games stats are not saved to the database.</Text>
                 
-                    <TouchableOpacity style={styles.SubmitBtn}>
+                    <TouchableOpacity style={styles.button}>
                         <Text style={styles.buttonTitle}>Training Mode</Text>
                     </TouchableOpacity> 
                 </View>
@@ -2258,13 +1743,13 @@ for (var i = 0; i < starting11Selected.length; i++) {
 
                
                 <View  style={{alignItems:'center'}}>
-                    <TouchableOpacity style={styles.SubmitBtn} onPress={this.GameDay} >
+                    <TouchableOpacity style={styles.button} onPress={this.GameDay} >
                         <Text style={styles.buttonTitle}>Game Day Mode</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View  style={{alignItems:'center'}}>
-                <TouchableOpacity style={styles.SubmitBtn} onPress={this.GoToMainMenu}>
+                <TouchableOpacity style={styles.button} onPress={this.GoToMainMenu}>
                     <Text style={styles.buttonTitle}> Back to Main Menu </Text>
                 </TouchableOpacity>
                 </View>
@@ -2292,8 +1777,8 @@ for (var i = 0; i < starting11Selected.length; i++) {
                             <View style={{alignItems:'center'}}>
                                 <Text style={styles.Text}>Enter your Opponents Team name:</Text>
                                     <TextInput
-                                        style={styles.input}
-                                        placeholder='Enter the Opponents Team Name'
+                                        style={styles.textInput}
+                                        placeholder='Enter here'
                                         placeholderTextColor="#aaaaaa"
                                         onChangeText={(text) => this.setState({OpponentsName:text})}
                                         value={this.state.OpponentsName}
@@ -2302,7 +1787,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                     />
                             
 
-                                <TouchableOpacity style={styles.SubmitBtn} onPress={this.ProceedToSetUpMenu}>
+                                <TouchableOpacity style={styles.button} onPress={this.ProceedToSetUpMenu}>
                                     <Text style={styles.buttonTitle}>Submit</Text>
                                 </TouchableOpacity>
 
@@ -2370,8 +1855,9 @@ for (var i = 0; i < starting11Selected.length; i++) {
 
                                                     <Picker
                                                     selectedValue={this.state.selectedS11Removal}
-                                                    style={styles.input}
+                                                    
                                                     onValueChange={(text) => this.setState({selectedS11Removal:text})}
+                                                    itemStyle={{ backgroundColor: "white", color: "black"}}
                                                     >
 
                                                     <Picker.Item label="Select a Player" value="" />
@@ -2383,8 +1869,12 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                     )
 
                                                     })}
-                                                
+                                            
                                                 </Picker> 
+
+
+                                                                            
+                                    
 
                     
                                                 <TouchableOpacity style={styles.button} onPress={this.RemovePlayer}>
@@ -2421,18 +1911,19 @@ for (var i = 0; i < starting11Selected.length; i++) {
                     {
                         SetUpView = (
                             <ScrollView style={styles.footerText}>
-                                <Text style={styles.Text}>Opponents Current Starting 15 /  Sub Bench</Text>
+                                <Text style={styles.TextBlack}>Opponents Current Starting 15 /  Sub Bench</Text>
                                 
                                                 <TouchableOpacity style={styles.button} onPress={this.ExitOpponentListView} >
                                                     <Text style={styles.buttonTitle}>Exit</Text>
                                                 </TouchableOpacity>
 
-                                                <Text style={styles.Text}>Select a player your want to remove from the teamsheet then click the remove button below</Text>
+                                                <Text style={styles.TextBlack}>Select a player your want to remove from the teamsheet then click the remove button below</Text>
 
                                                 <Picker
                                                 selectedValue={this.state.selectedS11Removal}
                                                 style={styles.input}
                                                 onValueChange={(text) => this.setState({selectedS11Removal:text})}
+                                                itemStyle={{ backgroundColor: "white", color: "black"}}
                                                 >
 
                                                 <Picker.Item label="Select a Player" value="" />
@@ -2491,13 +1982,13 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                     <View style = {styles.container}>
                                 
 
-                                            <Text style={styles.Text}>Select the Opponents Starting 15 team </Text>
+                                            <Text style={styles.TextBlack}>Select the Opponents Starting 15 team </Text>
 
 
-                                            <Text style={styles.Text}>Enter the Players name:</Text>
+                                            <Text style={styles.TextBlack}>Enter the Players name:</Text>
                                                     <TextInput
-                                                        style={styles.input}
-                                                        placeholder='Enter the players name'
+                                                        style={styles.textInput}
+                                                        placeholder='Enter here'
                                                         placeholderTextColor="#aaaaaa"
                                                         onChangeText={(text) => this.setState({selectedPlayer:text})}
                                                         value={this.state.selectedPlayer}
@@ -2511,6 +2002,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                 selectedValue={this.state.selectedPlayerPosition}
                                                 style={styles.input}
                                                 onValueChange={(text) => this.setState({selectedPlayerPosition:text})}
+                                                // itemStyle={{ backgroundColor: "white", color: "black"}}
                                             >
                                                 <Picker.Item label="Select their position" value="" />
                                                 <Picker.Item label="Goalkeeper" value="GK" />
@@ -2521,16 +2013,14 @@ for (var i = 0; i < starting11Selected.length; i++) {
 
                                             <Text style={styles.Text}>Enter their kit number:</Text>
                                                     <TextInput
-                                                        style={styles.input}
-                                                        placeholder='Enter their kit number'
+                                                        style={styles.textInput}
+                                                        placeholder='Enter here'
                                                         placeholderTextColor="#aaaaaa"
                                                         onChangeText={(text) => this.setState({selectedPlayerKitNumber:text})}
                                                         value={this.state.selectedPlayerKitNumber}
                                                         underlineColorAndroid="transparent"
                                                         autoCapitalize="none"
                                                     />
-
-
 
                                               <TouchableOpacity style={styles.button} onPress={this.AddToOpponentStartingTeam}>
                                                  <Text style={styles.buttonTitle}>Add player to the Starting 15</Text>
@@ -2564,21 +2054,20 @@ for (var i = 0; i < starting11Selected.length; i++) {
                         SetUpView = (
                     
 
-                            <ScrollView>
+                            <ScrollView style={{backgroundColor:'#ffffff'}}>
            
 
-                            <View>
-                       
-
-
+                            <View style={styles.container}>
 
                                     <Text style={styles.Text}> Select your Starting 15 and Sub Bench  </Text>
+                            </View>
 
+                            
+                     
 
                                     <Picker
-                    
+
                                         selectedValue={this.state.selectedPlayer}
-                                        style={styles.input}
                                         onValueChange={(text) => this.setState({selectedPlayer:text})}
                                     >
 
@@ -2591,25 +2080,43 @@ for (var i = 0; i < starting11Selected.length; i++) {
 
                                         })}
                                     
-                                    </Picker> 
+                                    </Picker>  
+                                
 
-                                    <Picker
+                               
+
+
+                                
+                          
+
+                                <View style={styles.container}>
+                                    <Text style={styles.Text}> Select a position </Text>
+                                </View>
+                                   
+                                   
+                         
+                                   <Picker
                     
                                         selectedValue={this.state.selectedPlayerPosition}
-                                        style={styles.input}
+                                       
                                         onValueChange={(text) => this.setState({selectedPlayerPosition:text})}
+                                        // itemStyle={{ backgroundColor: "white", color: "black"}}
                                     >
-                                        <Picker.Item label="Select their position" value="" />
+                                        <Picker.Item label="Select a position" value="" />
                                         <Picker.Item label="Goalkeeper" value="GK" />
                                         <Picker.Item label="Defender" value="Defender" />
                                         <Picker.Item label="Midfielder" value="Midfielder"  />
                                         <Picker.Item label="Forward" value="Forward"  />
-                                    </Picker> 
+                                    </Picker>  
 
-                                    <Text style={styles.Text}> Enter their kit number:</Text>
+
+
+                                    <View style={styles.container}>
+                                        <Text style={styles.Text}> Enter their kit number:</Text>
+                                    </View>
                                             <TextInput
-                                                style={styles.input}
-                                                placeholder='Enter their kit number'
+                                                style={styles.textInput}
+                                                placeholder='Enter here'
                                                 placeholderTextColor="#aaaaaa"
                                                 onChangeText={(text) => this.setState({selectedPlayerKitNumber:text})}
                                                 value={this.state.selectedPlayerKitNumber}
@@ -2632,8 +2139,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                       </TouchableOpacity>
 
 
-                        </View>
-
+                      
 
 
                   </ScrollView>
@@ -2666,8 +2172,8 @@ for (var i = 0; i < starting11Selected.length; i++) {
                             <View style={{alignItems:'center'}}>
                                 <Text style={styles.Text}>Enter your Opponents Team name:</Text>
                                     <TextInput
-                                        style={styles.input}
-                                        placeholder='Enter the Opponents Team Name'
+                                        style={styles.textInput}
+                                        placeholder='Enter here'
                                         placeholderTextColor="#aaaaaa"
                                         onChangeText={(text) => this.setState({OpponentsName:text})}
                                         value={this.state.OpponentsName}
@@ -2676,7 +2182,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                     />
                             
 
-                                <TouchableOpacity style={styles.SubmitBtn} onPress={this.ProceedToSetUpMenu}>
+                                <TouchableOpacity style={styles.button} onPress={this.ProceedToSetUpMenu}>
                                     <Text style={styles.buttonTitle}>Submit</Text>
                                 </TouchableOpacity>
 
@@ -2744,6 +2250,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                     selectedValue={this.state.selectedS11Removal}
                                                     style={styles.input}
                                                     onValueChange={(text) => this.setState({selectedS11Removal:text})}
+                                                    itemStyle={{ backgroundColor: "white", color: "black"}}
                                                     >
 
                                                     <Picker.Item label="Select a Player" value="" />
@@ -2805,6 +2312,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                 selectedValue={this.state.selectedS11Removal}
                                                 style={styles.input}
                                                 onValueChange={(text) => this.setState({selectedS11Removal:text})}
+                                                itemStyle={{ backgroundColor: "white", color: "black"}}
                                                 >
 
                                                 <Picker.Item label="Select a Player" value="" />
@@ -2868,8 +2376,8 @@ for (var i = 0; i < starting11Selected.length; i++) {
 
                                             <Text style={styles.Text}>Enter the Players name:</Text>
                                                     <TextInput
-                                                        style={styles.input}
-                                                        placeholder='Enter the players name'
+                                                        style={styles.textInput}
+                                                        placeholder='Enter here'
                                                         placeholderTextColor="#aaaaaa"
                                                         onChangeText={(text) => this.setState({selectedPlayer:text})}
                                                         value={this.state.selectedPlayer}
@@ -2883,6 +2391,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                 selectedValue={this.state.selectedPlayerPosition}
                                                 style={styles.input}
                                                 onValueChange={(text) => this.setState({selectedPlayerPosition:text})}
+                                                itemStyle={{ backgroundColor: "white", color: "black"}}
                                             >
                                                 <Picker.Item label="Select their position" value="" />
                                                 <Picker.Item label="Goalkeeper" value="GK" />
@@ -2893,8 +2402,8 @@ for (var i = 0; i < starting11Selected.length; i++) {
 
                                             <Text style={styles.Text}>Enter their kit number:</Text>
                                                     <TextInput
-                                                        style={styles.input}
-                                                        placeholder='Enter their kit number'
+                                                        style={styles.textInput}
+                                                        placeholder='Enter here'
                                                         placeholderTextColor="#aaaaaa"
                                                         onChangeText={(text) => this.setState({selectedPlayerKitNumber:text})}
                                                         value={this.state.selectedPlayerKitNumber}
@@ -2939,7 +2448,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                             <ScrollView>
            
 
-                            <View>
+                            <View style={styles.container}>
                        
 
 
@@ -2952,6 +2461,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                         selectedValue={this.state.selectedPlayer}
                                         style={styles.input}
                                         onValueChange={(text) => this.setState({selectedPlayer:text})}
+                                        itemStyle={{ backgroundColor: "white", color: "black"}}
                                     >
 
                                         <Picker.Item label="Select a Player" value="" />
@@ -2970,6 +2480,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                         selectedValue={this.state.selectedPlayerPosition}
                                         style={styles.input}
                                         onValueChange={(text) => this.setState({selectedPlayerPosition:text})}
+                                        itemStyle={{ backgroundColor: "white", color: "black"}}
                                     >
                                         <Picker.Item label="Select their position" value="" />
                                         <Picker.Item label="Goalkeeper" value="GK" />
@@ -2978,10 +2489,13 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                         <Picker.Item label="Forward" value="Forward"  />
                                     </Picker> 
 
+                                            
+
+
                                     <Text style={styles.Text}> Enter their kit number:</Text>
                                             <TextInput
-                                                style={styles.input}
-                                                placeholder='Enter their kit number'
+                                                style={styles.textInput}
+                                                placeholder='Enter here'
                                                 placeholderTextColor="#aaaaaa"
                                                 onChangeText={(text) => this.setState({selectedPlayerKitNumber:text})}
                                                 value={this.state.selectedPlayerKitNumber}
@@ -3044,7 +2558,6 @@ for (var i = 0; i < starting11Selected.length; i++) {
                     SetUpView = (
                         
                         <ScrollView>
-           
                           <Text style={styles.Text}>You must have 15 or more players added to your team to proceed.</Text>
                         </ScrollView>
            
@@ -3063,7 +2576,6 @@ for (var i = 0; i < starting11Selected.length; i++) {
                     SetUpView = (
                     
                         <ScrollView>
-           
                             <Text style={styles.Text}>You must have 11 or more players added to your team to proceed.</Text>
                         </ScrollView>
            
@@ -3114,21 +2626,21 @@ for (var i = 0; i < starting11Selected.length; i++) {
 
 
         return(
-         <View style = {styles.container}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'  ,  backgroundColor: '#242424', alignItems: "center", fontSize: 20}}>
          
         
 
                 {SetUpView} 
 
          
-         </View>
+          </ScrollView>
             
          
 
 
 
 
-
+  
 
 
 
@@ -3143,9 +2655,18 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent:'center',
         // alignItems:'center',
-        backgroundColor: '#252626', 
-        overflow: 'hidden',
+        backgroundColor: '#C30000',
+        // marginTop: 100,
+        borderColor:'#000000',
+        borderWidth: 1,
+        height:'100%',
+        width:'100%'  
+      
+    
     },
+
+ 
+
 
 
     playerContainer:{
@@ -3172,10 +2693,42 @@ const styles = StyleSheet.create({
        
         justifyContent:'center'
     },
+
+    TextBlack:{
+        color: "black",
+        fontSize:18,
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 16,
+        marginRight: 30,
+        paddingLeft: 16,
+       
+        justifyContent:'center'
+    },
     input: {
-        height: 48,
-        borderRadius: 5,
-        overflow: 'hidden',
+     
+            height: 40,
+            margin: 12,
+            borderWidth: 1,
+            padding: 10,
+
+
+      
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 30,
+        marginRight: 30,
+        paddingLeft: 16
+    },
+
+    textInput: {
+        
+            height: 40,
+            margin: 12,
+            borderWidth: 1,
+            padding: 10,
+
+
         backgroundColor: 'white',
         marginTop: 10,
         marginBottom: 10,
@@ -3185,32 +2738,27 @@ const styles = StyleSheet.create({
     },
   
     button: {
-        backgroundColor: '#FF6D01',
+        backgroundColor: '#C30000',
         marginLeft: 30,
         marginRight: 30,
         marginTop: 20,
         height: 48,
         borderRadius: 5,
         alignItems: "center",
-        justifyContent: 'center'
+        justifyContent: 'center',
+        //width: '100%'
+        width:  553,
     },
 
-    SubmitBtn: {
-        backgroundColor: '#FF6D01',
-        marginLeft: 30,
-        marginRight: 30,
-        marginTop: 20,
-        height: 48,
-        width:  553,
-        borderRadius: 5,
-        alignItems: "center",
-        justifyContent: 'center'
-    },
     buttonTitle: {
-        color: 'white',
-        fontSize: 16,
-       
+        color:'white',
+        fontSize:18,
+        justifyContent:'center',
+        textAlign: 'center',
+        fontWeight: "bold",
     },
+
+   
     footerView: {
         flex: 1,
         alignItems: "center",

@@ -112,21 +112,7 @@ StatsTable
 - Select a Field position and frontend of it (we cant do that plotting thing on mobile - what can we do) 
 
 
-//MyTeam - login as a player and you cant view. 
-//MyProfile - sign in as player and there in nothing
 
-
-
---Total events  in a game so we need to add totalGameShots in StatsApp to the YOURTEAM game record
-
--- totals team stats in dB , need to send all totals to db after submit game (StatsApp)
--- Player Profiles
-Team Profile
--- we want the latest 5 games to appear in the team games list
---How do other users view games as they wont be able to get the userid
-
---------SETUPSTATSAPP = Differences in Soccer submit need to add Opponents
---Soccer needs an Opponents section in setupstatsapp
 
 -- Limit to X amount of games that you can save , and also Team Profile set amount 
 -- this will then be used in the setupstatsapp so u cant click Gameday until u remove a game?
@@ -135,29 +121,12 @@ Team Profile
 
 -- not enough players screen needs to have a button to redirect
 
-
--- Change background for create a team etc and registeration
-
---Put scroll on each view as its not working on mobilephone 
-
 --ManageTeam we need view players - Use frontend tool to design
 
 -we have a demo field position as i cant seem to get the ploting working on mobile
 
 --Reset view - without having to start the timer> - say you are at HT and then waiting for kickoff 
 -- Event occured  field pattern Positions - lost the ball in this area or 10 shots on target from this array , maybe not every event needs this
-
-Detailed analysis
-    -- Possession (How do i calculate this)
-    -- Pie chart needed?
-    -- Players to watch 
-    -- Players Patterns
-    -- Team Pattern
-
-Post Game 
-    -- Review game appears again
-    -- Return to Main Menu
-
 
 
 Player Profiles

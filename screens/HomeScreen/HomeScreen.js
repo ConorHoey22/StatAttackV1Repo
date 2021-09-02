@@ -19,95 +19,184 @@ class HomeScreen extends Component {
         this.state = { 
             UserID: '',
             userType: '',
-           teamCreated: 0, 
-           listPlayers:[],
-           SportType: '',
-           testMenu:true,
+            fullName:'',
+            teamID:'',
+            teamAdminInvite:'',
+            hasTACreated:0,
+            teamCreated: 0, 
+            listPlayers:[],
+            SportType: '',
+       
             
             };
         }
        
-        //Need to save these variables values in Local Storage for offline mode
-        //Store or Obtain team + player + usertype in local storage
-
-
+    
         componentDidMount(){
 
             const { currentUser } = firebase.auth();
+            
             //Check the user type of the AUTH user
-             const uid = currentUser.uid;
+            const uid = currentUser.uid;
+           
             firebase.database().ref('/users/' + uid).on('value', (snapshot) => {
                 const userObj = snapshot.val();
     
-                let teamCreated = userObj.teamCreated;
-                this.setState({teamCreated:teamCreated})
-
                 let userType = userObj.userType;
-                this.setState({userType:userType})
+                this.setState({userType:userType});
 
-                console.log(userType);
+                let fullName = userObj.fullName;
+                this.setState({fullName:fullName});
+
+                let teamAdminInvite = userObj.teamAdminInvite;
+                this.setState({teamAdminInvite:teamAdminInvite});
+
+                let teamID = userObj.teamID;
+                this.setState({teamID:teamID});
+
+                let teamCreated = userObj.teamCreated;
+                this.setState({teamCreated:teamCreated});
+
+                let hasTACreated = userObj.hasTACreated;
+                this.setState({hasTACreated:hasTACreated});
 
 
+                 //Obtain Team user data
+                if(teamCreated == 1){
+        
+                    this.ObtainUserData();
+                }
+                    
+                // //Obtain user data
+                // if(teamCreated == 1 || hasTACreated == 1){
+                    
+                //     this.ObtainUserData();
+                // }
+                // else if(hasTACreated == 0)
+                // {
+                    
+                //     var myUserId = firebase.auth().currentUser.uid;
+
+                //     //Add the team Analyst to the Team Record
+                //     const addTeamAdmin = firebase.database().ref('teams').child(teamID).child('teamAdmins')
                 
-            //Team is created  = 1
-            if(teamCreated == 1){
-              
-                this.ObtainUserData();
-            }
-        
-        });
+                //         var adminData = {
 
+                //             id: myUserId,
+                //             fullName: this.state.fullName,
+                //             teamID: teamID
 
-         
+                //         };
 
-       
-                   
-        }
-       
-      
+                //         addTeamAdmin.push(adminData);
 
-        ObtainUserData = async () => {
-
-            // -------------- GET/STORE Auth UID
-            var myUserId = firebase.auth().currentUser.uid;
-
-            // //  GET/STORE Team Members
-
-            //     var tempArr = [];
-
-            //     firebase.database().ref('/teams').child(myUserId).child('/players')
-            //         .on('value', snapshot => {
-                      
-            //             tempArr = this.snapshotToArray(snapshot);
-            //             this.setState({
-            //                 listPlayers: tempArr
-            //             });
-
-         
-            //         })
-        
+                //         //Update user id to make it change hasTACreated to = 1
+                //         const usersRef = firebase.database().ref('/users')
+                //         usersRef.child(myUserId).update({'hasTACreated': 1})
     
-            //  GET/STORE Team Player Counter +   GET/STORE Sport Type
-            firebase.database().ref('/teams').child(myUserId)
-            .on('value', snapshot => {
-                const userObj = snapshot.val();
-
-                let SportType = userObj.SportType;
-                this.setState({SportType:SportType})
-
-                let playercounter = userObj.playercounter;
-                this.setState({playercounter:playercounter})
-                
-            });
-        }
+                // }
             
 
 
 
-           
+
+            });
+
+
+  
+
+
+
+
+
+
+
         
+          
+              
+        
+        
+            // if(userTypeState == 'TeamAnalyst') 
+            // {
+            //     firebase.database().ref('/users/' + uid).on('value', (snapshot) => {
+            //         const userObj = snapshot.val();
+        
+            //         let userType = userObj.userType;
+            //         this.setState({userType:userType});
+    
+            //         let teamAdminInvite = userObj.teamAdminInvite;
+            //         this.setState({teamAdminInvite:teamAdminInvite});
+    
+            //         let teamID = userObj.teamID;
+            //         this.setState({teamID:teamID});
+            //     });
 
 
+            //     if(hasTACreated == 0)
+            //     {
+
+            //         var myUserId = firebase.auth().currentUser.uid;
+
+            //         //Add the team Analyst to the Team Record
+            //         const addTeamAdmin = firebase.database().ref('teams').child(teamID).child('teamAdmins')
+            
+            //             var adminData = {
+
+            //                 id: myUserId,
+            //                 fullName: this.state.fullName,
+            //                 teamID: teamID
+
+            //             };
+
+            //         addTeamAdmin.push(adminData);
+
+
+
+            //         //Update user id to make it change hasTACreated to = 1
+            //         const usersRef = firebase.database().ref('/users')
+            //         usersRef.child(myUserId).update({'hasTACreated': 1})
+  
+
+                    
+            //     }
+               
+
+            // }
+
+                   
+        }
+
+
+        ObtainUserData = async () => {
+            const { currentUser } = firebase.auth();
+            
+            //Check the user type of the AUTH user
+            const uid = currentUser.uid;
+
+            // -------------- GET/STORE Auth UID
+            var myUserId = firebase.auth().currentUser.uid;
+
+            var teamID = this.state.teamID;
+            var userType = this.state.userType;
+
+
+                   firebase.database().ref('/users/' + uid).on('value', (snapshot) => {
+                    const userObj = snapshot.val();
+        
+                    let userType = userObj.userType;
+                    this.setState({userType:userType});
+    
+                    let teamAdminInvite = userObj.teamAdminInvite;
+                    this.setState({teamAdminInvite:teamAdminInvite});
+    
+                    let teamID = userObj.teamID;
+                    this.setState({teamID:teamID});
+                });
+
+          
+
+        }
+            
 
         snapshotToArray = snapshot => {
             var retArr = [];
@@ -120,27 +209,8 @@ class HomeScreen extends Component {
         }
         
 
-
-    getUserType = async () => {
-        
-            const { currentUser } = firebase.auth();
-            //Check the user type of the AUTH user
-             const uid = currentUser.uid;
-           
-
-            firebase.database().ref('/users/' + uid).on('value', (snapshot) => {
-                const userObj = snapshot.val();
-    
-                let teamCreated = userObj.teamCreated;
-                this.setState({teamCreated:teamCreated})
-
-                let userType = userObj.userType;
-                this.setState({userType:userType})
-              });
-
-    // Check if the Head Team Analyst has a team by checking teamCreated Value
-    
-
+    ActivateAccount = () => {
+        this.props.navigation.navigate('ActivateAccount');
     }
 
 
@@ -177,29 +247,20 @@ class HomeScreen extends Component {
         this.props.navigation.navigate('PlayerProfile');
     }
 
- 
+    JoinATeam = () => {
+        this.props.navigation.navigate('JoinATeam');
+    }
 
 
-        
-        
-    
-
- 
 render(){
-
 
 
     //This is used to check userType and based on that the user will have a custom navigation
     const checkUserType = this.state.userType;
     const checkTeamCreated = this.state.teamCreated;
+    const checkTACreated = this.state.hasTACreated;
     var HomeNavigation;
     const uiddd = this.state.UserID;
-
-    var testMenu = this.state.testMenu;
-
-  
-  
-
 
 
     if(checkUserType == 'Player')
@@ -232,8 +293,6 @@ render(){
                //IF False then display CreateATeam
         if(checkTeamCreated == 1)
         {
-
-
 
             HomeNavigation = (
 
@@ -290,30 +349,6 @@ render(){
 
      
     }
-    else if(checkUserType == 'TeamAnalyst')
-    {
-        HomeNavigation = (
-            <View style={stylesHome.container}>
-            
-                <View style={stylesHome.RowView}>
-                    <TouchableOpacity style={stylesHome.button} onPress={this.onSetupStatsApp}>
-                        <Text style={stylesHome.buttonTitle}>Setup Stats App</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={stylesHome.RowView}>
-                    <TouchableOpacity style={stylesHome.button} onPress={this.TeamProfile}>
-                        <Text style={stylesHome.buttonTitle}> My Team</Text>
-                    </TouchableOpacity>
-                </View>
-
-              
-
-
-                    {/* No Access to create a team or Add players  */}
-            </View>
-        );
-    }
     else if(checkUserType == 'CompanySuperUser')
     {
         HomeNavigation = (
@@ -343,12 +378,9 @@ render(){
 
     return (
 
-
      <View style={stylesHome.container}> 
              {/* Navigation UserType Validation */}
              {HomeNavigation}
-
-           
     </View>
                
 
@@ -404,20 +436,23 @@ const stylesHome = StyleSheet.create({
     },
 
     button: {
-        backgroundColor: '#FF6D01',
+        backgroundColor: '#C30000',
         marginLeft: 30,
         marginRight: 30,
         marginTop: 20,
         height: 48,
         borderRadius: 5,
+        borderWidth: 2,
+        borderColor:'#000000',
         alignItems: "center",
         justifyContent: 'center',
-        width: '50%'
+        // width: '50%'
     },
     buttonTitle: {
         color: 'white',
-        fontSize: 16,
-       
+        fontSize:15,
+        fontWeight: "bold",
+     
     },
 
 });

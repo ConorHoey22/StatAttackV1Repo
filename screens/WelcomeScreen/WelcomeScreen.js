@@ -29,24 +29,31 @@ export default function WelcomeScreen({navigation}){
         navigation.navigate('PlayerRegistration')
     }
 
+    const RegisterTeamAdminInfo = () => {
+        this.props.navigation.navigate('RegisterTeamAdminInfo');
+    }
+
+
+
 
     return (
      <ScrollView style={styles.container} >
             
             <TouchableOpacity style={styles.button} onPress={() => Login()}>
-                <Text style={styles.buttonTitle}>Login</Text>
+                <Text style={styles.Text}>Login</Text>
             </TouchableOpacity>
      
             <TouchableOpacity style={styles.button} onPress={() => TeamAnalystRegistration()}>
-                <Text style={styles.buttonTitle}>Register your Team</Text>
+                <Text style={styles.Text}>Register your Team</Text>
             </TouchableOpacity>
 
 
             <TouchableOpacity style={styles.button} onPress={() => PlayerRegistration()}>
-                <Text style={styles.buttonTitle}>Register as a Player</Text>
+                <Text style={styles.Text}>Register as a Player</Text>
             </TouchableOpacity> 
 
-        </ScrollView>
 
+    </ScrollView>
+    
     )
 }

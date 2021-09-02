@@ -7,9 +7,21 @@
      -- Risk Acceptance -- no back bottom for mobile as its uses the full screen for the image , 
      odds on users not being able to go back is silm as android u can click back button 
      , its more apple i am unsure about 
+     
+     -- risk Acceptance -- We need to test this out once we fully deploy -- 1 HeadTeamAdmin account will be used by other staff on the team 
+     -  We need to test this when the app is deployed to check if we can have 2 stats app games running at same time and both logined into the same account
 
+------------------ How to create A Team Admin  + Assign it to a team ------------------------------
 
-dd
+First the Super User must create the HeadTeamAdmin Account 
+  -- Then the HeadTeamAdmin will CREATE THEIR TEAM and assign a team admin invite code
+
+The super User will create the team admin accounts
+ -- the team admin will then login and navigate to join a team and enter the team admin invite code
+
+Once the Team admin enters the team invitecode  
+  - there USERID will be added under the team Record which can then be obtained in other parts of the system and give them access to the stats app
+
 
 
 ---------------- MORE USER Friendly Setup Stats App ----------------------------------------- DONE
@@ -27,7 +39,8 @@ dd
 -----------------------------------------------------------------------------------------------
 
 
-
+How to Delete a user safely 
+-- Create if there USERID is assigned to a stat/ Team CreatedByUserID
 
 
 
@@ -56,6 +69,7 @@ dd
 --------------------------------------------------------------------------------------------------------------------------------------------
 
 
+import {Picker} from '@react-native-community/picker'; is the picker
 
 
 ----------------------------------------- FIELD TAGGING Stats App / View GAME ---------------------------------
@@ -91,6 +105,24 @@ dd
       height: 240 * ratioSoccerView, //399 is actual height of image
       top:'10%'
   },
+
+
+Stats App 
+        Review game 
+            -- button Return team Stats event loctions 
+                -- selection Your Team or Opponent  == line 6781 if(DetailedGameAnalysisSelectionView == true)
+                -- Nav to YourTeam or Opponent Event Event selection ==  if YourTeamReviewSelection == true or OpponentsReviewSelection == true - --- function  ReviewYourTeamDGA or ReviewOpponentsDGA  
+            - Your team review selection - line 6808  ,,,  Line 6839 - Opponent team review selection
+
+                -- TEam selection   - UserSelectsTeamEventsLocations(4264) - EventSelectionTeamDetailAnalysis:true
+                -- Opponent Selection - UserSelectsOpponentsEventsLocations(4301) - EventSelectionOpponentsDetailAnalysis:true
+                
+                
+                -- Your Team FieldLocation View === Line 5726 ExecuteTeamDetailAnalysisView == true)
+
+
+
+
 
 
 

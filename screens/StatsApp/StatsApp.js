@@ -1,14 +1,16 @@
 import React, { useEffect, useState , Component  } from 'react'
-import { ImageBackground,Dimensions,StatusBar,TouchableOpacity,StyleSheet,Image,FlatList, Keyboard, Text, View , TextInput ,Picker, Alert, SegmentedControlIOSComponent , ScrollView, VirtualizedList, TouchableNativeFeedbackBase} from 'react-native'
-// import styles from './styles';
+import { ImageBackground,Dimensions,StatusBar,TouchableOpacity,StyleSheet,Image,FlatList, Keyboard, Text, View , TextInput , Alert, SegmentedControlIOSComponent , ScrollView, VirtualizedList, TouchableNativeFeedbackBase} from 'react-native'
 
 
-// import * as firebase from 'firebase/app';
+
+import {Picker} from '@react-native-picker/picker';
+
+
 import firebase from 'firebase/app'
 import 'firebase/auth';
 import 'firebase/database';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { ThemeColors } from 'react-navigation';
+
 
 
 let padToTwo = (number) => (number <= 9 ? `0${number}`: number);
@@ -30,10 +32,10 @@ const screenHeight = Dimensions.get('window').height;
 const win = Dimensions.get('window');
 
 
-const ratioView = win.width/600;
+const ratioView = win.width/590;
 
 
-const SoccerRatioView = win.width/600;
+const SoccerRatioView = win.width/700;
 
 
 
@@ -72,6 +74,7 @@ class StatsApp extends Component {
 
           //DisplayTotalTeamStats
           totalTeamGoals: 0,
+          totalTeamPoints: 0,
           totalTeamPasses: 0,
           totalTeamShots:0,
           totalTeamShotsOnTarget:0,
@@ -79,6 +82,7 @@ class StatsApp extends Component {
 
           //DisplayTotalOpponentsTeamStats
           totalOpponentsTeamGoals: 0,
+          totalOpponentsTeamPoints:0,
           totalOpponentsTeamPasses: 0,
           totalOpponentsTeamShots:0,
           totalOpponentsTeamShotsOnTarget:0,
@@ -95,6 +99,9 @@ class StatsApp extends Component {
           //TeamCounters Stats
           Goals:0,
           Passes:0,
+          Shots:0,
+          ShotsOnTarget:0,
+          Points:0,
 
           //GAA Team Scoreboard
           UsersTeamGAAGoalCounter: 0,
@@ -163,6 +170,7 @@ class StatsApp extends Component {
           displaySubBench: false,
           displayOpponentsStartingTeam: false,
           displayOpponentsSubBench: false,
+          ScoreboardContainerToggle: true,
 
           displayTeamPercentages:false,
           displayOpponentsPercentages:false,
@@ -240,7 +248,6 @@ class StatsApp extends Component {
             this.setState({OpponentsRecordKey: params.opponentsKey});
 
          
-
     
             var TeamsheetArray = this.state.TeamsheetArray;
             var StartingTeamArray = this.state.StartingTeamArray;
@@ -301,13 +308,15 @@ class StatsApp extends Component {
 
 
                     this.state.SubBenchArray.push(data1);
+
+                
                 }
          
 
             }
 
 
-
+     
 
             for (var i = 0; i < OpponentsTeamsheetArray.length; i++) {
 
@@ -372,7 +381,134 @@ class StatsApp extends Component {
           
  
     
-}
+}   
+
+ExitReviewDetailAnalysis = () => {
+  // Toggles off all additional frontend that is not needed to proceed
+      
+
+  //Sub bench container Appear           
+  this.setState({displaySubBench: false});
+        
+  // Make FieldPosition Disappear
+  this.setState({displayFieldPositionSelection:false});
+
+  // Make Event selection disappear 
+  this.setState({displayEventsContainer:false});
+
+  //Make Review disappear
+  this.setState({displayReviewGameContainer:false});
+
+  // This will make all starting team players appear
+  this.setState({displayStartingTeam: true});
+
+
+  //Opponents Sub Bench to disappear 
+  this.setState({displayOpponentsSubBench: false});
+
+  //Opponents starting team players disappear
+  this.setState({displayOpponentsStartingTeam:false });
+
+  
+  //Disable individual stats table if it true
+  this.setState({displayIndividualPlayerStatsTable: false});
+
+  this.setState({displayReviewIndividualSquadPlayer: false});
+
+  this.setState({displayReviewIndividualSubBenchPlayer: false});
+
+  this.setState({displayReviewTotalTeamStatsContainer:false});
+
+  this.setState({displayReviewOpponentsTotalTeamStatsContainer:false});
+
+  this.setState({displayReviewIndividualPlayerStatsContainer:false});
+
+  this.setState({displayReviewYourTeamIndividualPlayerStatsContainer:false})
+
+  this.setState({displayReviewOpponentsIndividualPlayerStatsContainer:false});
+
+  this.setState({displayReviewYourTeamIndividualSquadPlayer:false});
+  this.setState({displayReviewOpponentsIndividualSquadPlayer:false});
+
+  this.setState({displayReviewOpponentsIndividualSubBenchPlayer:false});
+
+
+  this.setState({displayReviewOpponentsIndividualPlayers:false});
+
+  this.setState({ActivateUndoButton:false});
+
+ 
+
+          //Team Event Selection - Detailed Game analysis
+          this.setState({TeamSelection: false});
+
+          this.setState({DetailedGameAnalysisSelectionView:false});
+          this.setState({YourTeamReviewSelection:false});
+          this.setState({OpponentsReviewSelection: false});
+
+          this.setState({TeamSelection: false});
+          this.setState({OpponentEventSelection:false});
+
+          //Detailed Review Player buttons
+          this.setState({displayDetailedIndividualSquadPlayer:false});
+          this.setState({displayDetailedIndividualSubBenchPlayer:false});
+  
+          this.setState({displayDetailedIndividualSquadPlayerEventSelection: false});
+          this.setState({displayDetailedIndividualSubBenchEventSelection:false});
+
+          
+          this.setState({displayDetailedIndividualOpponentsSquadPlayerEventSelection:false});
+          this.setState({displayDetailedIndividualOpponentsSubBenchEventSelection:false});
+
+
+         
+          this.setState({ExecuteTeamDetailAnalysisView:false});
+          this.setState({ExecuteDetailOpponentsTeamAnalysis: false});
+
+          this.setState({ExecuteOpponentsTeamDetailAnalysis:false});
+
+
+
+          this.setState({EventSelectionTeamDetailAnalysis:false});
+          this.setState({ExecuteSubBenchDetailAnalysis:false});
+          this.setState({EventSelectionOpponentsDetailAnalysis:false});
+          
+          this.setState({TeamEventPercentages:false});
+          this.setState({OpponentsEventPercentages:false});
+          this.setState({ExecuteOpponentsDetailAnalysis:false});
+          this.setState({ExecuteOpponentsSubBenchDetailAnalysis:false});
+
+          //Detail Percentages
+          this.setState({TeamEventPercentages:false});
+          this.setState({OpponentsEventPercentages:false});
+
+
+
+          //makes Event History display
+          this.setState({
+              displayEventHistory: true
+          });
+
+          //makes Event Pattern display
+          this.setState({
+              displayEventPattern: true
+          });
+
+
+          //display field View
+          this.setState({ActivateViewFieldPlots:false});    
+
+          this.setState({ExecuteDetailAnalysis:false});
+
+
+         this.setState({ExecuteOpponentsDetailAnalysis:false});
+
+
+        //Toggle On Scoreboard as it gets turned off during this view
+        this.setState({ScoreboardContainerToggle:true});
+        
+
+    }
 
 
 
@@ -382,6 +518,7 @@ class StatsApp extends Component {
 
     onButtonStart = () => {
  
+
         let timer = setInterval(() => {
      
           var num = (Number(this.state.seconds_Counter) + 1).toString(),
@@ -925,6 +1062,9 @@ class StatsApp extends Component {
              var OpponentsStartingTeamArray = this.state.OpponentsStartingTeamArray;
              var OpponentsSubBench = this.state.OpponentsSubBenchArray;
 
+             var minutesPlayed = this.state.minutes_Counter;
+             var secondsPlayed = this.state.seconds_Counter;
+
              var validDelete;
              var validOpponentDelete;
 
@@ -969,6 +1109,17 @@ class StatsApp extends Component {
                                                playerKitNumber: StartingTeamArray[i].playerKitNumber,
                                                playerPosition: StartingTeamArray[i].playerPosition,
                                                status: 'SubBench',
+
+                                                //
+
+                                               //Obtain timer - How long they played will be calculated by currentTimerMins - Starting timer mins = minutesPlayerd (Needs tested)
+                                               //calculated by currentTimersec - Starting timer secs = secsPlayerd
+                                                minutesPlayed:minutesPlayed,
+                                                secondsPlayed:secondsPlayed
+
+                                                //
+
+
                                            };
            
                                            this.state.SubBenchArray.push(playerData);
@@ -1603,6 +1754,8 @@ class StatsApp extends Component {
                          Goals: StartingTeamArray[i].Goals,
                          Passes: StartingTeamArray[i].Passes,
                          Points: StartingTeamArray[i].Points,
+                         Shots: StartingTeamArray[i].Shots,
+                         ShotsOnTarget: StartingTeamArray[i].ShotsOnTarget,
                          UserID: StartingTeamArray[i].UserID,
                          fullName: StartingTeamArray[i].fullName,
                          playerKitNumber: StartingTeamArray[i].playerKitNumber,
@@ -1835,344 +1988,179 @@ class StatsApp extends Component {
   
 
     EndGame = async() => {
+         
+       //Stop the Game Timer
+       this.onButtonStop();
 
-        this.onButtonStop();
+       var SportType = this.state.SportType;
 
-        var SportType = this.state.SportType;
-        var StartingTeamArray = this.state.StartingTeamArray;
-        var SubBenchArray = this.state.SubBenchArray;
+       var StartingTeamArray = this.state.StartingTeamArray;
+       var SubBenchArray = this.state.SubBenchArray;
+    
+       var myUserId = firebase.auth().currentUser.uid;
 
-        var myUserId = firebase.auth().currentUser.uid;
-        var GameRecordKey = this.state.GameRecordKey;
+       var GameRecordKey = this.state.GameRecordKey;
 
-
+        //Field Location Data Arrays
         var EventFieldPositions = this.state.EventFieldPositions;
         var OpponentsEventFieldPositions = this.state.OpponentsEventFieldPositions;
 
+
+        //Your Team Stat Events
         var UsersTeamGAAGoalCounter = this.state.UsersTeamGAAGoalCounter;
         var UsersTeamGAAPointCounter = this.state.UsersTeamGAAPointCounter;
         var UsersTeamSoccerGoalCounter = this.state.UsersTeamSoccerGoalCounter;
 
+        //Opponents Stat Events
         var OpponentsTeamGAAGoalCounter = this.state.OpponentsTeamGAAGoalCounter;
         var OpponentsTeamGAAPointCounter = this.state.OpponentsTeamGAAPointCounter;
         var OpponentsTeamSoccerGoalCounter = this.state.OpponentsTeamSoccerGoalCounter;
     
-
+        //Totals - Your Team
         var totalTeamGoals = this.state.totalTeamGoals;
+        var totalTeamPoints = this.state.totalTeamPoints
         var totalTeamPasses = this.state.totalTeamPasses;
         var totalTeamShots = this.state.totalTeamShots;
         var totalTeamShotsOnTarget = this.state.totalTeamShotsOnTarget;
 
-
-        
+        //Totals - Opponents
         var totalOpponentsTeamGoals = this.state.totalOpponentsTeamGoals;
+        var totalOpponentsTeamPoints = this.state.totalOpponentsTeamPoints;
         var totalOpponentsPasses = this.state.totalOpponentsTeamPasses;
         var totalOpponentsTeamShots = this.state.totalOpponentsTeamShots;
         var totalOpponentsTeamShotsOnTarget = this.state.totalOpponentsTeamShotsOnTarget;
-
-        //Update YourTeam Game Record totals 
-         var updateGameRecord = firebase.database().ref('/teams').child(myUserId).child('games').child(GameRecordKey).child('YourTeamStats');
-
-  
         
-        // //Update Opponents Game Record totals 
-         var updateOpGameRecord = firebase.database().ref('/teams').child(myUserId).child('games').child(GameRecordKey).child('OpponentsStats');
+        //Update YourTeam Game Record totals
+        var updateGameRecord = firebase.database().ref('/teams').child(myUserId).child('games').child(GameRecordKey).child('YourTeamStats');
 
-  
+        //Update Opponents Game Record totals 
+        var updateOpGameRecord = firebase.database().ref('/teams').child(myUserId).child('games').child(GameRecordKey).child('OpponentsStats');
 
-        //Goals -- ALL TIME STATS
+        //update users team ALL TIME STATS
         var updateGoals = { totalTeamGoals: firebase.database.ServerValue.increment(totalTeamGoals)};
-       
-        //Shots -- ALL TIME STATS
         var updateShots = { totalTeamShots: firebase.database.ServerValue.increment(totalTeamShots)};
-
-        //Shots on target -- ALL TIME STATS
         var updateShotsOn = { totalTeamShotsOnTarget: firebase.database.ServerValue.increment(totalTeamShotsOnTarget)};
 
 
+        firebase.database().ref('/teams').child(myUserId)
+        .child('gamecounter')
+        .set(firebase.database.ServerValue.increment(1));
 
-        if(SportType = 'GAA')
+
+        //This can only be used by the HeadTeam Admin 
+
+        //------SEND ALL TOTAL TEAM STATS TO THE DATABASE (Teams/USERID/STATS)-------
+
+        if(SportType == 'GAA')
         {
-            //------SEND ALL TOTAL TEAM STATS TO THE DATABASE-------
 
-                //Push to Team Database record
-                var updateDB = firebase.database().ref('/teams').child(myUserId).child('Stats');
+            //Push to Team Database record
+            var updateDB = firebase.database().ref('/teams').child(myUserId).child('Stats');
             
-                //Your Team Total 
-                var updateTeamTotals = {
+            //Your Team Totals 
+            var updateTeamTotals = {
+        
+                    totalTeamGoals: firebase.database.ServerValue.increment(totalTeamGoals),
+                    totalTeamShots: firebase.database.ServerValue.increment(totalTeamShots),
+                    totalTeamShotsOnTarget: firebase.database.ServerValue.increment(totalTeamShotsOnTarget),
+                    totalTeamPoints: firebase.database.ServerValue.increment(totalTeamPoints)
+            };
 
-                        totalTeamGoals: firebase.database.ServerValue.increment(totalTeamGoals),
-                        totalTeamShots: firebase.database.ServerValue.increment(totalTeamShots),
-                        totalTeamShotsOnTarget: firebase.database.ServerValue.increment(totalTeamShotsOnTarget)
-                        //totalTeamPoints: firebase.database.ServerValue.increment(totalTeamPoints)
-                };
-
-                updateDB.update(updateTeamTotals);
-            // ------------------------------------------------------------
-
-              // GAA Scores  --- Your Team  - also put opponents in here for flexibilty in (ManageTeam) + GameRecord key
-                var updateFinalScores = {
-
-                    GameRecordKey: GameRecordKey,
-                    screenWidth: Dimensions.get('window').width,
-                    screenHeight: Dimensions.get('window').height,
-                    UsersGAAGoals: firebase.database.ServerValue.increment(UsersTeamGAAGoalCounter),        
-                    UsersGAAPoints: firebase.database.ServerValue.increment(UsersTeamGAAPointCounter),
-
-                    OpponentsName: this.state.OpponentName,
-                    OpponentsGAAGoals: firebase.database.ServerValue.increment(OpponentsTeamGAAGoalCounter),
-                    OpponentsGAAPoints: firebase.database.ServerValue.increment(OpponentsTeamGAAPointCounter),
-                    
-                    totalOpponentsTeamGoals: firebase.database.ServerValue.increment(totalOpponentsTeamGoals),
-                    totalOpponentsTeamShots: firebase.database.ServerValue.increment(totalOpponentsTeamShots),
-                    totalOpponentsTeamShotsOnTarget: firebase.database.ServerValue.increment(totalOpponentsTeamShotsOnTarget),
+            updateDB.update(updateTeamTotals);
+  
+        }
+        else if(SportType == 'Soccer')
+        {
+            
+            //Push to Team Database record
+            var updateDB = firebase.database().ref('/teams').child(myUserId).child('Stats');
+                        
+            //Your Team Total 
+            var updateTeamTotals = {
 
                     totalTeamGoals: firebase.database.ServerValue.increment(totalTeamGoals),
                     totalTeamShots: firebase.database.ServerValue.increment(totalTeamShots),
                     totalTeamShotsOnTarget: firebase.database.ServerValue.increment(totalTeamShotsOnTarget),
-                 
-                
-                
-                };
-        
-        
-                
-                // // Your Team Totals + Opponents Totals
-                updateGameRecord.push(updateFinalScores);
-        
-
-
-                //GAA Scores  --- Opponents
-                var updateOpponentsFinalScores = {
-            
-                    OpponentsName: this.state.OpponentName,
-                    OpponentsGAAGoals: firebase.database.ServerValue.increment(OpponentsTeamGAAGoalCounter),
-                    OpponentsGAAPoints: firebase.database.ServerValue.increment(OpponentsTeamGAAPointCounter),
                     
-                    totalOpponentsTeamGoals: firebase.database.ServerValue.increment(totalOpponentsTeamGoals),
-                    totalOpponentsTeamShots: firebase.database.ServerValue.increment(totalOpponentsTeamShots),
-                    totalOpponentsTeamShotsOnTarget: firebase.database.ServerValue.increment(totalOpponentsTeamShotsOnTarget),
+            };
 
-                };
-                updateOpGameRecord.push(updateOpponentsFinalScores);
-    
-           
-
-
-                for (var i = 0; i < StartingTeamArray.length; i++) {
-        
-                    var UserID = StartingTeamArray[i].UserID;
-                    var Goals = StartingTeamArray[i].Goals;
-                    // var Points = StartingTeamArray[i].Points;
-                    var Shots = StartingTeamArray[i].Shots;
-                    var ShotsOnTarget = StartingTeamArray[i].ShotsOnTarget;
-             
-                
-                    //SEND DATA to (Player)User account
-                    var updateUser = firebase.database().ref('/users').orderByChild("id").equalTo(UserID);
-                        updateUser.on("child_added", function(snapshot) {
-    
-                        // Push stats to the player USER Account
-                        var updateStats = {
-                            totalGoals: firebase.database.ServerValue.increment(Goals),
-                            totalShots: firebase.database.ServerValue.increment(Shots),
-                            totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
-                            //totalPoints: firebase.database.ServerValue.increment(Points),
-                        };
-    
-                        snapshot.ref.update(updateStats);
-                    });
-
-                    
-
-                    //Send stats to Teams/Players record - This will allow temporary accounts to have stats 
-                    var updatePlayer = firebase.database().ref('/teams').child(myUserId).child('/players').orderByChild('UserID').equalTo(UserID);
-                    updatePlayer.on("child_added", function(snapshot) {
-
-                        // Push stats to the player player record 
-                        var updateStats = {
-                            totalGoals: firebase.database.ServerValue.increment(Goals),
-                            totalShots: firebase.database.ServerValue.increment(Shots),
-                            totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
-                            //totalPoints: firebase.database.ServerValue.increment(Points),
-                        };
-
-                        snapshot.ref.update(updateStats);
-                    });
-    
-                }
-    
-
-              //Send SubBench Player stats to User Accounts
-                for (var i = 0; i < SubBenchArray.length; i++) {
-    
-                        var SubUserID = SubBenchArray[i].UserID;
-                        var SubGoals = SubBenchArray[i].Goals;
-                        // var SubPoints = SubBenchArray[i].Points;
-                        var SubShots = SubBenchArray[i].Shots;
-                        var SubShotsOnTarget = SubBenchArray[i].ShotsOnTarget;
-                        
-                        var updateUserSub = firebase.database().ref('/users').orderByChild("id").equalTo(SubUserID);
-                            updateUserSub.on("child_added", function(snapshot) {
-    
-                            // Push stats to the player USER Account
-                            var updateStats2 = {
-                                totalGoals: firebase.database.ServerValue.increment(SubGoals),
-                                totalShots: firebase.database.ServerValue.increment(SubShots),
-                                totalShotsOnTarget: firebase.database.ServerValue.increment(SubShotsOnTarget)
-                                //totalPoints: firebase.database.ServerValue.increment(Points),
-                            };
-    
-                            snapshot.ref.update(updateStats2);
-                        });
-
-                            
-                        //Send stats to Teams/Players record - This will allow temporary accounts to have stats 
-                        var updatePlayerSub = firebase.database().ref('/teams').child(myUserId).child('/players').orderByChild("id").equalTo(UserID);
-                        updatePlayerSub.on("child_added", function(snapshot) {
-
-                            // Push stats to the player USER Account
-                            var updateStats = {
-                                totalGoals: firebase.database.ServerValue.increment(Goals),
-                                totalShots: firebase.database.ServerValue.increment(Shots),
-                                totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
-                                //totalPoints: firebase.database.ServerValue.increment(Points),
-                            };
-
-                            snapshot.ref.update(updateStats);
-                        });
-
-
-                }
-
-
-        //both GAA / Soccer events 
-        
-   //TEST this will multiple players 
-   for (var i = 0; i < EventFieldPositions.length; i++) 
-   {
-       
-       //Update YourTeam Game Record totals 
-        var EventLocations = firebase.database().ref('/teams').child(myUserId).child('games').child(GameRecordKey).child('EventFieldPositions');
-
-           var data = {
-               x: EventFieldPositions[i].x,
-               y: EventFieldPositions[i].y,
- 
-               EventType:EventFieldPositions[i].EventType,
-               PlayerKitNumber:EventFieldPositions[i].PlayerKitNumber,
-               UserID: EventFieldPositions[i].UserID
-
-           };
-
-       EventLocations.push(data);
-
-
-       var userEvent  = firebase.database().ref('/users/' + EventFieldPositions[i].UserID).child('Events');
-       userEvent.push(data);
-
-
-
-           
-            //Send stats to Teams/Players record - This will allow temporary accounts to have stats 
-               var updatePlayer = firebase.database().ref('/teams').child(myUserId).child('/players').orderByChild('UserID').equalTo(EventFieldPositions[i].UserID);
-               updatePlayer.on("child_added", function(snapshot) {
-
-                  // Push stats to the player player record 
-                   var data = {
-                       x: EventFieldPositions[i].x,
-                       y: EventFieldPositions[i].y,
-               
-                       EventType:EventFieldPositions[i].EventType,
-                       PlayerKitNumber:EventFieldPositions[i].PlayerKitNumber,
-                       PlayerPosition: EventFieldPositions[i].PlayerPosition,
-                       UserID: EventFieldPositions[i].UserID
-   
-                   };
-   
-
-                   snapshot.ref.child('Events').push(data);
-               });
-
-   }
-
-
-   for (var i = 0; i < OpponentsEventFieldPositions.length; i++) 
-   {
-       
-       //Update YourTeam Game Record totals 
-        var OpponentsEventLocations = firebase.database().ref('/teams').child(myUserId).child('games').child(GameRecordKey).child('OpponentsEventFieldPositions');
-
-
-           var data = {
-               x: OpponentsEventFieldPositions[i].x,
-               y: OpponentsEventFieldPositions[i].y,
-
-               EventType:OpponentsEventFieldPositions[i].EventType,
-               PlayerKitNumber:OpponentsEventFieldPositions[i].PlayerKitNumber,
-               UserID: OpponentsEventFieldPositions[i].UserID,
-               PlayerPosition: OpponentsEventFieldPositions[i].PlayerPosition,
-
-               UserID: OpponentsEventFieldPositions[i].UserID
-           };
-
-        OpponentsEventLocations.push(data);
-
-
-
-
-   
-
-   }
-
-        
-
-
-
-
-
-
-
-                this.props.navigation.navigate('Home')
-
-
+            updateDB.update(updateTeamTotals);
 
         }
-        else if(SportType == 'Soccer')
+
+        // ------------------------------------------------------------
+
+        //GAA Scores  --- Your Team  - also put opponents in here for flexibilty in (ManageTeam) + GameRecord key
+        if(SportType == 'GAA')
         {
-            //------SEND ALL TOTAL TEAM STATS TO THE DATABASE-------
+             
+            var updateFinalScores = {
 
-                //Push to Team Database record
-                var updateDB = firebase.database().ref('/teams').child(myUserId).child('Stats');
+                GameRecordKey: GameRecordKey,
+                screenWidth: Dimensions.get('window').width,
+                screenHeight: Dimensions.get('window').height,
+                UsersGAAGoals: firebase.database.ServerValue.increment(UsersTeamGAAGoalCounter),        
+                UsersGAAPoints: firebase.database.ServerValue.increment(UsersTeamGAAPointCounter),
+
+                OpponentsName: this.state.OpponentName,
+                OpponentsGAAGoals: firebase.database.ServerValue.increment(OpponentsTeamGAAGoalCounter),
+                OpponentsGAAPoints: firebase.database.ServerValue.increment(OpponentsTeamGAAPointCounter),
                 
-                //Your Team Total 
-                var updateTeamTotals = {
+                totalOpponentsTeamGoals: firebase.database.ServerValue.increment(totalOpponentsTeamGoals),
+                totalOpponentsTeamShots: firebase.database.ServerValue.increment(totalOpponentsTeamShots),
+                totalOpponentsTeamShotsOnTarget: firebase.database.ServerValue.increment(totalOpponentsTeamShotsOnTarget),
+                totalOpponentsTeamPoints: firebase.database.ServerValue.increment(totalOpponentsTeamPoints),
 
-                        totalTeamGoals: firebase.database.ServerValue.increment(totalTeamGoals),
-                        totalTeamShots: firebase.database.ServerValue.increment(totalTeamShots),
-                        totalTeamShotsOnTarget: firebase.database.ServerValue.increment(totalTeamShotsOnTarget)
+
+                totalTeamGoals: firebase.database.ServerValue.increment(totalTeamGoals),
+                totalTeamShots: firebase.database.ServerValue.increment(totalTeamShots),
+                totalTeamShotsOnTarget: firebase.database.ServerValue.increment(totalTeamShotsOnTarget),
+                totalTeamPoints: firebase.database.ServerValue.increment(totalTeamPoints)
+            };
+
+
+            // Your Team Totals + Opponents Totals -- .child('YourTeamStats');
+            updateGameRecord.push(updateFinalScores);
+
+            //GAA Scores  --- Opponents
+            var updateOpponentsFinalScores = {
+
+                OpponentsName: this.state.OpponentName,
+                OpponentsGAAGoals: firebase.database.ServerValue.increment(OpponentsTeamGAAGoalCounter),
+                OpponentsGAAPoints: firebase.database.ServerValue.increment(OpponentsTeamGAAPointCounter),
                 
-                };
+                totalOpponentsTeamGoals: firebase.database.ServerValue.increment(totalOpponentsTeamGoals),
+                totalOpponentsTeamShots: firebase.database.ServerValue.increment(totalOpponentsTeamShots),
+                totalOpponentsTeamShotsOnTarget: firebase.database.ServerValue.increment(totalOpponentsTeamShotsOnTarget),
 
-                updateDB.update(updateTeamTotals);
+            };
+
+            
+
+            // Opponents Totals  --  .child('OpponentsStats');
+            updateOpGameRecord.push(updateOpponentsFinalScores);
 
 
-            // ------------------------------------------------------------
 
 
+        }      
+        
+        
+        
+        if(SportType == 'Soccer')
+        {
             //--Final Scores 
        
             // Soccer Scores  --- Your Team - also put opponents scores in here for flexibility
-            var updateFinalScores = {
-                
+            var updateFinalScoresSoccer = {
+                GameRecordKey: GameRecordKey,
                 UsersSoccerGoals: firebase.database.ServerValue.increment(UsersTeamSoccerGoalCounter),
                 
                 OpponentsName: this.state.OpponentName,
                 OpponentsSoccerGoals: firebase.database.ServerValue.increment(OpponentsTeamSoccerGoalCounter),
-                OpponentsName: this.state.OpponentName,
-                OpponentsSoccerGoals: firebase.database.ServerValue.increment(OpponentsTeamSoccerGoalCounter),
-
-                
+             
+                screenWidth: Dimensions.get('window').width,
+                screenHeight: Dimensions.get('window').height,
                 totalOpponentsTeamGoals: firebase.database.ServerValue.increment(totalOpponentsTeamGoals),
                 totalOpponentsTeamShots: firebase.database.ServerValue.increment(totalOpponentsTeamShots),
                 totalOpponentsTeamShotsOnTarget: firebase.database.ServerValue.increment(totalOpponentsTeamShotsOnTarget),
@@ -2182,16 +2170,13 @@ class StatsApp extends Component {
                 totalTeamShots: firebase.database.ServerValue.increment(totalTeamShots),
                 totalTeamShotsOnTarget: firebase.database.ServerValue.increment(totalTeamShotsOnTarget)
 
-
-
-
-            
             
             };
-        
+
+
         
             //Soccer Scores  --- Opponents
-            var updateOpponentsFinalScores = {
+            var updateOpponentsFinalScoresSoccer = {
             
                 OpponentsName: this.state.OpponentName,
                 screenWidth: Dimensions.get('window').width,
@@ -2205,111 +2190,399 @@ class StatsApp extends Component {
 
             };
 
-
-
             // Your Team Totals + Opponents Totals
-            updateGameRecord.push(updateFinalScores);
-            updateOpGameRecord.push(updateOpponentsFinalScores);
+            updateGameRecord.push(updateFinalScoresSoccer);
+            updateOpGameRecord.push(updateOpponentsFinalScoresSoccer);
 
 
-            //---------------------------------------------------------------
+        }
 
+        //Send Stats to the Players User Record , if they have one
+        if(SportType == 'GAA')
+        {
 
-             //loop StartingTeamArray
-            for (var i = 0; i < StartingTeamArray.length; i++) {
+                for (var i = 0; i < StartingTeamArray.length; i++) {
         
-                var UserID = StartingTeamArray[i].UserID;
-                var Goals = StartingTeamArray[i].Goals;
-                // var Points = StartingTeamArray[i].Points;
-                var Shots = StartingTeamArray[i].Shots;
-                var ShotsOnTarget = StartingTeamArray[i].ShotsOnTarget;
+                    var UserID = StartingTeamArray[i].UserID;
+                    var Goals = StartingTeamArray[i].Goals;
+                    // var Points = StartingTeamArray[i].Points;
+                    var Shots = StartingTeamArray[i].Shots;
+                    var ShotsOnTarget = StartingTeamArray[i].ShotsOnTarget;
+             
+                
+                    //SEND DATA to (Player)User account
+                     var updateUser = firebase.database().ref('/users').orderByChild("id").equalTo(UserID);
+                         updateUser.on("child_added", function(snapshot) {
+    
+                         if(snapshot.exists()) 
+                         {
 
-            
-                var updateUser = firebase.database().ref('/users').orderByChild("id").equalTo(UserID);
-                    updateUser.on("child_added", function(snapshot) {
+                            // Push stats to the player USER Account
+                            var updateStats = {
+                                totalGoals: firebase.database.ServerValue.increment(Goals),
+                                totalShots: firebase.database.ServerValue.increment(Shots),
+                                totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
+                                //totalPoints: firebase.database.ServerValue.increment(Points),
+                            };
+    
+                            snapshot.ref.update(updateStats);
+                    
+                         }
+                         else{
 
-                    // Push stats to the player USER Account
-                    var updateStats = {
-                        totalGoals: firebase.database.ServerValue.increment(Goals),
-                        totalShots: firebase.database.ServerValue.increment(Shots),
-                        totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
-                    };
+                         }
+                    
+                    });
 
-                    snapshot.ref.update(updateStats);
-                });
+                }
 
-                 //Send stats to Teams/Players record - This will allow temporary accounts to have stats 
-                 var updatePlayer = firebase.database().ref('/teams').child(myUserId).child('/players').orderByChild("id").equalTo(UserID);
-                 updatePlayer.on("child_added", function(snapshot) {
+                //Sub Bench send stats
+                for (var i = 0; i < SubBenchArray.length; i++) {
 
-                     // Push stats to the player USER Account
-                     var updateStats = {
-                         totalGoals: firebase.database.ServerValue.increment(Goals),
-                         totalShots: firebase.database.ServerValue.increment(Shots),
-                         totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
-               
-                     };
-
-                     snapshot.ref.update(updateStats);
-                 });
-
-            }
-
-
-            //BUG HERE - Subbench values are undefined
-            for (var i = 0; i < SubBenchArray.length; i++) {
 
                     var UserID = SubBenchArray[i].UserID;
-                    var Goals = SubBenchArrayy[i].Goals;
+                    var Goals = SubBenchArray[i].Goals;
                     // var Points = SubBenchArray[i].Points;
                     var Shots = SubBenchArray[i].Shots;
                     var ShotsOnTarget = SubBenchArray[i].ShotsOnTarget;
-                    console.log(UserID);
-
-                    console.log(SubBenchArray);
+             
                 
+                    //SEND DATA to (Player)User account
                     var updateUser = firebase.database().ref('/users').orderByChild("id").equalTo(UserID);
-                        updateUser.on("child_added", function(snapshot) {
+                    updateUser.on("child_added", function(snapshot) {
+
+                    if(snapshot.exists()) 
+                    {
 
                         // Push stats to the player USER Account
                         var updateStats = {
                             totalGoals: firebase.database.ServerValue.increment(Goals),
                             totalShots: firebase.database.ServerValue.increment(Shots),
                             totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
+                            //totalPoints: firebase.database.ServerValue.increment(Points),
                         };
 
                         snapshot.ref.update(updateStats);
+
+                    }
+                    else{
+
+                    }
+
                     });
+                }
+                
+
+            }
+            else if(SportType == 'Soccer')
+            {
+                for (var i = 0; i < StartingTeamArray.length; i++) {
+                        
+                    var UserID = StartingTeamArray[i].UserID;
+                    var Goals = StartingTeamArray[i].Goals;
+                    var Shots = StartingTeamArray[i].Shots;
+                    var ShotsOnTarget = StartingTeamArray[i].ShotsOnTarget;
+                    
+                                
+                    var updateUser = firebase.database().ref('/users').orderByChild("id").equalTo(UserID);
+                    updateUser.on("child_added", function(snapshot) {
+                    
+                            if (snapshot.exists()) 
+                            {
+                    
+                                // Push stats to the player USER Account
+                                var updateStats = {
+                                    totalGoals: firebase.database.ServerValue.increment(Goals),
+                                    totalShots: firebase.database.ServerValue.increment(Shots),
+                                    totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
+                                };
+                    
+                                snapshot.ref.update(updateStats);
+                    
+                            }
+                            else
+                            {
+                    
+                            }
+                    });
+                }
+                
+                //Sub Bench send stats
+                for (var i = 0; i < SubBenchArray.length; i++) {
 
 
-                     //Send stats to Teams/Players record - This will allow temporary accounts to have stats 
-                     var updatePlayerSub = firebase.database().ref('/teams').child(myUserId).child('/players').orderByChild("id").equalTo(UserID);
-                     updatePlayer.on("child_added", function(snapshot) {
- 
-                         // Push stats to the player USER Account
-                         var updateStats = {
-                             totalGoals: firebase.database.ServerValue.increment(Goals),
-                             totalShots: firebase.database.ServerValue.increment(Shots),
-                             totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
-                             //totalPoints: firebase.database.ServerValue.increment(Points),
-                         };
- 
-                         snapshot.ref.update(updateStats);
-                     });
+                    var UserID = SubBenchArray[i].UserID;
+                    var Goals = SubBenchArray[i].Goals;
+                 
+                    var Shots = SubBenchArray[i].Shots;
+                    var ShotsOnTarget = SubBenchArray[i].ShotsOnTarget;
+             
+                
+                    //SEND DATA to (Player)User account
+                    var updateUser = firebase.database().ref('/users').orderByChild("id").equalTo(UserID);
+                    updateUser.on("child_added", function(snapshot) {
 
-                    this.props.navigation.navigate('Home')
+                    if(snapshot.exists()) 
+                    {
+
+                        // Push stats to the player USER Account
+                        var updateStats = {
+                            totalGoals: firebase.database.ServerValue.increment(Goals),
+                            totalShots: firebase.database.ServerValue.increment(Shots),
+                            totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
+                            //totalPoints: firebase.database.ServerValue.increment(Points),
+                        };
+
+                        snapshot.ref.update(updateStats);
+
+                    }
+                    else{
+
+                    }
+
+                    });
+                }
+                
 
             }
 
 
 
+            //Send stats to Teams/Players record - This will allow temporary accounts to have stats 
+            if(SportType == 'GAA')
+            {
+                    var updatePlayer = firebase.database().ref('/teams').child(myUserId).child('/players').orderByChild('UserID').equalTo(UserID);
+                    updatePlayer.on("child_added", function(snapshot) {
 
-        }
+
+                        if(snapshot.exists()) 
+                        {
+                            // Push stats to the player player record 
+                            var updateStats = {
+                                totalGoals: firebase.database.ServerValue.increment(Goals),
+                                totalShots: firebase.database.ServerValue.increment(Shots),
+                                totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
+                                //totalPoints: firebase.database.ServerValue.increment(Points),
+                            };
+
+                            snapshot.ref.update(updateStats);
+
+                        }
+                        else
+                        {
+                            
+                        }
+                    });
+    
+
+                //Send SubBench Player stats to User Accounts
+                for (var i = 0; i < SubBenchArray.length; i++) {
+    
+                        var SubUserID = SubBenchArray[i].UserID;
+                        var SubGoals = SubBenchArray[i].Goals;
+                        // var SubPoints = SubBenchArray[i].Points;
+                        var SubShots = SubBenchArray[i].Shots;
+                        var SubShotsOnTarget = SubBenchArray[i].ShotsOnTarget;
+                        
+                        var updateUserSub = firebase.database().ref('/teams').child(myUserId).child('/players').orderByChild('UserID').equalTo(UserID);
+                            updateUserSub.on("child_added", function(snapshot) {
+    
+
+                            if(snapshot.exists()) 
+                            {
+                                // Push stats to the player USER Account
+                                var updateStats2 = {
+                                    totalGoals: firebase.database.ServerValue.increment(SubGoals),
+                                    totalShots: firebase.database.ServerValue.increment(SubShots),
+                                    totalShotsOnTarget: firebase.database.ServerValue.increment(SubShotsOnTarget)
+                                    //totalPoints: firebase.database.ServerValue.increment(Points),
+                                };
+    
+                                snapshot.ref.update(updateStats2);
+
+                            }
+                            else
+                            {
+
+                            }
+                        });
+
+                }
+            }
+            else if (SportType == 'Soccer')
+            {
+
+                var updatePlayer = firebase.database().ref('/teams').child(myUserId).child('/players').orderByChild('UserID').equalTo(UserID);
+                    updatePlayer.on("child_added", function(snapshot) {
+
+                        if(snapshot.exists()) 
+                        {
+                            // Push stats to the player player record 
+                            var updateStats = {
+                                totalGoals: firebase.database.ServerValue.increment(Goals),
+                                totalShots: firebase.database.ServerValue.increment(Shots),
+                                totalShotsOnTarget: firebase.database.ServerValue.increment(ShotsOnTarget)
+                                //totalPoints: firebase.database.ServerValue.increment(Points),
+                            };
+
+                            snapshot.ref.update(updateStats);
+
+                        }
+                        else
+                        {
+                                
+                        }
+                });
+
+
+                //Send SubBench Player stats to User Accounts
+                for (var i = 0; i < SubBenchArray.length; i++) {
+
+                        var SubUserID = SubBenchArray[i].UserID;
+                        var SubGoals = SubBenchArray[i].Goals;
+                        // var SubPoints = SubBenchArray[i].Points;
+                        var SubShots = SubBenchArray[i].Shots;
+                        var SubShotsOnTarget = SubBenchArray[i].ShotsOnTarget;
+                        
+                        var updateUserSub = firebase.database().ref('/teams').child(myUserId).child('/players').orderByChild('UserID').equalTo(UserID);
+                            updateUserSub.on("child_added", function(snapshot) {
+
+
+                            if(snapshot.exists()) 
+                            {
+                                // Push stats to the player USER Account
+                                var updateStats2 = {
+                                    totalGoals: firebase.database.ServerValue.increment(SubGoals),
+                                    totalShots: firebase.database.ServerValue.increment(SubShots),
+                                    totalShotsOnTarget: firebase.database.ServerValue.increment(SubShotsOnTarget)
+                                    //totalPoints: firebase.database.ServerValue.increment(Points),
+                                };
+
+                                snapshot.ref.update(updateStats2);
+
+                            }
+                            else
+                            {
+
+                            }
+                        });
+
+                }
+            }
+
+
+
+    
+        
+    // Send Event Field Locations
+    for (var i = 0; i < EventFieldPositions.length; i++) 
+        {
+       
+            //Update YourTeam Game Record
+            var EventLocations = firebase.database().ref('/teams').child(myUserId).child('games').child(GameRecordKey).child('EventFieldPositions');
+
+                var data = {
+                    x: EventFieldPositions[i].x,
+                    y: EventFieldPositions[i].y,
+                    GameRecord: GameRecordKey,
+                    EventType:EventFieldPositions[i].EventType,
+                    PlayerKitNumber:EventFieldPositions[i].PlayerKitNumber,
+                    UserID: EventFieldPositions[i].UserID
+
+                };
+
+            EventLocations.push(data);
+
+            //Send field event locations data to the USER ACCOUNT
+                    var userEvent = firebase.database().ref('/users').orderByChild("id").equalTo(EventFieldPositions[i].UserID);
+                        userEvent.on("child_added", function(snapshot) {
+                        if (snapshot.exists()) 
+                        {
+                        
+                     
+                            snapshot.ref.child('Events').push(data);
+                        }
+                        else
+                        {
+                
+                        }
+                        
+                    });
+
+
+                //Send stats to Teams/Players record - This will allow temporary accounts to have stats 
+               var updatePlayer = firebase.database().ref('/teams').child(myUserId).child('/players').orderByChild('UserID').equalTo(EventFieldPositions[i].UserID);
+               updatePlayer.on("child_added", function(snapshot) {
+
+                    if (snapshot.exists()) 
+                    {
+                        // Push stats to the player player record 
+                        var data1 = {
+                            x: EventFieldPositions[i].x,
+                            y: EventFieldPositions[i].y,
+                            GameRecordKey: GameRecordKey,
+                            EventType:EventFieldPositions[i].EventType,
+                            PlayerKitNumber:EventFieldPositions[i].PlayerKitNumber,
+                            PlayerPosition: EventFieldPositions[i].PlayerPosition,
+                            UserID: EventFieldPositions[i].UserID
+        
+                        };
+    
+                        snapshot.ref.child('Events').push(data1);
+
+                    }
+                    else
+                    {
+
+                    }
+               });
+
+    
+            }
+
 
 
         
+                //Send Opponents Event field data 
+                for (var i = 0; i < OpponentsEventFieldPositions.length; i++) 
+                {
+
+        
+          
+                      
+
+                        var OpponentsEventLocations = firebase.database().ref('/teams').child(myUserId).child('games').child(GameRecordKey).child('OpponentsEventFieldPositions');
+                
+                    
+                            var data2 = {
+                                x: OpponentsEventFieldPositions[i].x,
+                                y: OpponentsEventFieldPositions[i].y,
+                                GameRecord: GameRecordKey,
+                                EventType:OpponentsEventFieldPositions[i].EventType,
+                                PlayerKitNumber:OpponentsEventFieldPositions[i].PlayerKitNumber,
+                                UserID: OpponentsEventFieldPositions[i].UserID,
+                                PlayerPosition: OpponentsEventFieldPositions[i].PlayerPosition,
+
+                                UserID: OpponentsEventFieldPositions[i].UserID
+                            };
+
+                            OpponentsEventLocations.push(data2);
+
+                
+                    
+                }
+
+            
+
+
+            //Send User back to home menu
+            this.props.navigation.navigate('Home')
 
     }
+
+
+
+
 
     
 
@@ -2397,7 +2670,8 @@ class StatsApp extends Component {
     }
 
 
-    ObtainFieldPositionSelected = async(e) => {
+
+        ObtainFieldPositionSelected = (e) => {
   
 
         // Make Events disappear
@@ -2464,9 +2738,8 @@ class StatsApp extends Component {
                             //Execute Opponents Goal
 
                             var data = {
-                                 x: e.nativeEvent.locationX, 
-                                 y: e.nativeEvent.locationY,
-
+                                x: e.nativeEvent.locationX, 
+                                y: e.nativeEvent.locationY,
                                 Team: 'Opponents',
                                 EventType:'Goal',
                                 PlayerKitNumber:this.state.selectedOpponentsPlayerKitNumber,
@@ -2474,8 +2747,12 @@ class StatsApp extends Component {
                                 PlayerPosition: OpponentsStartingTeamArray[i].playerPosition
                             
                             };
+
+                          
                             
                             this.state.OpponentsEventFieldPositions.push(data);
+
+                            console.log(this.state.OpponentsEventFieldPositions);
 
                     }
                 }
@@ -2504,10 +2781,12 @@ class StatsApp extends Component {
                                 y: e.nativeEvent.locationY,
                                 Team: 'YourTeam',
                                 EventType:'Goal',
-                                PlayerKitNumber:this.state.selectedPlayerKitNumber,
+                                PlayerKitNumber: this.state.selectedPlayerKitNumber,
                                 UserID: StartingTeamArray[i].UserID,
                                 PlayerPosition: StartingTeamArray[i].playerPosition
                             };
+                        
+                         
                             
                             this.state.EventFieldPositions.push(data);
 
@@ -3266,15 +3545,15 @@ class StatsApp extends Component {
                                     snapshot.ref.update(update);
                                 });
 
-                            // // Add a shot on target to the players record
-                            // var dd = firebase.database().ref('/teams').child(myUserId)
-                            // .child('games').child(GameRecordKey).child('YourTeam').child('players').orderByChild('PlayerKitNumber').equalTo(this.state.selectedPlayerKitNumber);
-                            //     dd.on("child_added", function(snapshot) {
+                             // Add a shot on target to the players record
+                            var dd = firebase.database().ref('/teams').child(myUserId)
+                             .child('games').child(GameRecordKey).child('YourTeam').child('players').orderByChild('PlayerKitNumber').equalTo(this.state.selectedPlayerKitNumber);
+                                 dd.on("child_added", function(snapshot) {
 
-                            //         var update = {ShotsOnTarget:firebase.database.ServerValue.increment(1)};
+                                     var update = {ShotsOnTarget:firebase.database.ServerValue.increment(1)};
 
-                            //         snapshot.ref.update(update);
-                            //     });
+                                     snapshot.ref.update(update);
+                                 });
                         }
                         else if(this.state.SportType == 'Soccer')
                         {
@@ -3357,7 +3636,9 @@ class StatsApp extends Component {
 
                   }
 
-                  //Check Individual Event Patterns
+
+
+                  //Check Individual Event Patterns -- GOALS
                   if(StatsHolder[i].playerKitNumber == YourTeamSelectedPlayer && StatsHolder[i].eventType == 'Goal' && StatsHolder[i].TeamOption == 'YourTeam')
                   {
                       YourTeamIndividualRecordCounter++;
@@ -3390,35 +3671,71 @@ class StatsApp extends Component {
                   }
 
 
-                  //Event Field Position Pattern 
-                  if(StatsHolder[i].eventType == 'Goal' && StatsHolder[i].TeamOption == 'YourTeam' && StatsHolder[i].FieldPosition == FieldPosition)
-                  {
-                      YourTeamEventFieldPositionPatternCounter++;
+                   //Check Individual Event Patterns -- ShotsOnTarget
+                    if(StatsHolder[i].playerKitNumber == YourTeamSelectedPlayer && StatsHolder[i].eventType == 'ShotsOnTarget' && StatsHolder[i].TeamOption == 'YourTeam')
+                    {
+                        YourTeamIndividualRecordCounter++;
+                    
+                        var TeamName = this.state.TeamName;
 
+                        if(YourTeamIndividualRecordCounter >=4)
+                        {
+                            //alert user 
+                        //update frontend message
+                            this.setState({
+                                IndividualEventPatternMessage: TeamName + ': - Player Number ' + StatsHolder[i].playerKitNumber + ' hit ' + YourTeamIndividualRecordCounter + ' shots on target'
+                            }); 
+                        }
+                    }
+                    else if(StatsHolder[i].playerKitNumber == OpponentsSelectedPlayer && StatsHolder[i].eventType == 'ShotsOnTarget' && StatsHolder[i].TeamOption == 'Opponents') 
+                    {
+                        OpponentsIndividualRecordCounter++;
+                    
+                        var OpponentName = this.state.OpponentName;
+
+                        if(OpponentsIndividualRecordCounter >=4)
+                        {
+                        //alert user 
+                        //update frontend message
+                            this.setState({
+                                IndividualEventPatternMessage: OpponentName + ': - Player Number ' + StatsHolder[i].playerKitNumber + ' hit ' + OpponentsIndividualRecordCounter + ' shots on target'
+                            }); 
+                        }
+                    }
+
+
+                  //Check Individual Event Patterns -- Shots
+                  if(StatsHolder[i].playerKitNumber == YourTeamSelectedPlayer && StatsHolder[i].eventType == 'Shots' && StatsHolder[i].TeamOption == 'YourTeam')
+                  {
+                      YourTeamIndividualRecordCounter++;
+                  
                       var TeamName = this.state.TeamName;
 
-                      if(YourTeamEventFieldPositionPatternCounter >=4)
+                      if(YourTeamIndividualRecordCounter >=4)
                       {
+                        //alert user 
+                      //update frontend message
                           this.setState({
-                              EventFieldPositionPatternMessage: TeamName + ' have scored a goal from this position - ' + FieldPosition + ' ' +  YourTeamEventFieldPositionPatternCounter + ' times'
+                              IndividualEventPatternMessage: TeamName + ': - Player Number ' + StatsHolder[i].playerKitNumber + ' has had ' + YourTeamIndividualRecordCounter + ' shots'
                           }); 
                       }
                   }
-                  else if (StatsHolder[i].eventType == 'Goal' && StatsHolder[i].TeamOption == 'Opponents' && StatsHolder[i].FieldPosition == FieldPosition)
+                  else if(StatsHolder[i].playerKitNumber == OpponentsSelectedPlayer && StatsHolder[i].eventType == 'ShotsOnTarget' && StatsHolder[i].TeamOption == 'Opponents') 
                   {
-                      OpponentsEventFieldPositionPatternCounter++;
-
-                        
+                      OpponentsIndividualRecordCounter++;
+                  
                       var OpponentName = this.state.OpponentName;
 
-                      if(OpponentsEventFieldPositionPatternCounter >=4)
+                      if(OpponentsIndividualRecordCounter >=4)
                       {
+                          //alert user 
+                      //update frontend message
                           this.setState({
-                              EventFieldPositionPatternMessage: OpponentName + ' have scored a goal from this position - ' + FieldPosition + ' ' + OpponentsEventFieldPositionPatternCounter + ' times'
+                              IndividualEventPatternMessage: OpponentName + ': - Player Number ' + StatsHolder[i].playerKitNumber + ' has had ' + OpponentsIndividualRecordCounter + ' shots'
                           }); 
                       }
-
                   }
+
               }
           
 
@@ -3967,7 +4284,7 @@ class StatsApp extends Component {
 
 
         this.setState({YourTeamReviewSelection: false});
-    
+        
         this.setState({OpponentsReviewSelection: false});
 
 
@@ -3977,8 +4294,8 @@ class StatsApp extends Component {
         this.setState({ReviewDetailGameAnalysis:false});
     }
 
-     //(Opponents) - team event
-     UserSelectsOpponentsEventsLocations = async() => {
+    //(Opponents) - team event
+    UserSelectsOpponentsEventsLocations = async() => {
         
         //Sends user to select an event view
         this.setState({EventSelectionOpponentsDetailAnalysis:true})
@@ -4078,13 +4395,12 @@ class StatsApp extends Component {
         }, () => console.log(this.state.selectedPlayerKitNumber));
 
 
-        //Navigate user to select an event
-        this.setState({displayDetailedIndividualSquadPlayerEventSelection:true});
-
         //Disable player selection 
         this.setState({displayDetailedIndividualSquadPlayer:false});
+        this.setState({displayReviewIndividualSquadPlayer:false});
 
-
+        //Navigate user to select an event
+        this.setState({displayDetailedIndividualSquadPlayerEventSelection:true});
 
 
      }
@@ -4104,11 +4420,11 @@ class StatsApp extends Component {
 
         //Disable player selection 
         this.setState({displayDetailedIndividualSubBenchPlayer:false});
-
+        this.setState({displayReviewIndividualSubBenchPlayer:false});
 
     }
 
-
+    RemovePlayer
 
   
     GetSelectedOpponentsPlayerForDetailedAnalysis = value => () => {
@@ -4126,7 +4442,7 @@ class StatsApp extends Component {
 
         //Disable player selection
         this.setState({displayOpponentsDetailedIndividualSquadPlayer:false});
-
+        this.setState({displayReviewOpponentsIndividualSquadPlayer:false});
 
    
 
@@ -4142,10 +4458,11 @@ class StatsApp extends Component {
         }, () => console.log(this.state.selectedPlayerKitNumber));
 
        //Navigate user to select an event
-       this.setState({displayDetailedIndividualOpponentsSubBenchEventSelection:true});
+       this.setState({EventSelectionOpponentsDetailAnalysis:true});
 
        //Disable player selection
        this.setState({displayOpponentsDetailedIndividualSubBenchPlayer: false});
+       this.setState({displayReviewOpponentsIndividualSubBenchPlayer:false});
 
 
         
@@ -4162,7 +4479,10 @@ class StatsApp extends Component {
     SelectEventPlayerDetailedAnalysis = async() => {
 
         this.setState({displayDetailedIndividualSquadPlayerEventSelection: false});
-        this.setState({displayDetailedIndividualSubBenchPlayer:false});
+        this.setState({displayReviewIndividualSquadPlayer: false});
+
+        this.setState({displayReviewIndividualSubBenchPlayer: false});
+
 
 
         var EventFieldPositions = this.state.EventFieldPositions;
@@ -4202,16 +4522,27 @@ class StatsApp extends Component {
             }
             
         }
+
+        //toggle off Scoreboard  
+        this.setState({ScoreboardContainerToggle:false});
         
 
         //Display detailed analysis Screen + execute logic
         this.setState({ExecuteDetailAnalysis: true});
+        
+        this.setState({displayReviewYourTeamIndividualPlayerStatsContainer: false});
+      
+        this.setState({displayReviewIndividualPlayerStatsContainer:false});
+
+        this.setState({displayDetailedIndividualSquadPlayerEventSelection:false});
+
+        this.setState({displayDetailedIndividualSubBenchEventSelection: false});
         this.setState({ActivateUndoReviewButton:true});
 
     }
+//---------------------------- YOUR TEAM Event Field Event Location Logic ---------------------------------------------
 
-
-    ExecuteTeamDetailAnalysis = async() => {
+ExecuteTeamDetailAnalysis = async() => {
 
         //disable Event selection view
         this.setState({EventSelectionTeamDetailAnalysis:false});
@@ -4220,11 +4551,8 @@ class StatsApp extends Component {
         //disable Event selection view
         this.setState({EventSelectionOpponentsDetailAnalysis:false});
         
-
-        
         var EventFieldPositions = this.state.EventFieldPositions;
 
- 
         //Temp array
         var DetailAnalysisStatHolder = this.state.DetailAnalysisStatHolder;
 
@@ -4257,18 +4585,25 @@ class StatsApp extends Component {
         }
 
         //Display detailed analysis Screen + execute logic
-        this.setState({ExecuteDetailAnalysis: true});
-        this.setState({ActivateUndoReviewButton:true});
+        //Execute Detailed Team analysis
+        this.setState({ExecuteTeamDetailAnalysisView: true});
+        this.setState({ActivateUndoReviewButton: true});
+
+
+
+        //toggle off Scoreboard  
+        this.setState({ScoreboardContainerToggle:false});
     }
 
- //-------------------------------------------------------------------------------------------- 
-
- 
 
 
 
 
- //----------------------Opponents Detailed Analysis Execute functions------------------
+
+
+
+  
+ //----------------------Opponents Detailed Analysis Execute functions - TEAM------------------
     ExecuteOpponentsDetailAnalysis = async() => {
 
         //disable Event selection view
@@ -4311,7 +4646,7 @@ class StatsApp extends Component {
         }
 
           //Display detailed analysis Screen + execute logic
-          this.setState({ExecuteOpponentsDetailAnalysis: true});
+          this.setState({ExecuteDetailOpponentsTeamAnalysis: true});
           this.setState({ActivateUndoReviewButton:true});
 
 
@@ -4321,8 +4656,7 @@ class StatsApp extends Component {
 
     SelectEventOpponentsPlayerDetailedAnalysis = async() => {
 
-        this.setState({displayDetailedIndividualOpponentsSquadPlayerEventSelection:false});
-        this.setState({displayDetailedIndividualOpponentsSubBenchEventSelection:false});
+        this.setState({EventSelectionOpponentsDetailAnalysis:false});
 
 
         var OpponentsEventFieldPositions = this.state.OpponentsEventFieldPositions;
@@ -4366,7 +4700,8 @@ class StatsApp extends Component {
         
 
         //Display detailed analysis Screen + execute logic
-        this.setState({ExecuteOpponentsDetailAnalysis: true});
+        this.setState({ExecuteOpponentsTeamDetailAnalysis: true});
+        this.setState({displayDetailedIndividualOpponentsSquadPlayerEventSelection:false});
         this.setState({ActivateUndoReviewButton:true});
 
     }
@@ -4375,7 +4710,14 @@ class StatsApp extends Component {
 //---------------------------------------------------------------------------------------
 
 
-// ---------------------------Your Team  + Opponents Team Percentages---------------------
+//Team Analysis
+
+
+
+
+
+
+// --------------------------- Your Team  + Opponents Team Percentages---------------------
 
 ExecuteTeamPercentages  = async() => {
 
@@ -4497,18 +4839,18 @@ ExecuteOpponentsPercentages = async() => {
             var ReviewIndividualPlayerStatsContainer;
             var ReviewIndividualSquadPlayer;
             var ReviewIndividualSubBenchPlayer;
-   
+        
             var ReviewOpponentsTeamStats;
             var ReviewDetailGameAnalysis;
+            var ReviewDetailGameAnalysisOptions;
 
             var IndividualStatsTable;
 
             //Field Plot System
             var PlotOnField;
             var ViewFieldPlots;
-            // var FieldWithPlots;
+        
 
-            //TEst variables may be reused
             var ActivatePlotOnField = this.state.ActivatePlotOnField;
             var ActivateViewFieldPlots = this.state.ActivateViewFieldPlots;
             
@@ -4516,7 +4858,7 @@ ExecuteOpponentsPercentages = async() => {
 
             var YourTeamReviewSelection = this.state.YourTeamReviewSelection;
             var OpponentsReviewSelection = this.state.OpponentsReviewSelection;
-
+            var ScoreboardContainerToggle = this.state.ScoreboardContainerToggle;
             var ReviewYourTeamEventLocationsView = this.state.ReviewYourTeamEventLocationsView;
 
 
@@ -4534,18 +4876,21 @@ ExecuteOpponentsPercentages = async() => {
 
             //Team stats 
             var TotalTeamGoals = this.state.totalTeamGoals;
+            var TotalTeamPoints = this.state.totalTeamPoints;
             var TotalTeamPasses = this.state.totalTeamPasses;
-            var totalTeamShots = this.state.totalTeamShots;
-            var totalTeamShotsOnTarget = this.state.totalTeamShotsOnTarget;
+            var TotalTeamShots = this.state.totalTeamShots;
+            var TotalTeamShotsOnTarget = this.state.totalTeamShotsOnTarget;
 
             //Opponents Team stats 
             var TotalOpponentsTeamGoals = this.state.totalOpponentsTeamGoals;
+            var TotalOpponentsTeamPoints = this.state.TotalOpponentsTeamPoints;
             var TotalOpponentsTeamPasses = this.state.totalOpponentsTeamPasses;
-            var totalOpponentsTeamShots = this.state.totalOpponentsTeamShots;
-            var totalOpponentsTeamShotsOnTarget = this.state.totalOpponentsTeamShotsOnTarget;
+            var TotalOpponentsTeamShots = this.state.totalOpponentsTeamShots;
+            var TotalOpponentsTeamShotsOnTarget = this.state.totalOpponentsTeamShotsOnTarget;
    
 
             var StatsTable;
+            
             
             var displayFieldPositionSelection = this.state.displayFieldPositionSelection;
             var displayEventsContainer = this.state.displayEventsContainer;
@@ -4589,6 +4934,9 @@ ExecuteOpponentsPercentages = async() => {
 
             var displayDetailedTeamEvents = this.state.displayDetailedTeamEvents;
             var displayOpponentsTeamEvents = this.state.displayOpponentsTeamEvents;
+          
+            var selectedPlayerKitNumber = this.state.selectedPlayerKitNumber;
+            var selectedOpponentsPlayerKitNumber = this.state.selectedOpponentsPlayerKitNumber;
 
             var YourTeamEventSelection = this.state.YourTeamEventSelection;
             var OpponentsEventSelection = this.state.OpponentsEventSelection;
@@ -4597,18 +4945,25 @@ ExecuteOpponentsPercentages = async() => {
             var displayOpponentsPercentages = this.state.displayOpponentsPercentages;
 
             var ExecuteDetailAnalysis = this.state.ExecuteDetailAnalysis;
-            var ExecuteSubBenchDetailAnalysis = this.state.ExecuteSubBenchDetailAnalysis;
-            
+            var ExecuteSubBenchDetailAnalysis = this.state.ExecuteSubBenchDetailAnalysis;  // is this needed?
+
             var ExecuteOpponentsDetailAnalysis = this.state.ExecuteOpponentsDetailAnalysis;
-            var ExecuteOpponentsSubBenchDetailAnalysis = this.state.ExecuteOpponentsSubBenchDetailAnalysis;
+            var ExecuteOpponentsSubBenchDetailAnalysis = this.state.ExecuteOpponentsSubBenchDetailAnalysis;// is this needed?
+            var ExecuteOpponentsTeamDetailAnalysis = this.state.ExecuteOpponentsTeamDetailAnalysis;
+            var ExecuteDetailTeamAnalysis = this.state.ExecuteDetailTeamAnalysis;
+            var ExecuteDetailOpponentsTeamAnalysis = this.state.ExecuteDetailOpponentsTeamAnalysis;
 
             var ReviewDetailGameAnalysisFieldView = this.state.ReviewDetailGameAnalysisFieldView;
+
+
+            //test 
+            var ExecuteTeamDetailAnalysisView = this.state.ExecuteTeamDetailAnalysisView;
 
             //Team Event DA
             var EventSelectionTeamDetailAnalysis = this.state.EventSelectionTeamDetailAnalysis;
             var EventSelectionOpponentsDetailAnalysis = this.state.EventSelectionOpponentsDetailAnalysis;
 
-
+          
             var ActivateUndoReviewButton = this.state.ActivateUndoReviewButton;
             var ActivateUndoButtonForFieldSelection = this.state.ActivateUndoButtonForFieldSelection;
             
@@ -4636,7 +4991,7 @@ ExecuteOpponentsPercentages = async() => {
 
             var StatsHolder = this.state.StatsHolder;
   
-
+     
 
         
                 // Review game  - Half time or mid game 
@@ -4652,22 +5007,37 @@ ExecuteOpponentsPercentages = async() => {
                                 <View style={styles.columnView}>
 
                                     <TouchableOpacity
-                                        onPress={this.ReviewTotalTeamStats}
+                                        onPress={this.ExitReviewDetailAnalysis}
                                         activeOpacity={0.6}
-                                        style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                        style={styles.ExitButton} 
                                 
                                     > 
-                                        <Text style={styles.buttonText}>Review Total Team Stats</Text>
+                                      <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                     </TouchableOpacity>
 
                                 </View>
+
+
+                                <View style={styles.columnView}>
+
+                                <TouchableOpacity
+                                    onPress={this.ReviewTotalTeamStats}
+                                    activeOpacity={0.6}
+                                    style={styles.button} 
+
+                                > 
+                                    <Text style={styles.buttonText}>Review Total Team Stats</Text>
+                                </TouchableOpacity>
+
+                                </View>
+
 
                                 <View style={styles.columnView}>
 
                                 <TouchableOpacity
                                     onPress={this.ReviewOpponentsTotalTeamStats}
                                     activeOpacity={0.6}
-                                    style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                    style={styles.button} 
 
                                 > 
                                     <Text style={styles.buttonText}>Review Opponents Total Team Stats</Text>
@@ -4679,7 +5049,7 @@ ExecuteOpponentsPercentages = async() => {
                                     <TouchableOpacity
                                         onPress={this.ReviewIndividualPlayerStats}
                                         activeOpacity={0.6}
-                                        style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                        style={styles.button} 
                                 
                                     > 
                                         <Text style={styles.buttonText}>Review Individual Player Stats</Text>
@@ -4691,7 +5061,7 @@ ExecuteOpponentsPercentages = async() => {
                                     <TouchableOpacity
                                         onPress={this.DetailedGameAnalysis}
                                         activeOpacity={0.6}
-                                        style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                        style={styles.button} 
                             
                                     > 
                                         <Text style={styles.buttonText}>Detailed Game Analysis</Text>
@@ -4727,7 +5097,8 @@ ExecuteOpponentsPercentages = async() => {
                                         <Text style={styles.StatsText}>Goals: {TotalTeamGoals}</Text>
                                         <Text style={styles.StatsText}>Points:</Text>
                                         <Text style={styles.StatsText}>Passes: {TotalTeamPasses}</Text>
-                                        <Text style={styles.StatsText}>Shots:</Text>
+                                        <Text style={styles.StatsText}>Shots: {TotalTeamShots}</Text>
+                                        <Text style={styles.StatsText}>Shots on target: {TotalTeamShotsOnTarget} </Text>
                                         <Text style={styles.StatsText}>Tackle:</Text>
 
                                 
@@ -4763,7 +5134,8 @@ ExecuteOpponentsPercentages = async() => {
                                 
                                         <Text style={styles.StatsText}>Goals: {TotalTeamGoals}</Text>
                                         <Text style={styles.StatsText}>Passes: {TotalTeamPasses}</Text>
-                                        <Text style={styles.StatsText}>Shots:</Text>
+                                        <Text style={styles.StatsText}>Shots: {TotalTeamShots}</Text>
+                                        <Text style={styles.StatsText}>Shots on target: {TotalTeamShotsOnTarget} </Text>
                                         <Text style={styles.StatsText}>Tackle:</Text>
 
                                 
@@ -4807,7 +5179,8 @@ ExecuteOpponentsPercentages = async() => {
                                                 <Text style={styles.StatsText}>Goals: {TotalOpponentsTeamGoals}</Text>
                                                 <Text style={styles.StatsText}>Points:</Text>
                                                 <Text style={styles.StatsText}>Passes: </Text>
-                                                <Text style={styles.StatsText}>Shots:</Text>
+                                                <Text style={styles.StatsText}>Shots: {TotalOpponentsTeamShots}</Text>
+                                                <Text style={styles.StatsText}>Shots on target: {TotalOpponentsTeamShotsOnTarget} </Text>
                                                 <Text style={styles.StatsText}>Tackle:</Text>
 
                                         
@@ -4842,7 +5215,8 @@ ExecuteOpponentsPercentages = async() => {
 
                                                 <Text style={styles.StatsText}>Goals: {TotalOpponentsTeamGoals}</Text>
                                                 <Text style={styles.StatsText}>Passes: </Text>
-                                                <Text style={styles.StatsText}>Shots:</Text>
+                                                <Text style={styles.StatsText}>Shots: {TotalOpponentsTeamShots}</Text>
+                                                <Text style={styles.StatsText}>Shots on target: {TotalOpponentsTeamShotsOnTarget} </Text>
                                                 <Text style={styles.StatsText}>Tackle:</Text>
 
                                         
@@ -4874,27 +5248,42 @@ ExecuteOpponentsPercentages = async() => {
                                 //Review Your Team or Opponents Team
                                 
                                 ReviewIndividualPlayerStatsContainer = (
+                                    
                                     <View style={styles.ReviewContainer}>
-                                                
-                                                <Text style={styles.buttonText}>Review Individual Player Stats - Select a team to review</Text>
+                                        <TouchableOpacity
+                                                    onPress={this.ExitReviewDetailAnalysis}
+                                                    activeOpacity={0.6}
+                                                    style={styles.ExitButton} 
+                                            > 
+                                            <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                        </TouchableOpacity>
 
+                                            <View style={styles.playerColumnView}>   
+                                                <Text style={styles.buttonText}>Review Individual Player Stats - Select a team to review</Text>
+                                            </View>
+
+                                        
+                                
+                                           
+                                                
                                                 <View style={styles.playerColumnView}>
                                                     
                                                             <TouchableOpacity
                                                             onPress={this.ReviewYourTeam}
                                                                     activeOpacity={0.6}
-                                                                    style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                                                    style={styles.button} 
                                                     
                                                                 > 
                                                                 <Text style={styles.buttonText}>Your Team</Text>
                                                             </TouchableOpacity>
-                                                    </View>
+                                                </View>
+
 
                                                     <View style={styles.playerColumnView}>
                                                                 <TouchableOpacity
                                                                     onPress={this.ReviewOpponentsTeam}
                                                                     activeOpacity={0.6}
-                                                                    style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                                                    style={styles.button} 
                                                         
                                                                 > 
                                                                     <Text style={styles.buttonText}>Opponents Team</Text>
@@ -4916,15 +5305,26 @@ ExecuteOpponentsPercentages = async() => {
 
                             ReviewIndividualPlayerStatsContainer = (
                                 <View style={styles.ReviewContainer}>
-                                        
-                                        <Text style={styles.buttonText}>Review a individual player from your team - Select an option</Text>
+                                         
+                                        <View style={styles.playerColumnView}>
+                                            <TouchableOpacity
+                                                onPress={this.ExitReviewDetailAnalysis}
+                                                activeOpacity={0.6}
+                                                style={styles.ExitButton} 
+                                                > 
+                                                <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                            </TouchableOpacity>
+                                        </View>
 
+                                        <Text style={styles.buttonText}>Review a individual player from your team - Select an option</Text>
+                                       
+                                                
                                         <View style={styles.playerColumnView}>
                                             
                                                     <TouchableOpacity
                                                     onPress={this.ReviewIndividualSquadPlayer}
                                                             activeOpacity={0.6}
-                                                            style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                                            style={styles.button} 
                                             
                                                         > 
                                                         <Text style={styles.buttonText}>Squad Player</Text>
@@ -4935,7 +5335,7 @@ ExecuteOpponentsPercentages = async() => {
                                                         <TouchableOpacity
                                                             onPress={this.ReviewIndividualSubBenchPlayer}
                                                             activeOpacity={0.6}
-                                                            style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                                            style={styles.button} 
                                                 
                                                         > 
                                                             <Text style={styles.buttonText}>Sub Bench</Text>
@@ -4959,7 +5359,7 @@ ExecuteOpponentsPercentages = async() => {
                                            return (
                                                <View key={element} style={styles.listItemContainer}>
                                                    <View style={styles.playerColumnView}>
-                                                       <TouchableOpacity style={styles.StartingKitNumberbutton} value={data.playerKitNumber} onPress={this.GetSelectedPlayerForDetailedAnalysis(data.playerKitNumber)}>
+                                                       <TouchableOpacity style={styles.StartingKitNumberbutton} value={data.playerKitNumber} onPress={this.GetSelectedPlayerStats(data.playerKitNumber)}>
                                                            <Text style={styles.buttonText}>{data.playerKitNumber}</Text>
                                                        </TouchableOpacity> 
                                                    </View>
@@ -5079,29 +5479,44 @@ ExecuteOpponentsPercentages = async() => {
                             {
 
                                 ReviewDetailGameAnalysis =  (
+                                   
+                           
+                                   
                                     <View style={styles.DetailedGameAnalysisView}>
-                                                
-                                        <Text style={styles.buttonText}>Select an event to view field locations</Text>
-                                            <Picker
-                                                selectedValue={this.state.YourTeamEventSelection}
-                                                style={styles.input}
-                                                onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
-                                            >
-                            
-                                            <Picker.Item label="Select a event" value="" />
-                                            <Picker.Item label="Goal" value="Goal" />
-                                            <Picker.Item label="Point" value="Point"/>
-                                            <Picker.Item label="Pass" value="Pass"/>
-                            
-                            
-                                            </Picker>
-                                                                    
-                                            <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventPlayerDetailedAnalysis}>
-                                                <Text style={styles.buttonTitle}>Submit</Text>
-                                            </TouchableOpacity>
-
-                                                        
+                                                <View style={styles.rowView}>
+                                                    <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                                <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                    </TouchableOpacity> 
+                                                    <Text style={styles.buttonText}>Select an event to view field locations</Text>
+                                                </View>
+                                           
+                                                <Picker
+                                                    selectedValue={this.state.YourTeamEventSelection}
+                                                    style={styles.input}
+                                                    onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
+                                                >
+                                
+                                                <Picker.Item label="Select a event" value="" />
+                                                <Picker.Item label="Goal" value="Goal" />
+                                                <Picker.Item label="Point" value="Point"/>
+                                                <Picker.Item label="Shots" value="Shots"/>
+                                                <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
+                                                <Picker.Item label="Pass" value="Pass"/>
+                                
+                                
+                                                </Picker>
+                                            
+                                   
+                                                <View style={styles.rowView}>
+                                                    <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventPlayerDetailedAnalysis}>
+                                                        <Text style={styles.buttonText}>Submit</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                             
+                                                            
                                     </View> 
+
+                                    
 
                                 );
 
@@ -5112,7 +5527,11 @@ ExecuteOpponentsPercentages = async() => {
                             {
                                 ReviewDetailGameAnalysis =  (
                                     <View style={styles.DetailedGameAnalysisView}>
-                                                
+                                       <View style={styles.rowView}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                            </TouchableOpacity> 
+                                        </View>         
                                         <Text style={styles.buttonText}>Select an event to view field locations</Text>
                                             <Picker
                                                 selectedValue={this.state.YourTeamEventSelection}
@@ -5123,13 +5542,17 @@ ExecuteOpponentsPercentages = async() => {
                                             <Picker.Item label="Select a event" value="" />
                                             <Picker.Item label="Goal" value="Goal" />
                                             <Picker.Item label="Pass" value="Pass"/>
+                                            <Picker.Item label="Shots" value="Shots"/>
+                                            <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
                             
                             
                                             </Picker>
-                                                                    
-                                            <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventPlayerDetailedAnalysis}>
-                                                <Text style={styles.buttonTitle}>Submit</Text>
-                                            </TouchableOpacity>
+
+                                            <View style={styles.rowView}>                         
+                                                <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventPlayerDetailedAnalysis}>
+                                                    <Text style={styles.buttonText}>Submit</Text>
+                                                </TouchableOpacity>
+                                            </View>
 
                                                         
                                     </View> 
@@ -5138,10 +5561,97 @@ ExecuteOpponentsPercentages = async() => {
                             }
                         }
                            
+                
+
+                       //Displays Your Team Sub bench EvenEventSelection
+                       if(displayDetailedIndividualSubBenchEventSelection == true)
+                       {
+
+                            if(SportType == 'GAA')
+                            {
+
+                                ReviewDetailGameAnalysis =  (
+                                   
+                           
+                                   
+                                    <View style={styles.DetailedGameAnalysisView}>
+                                                <View style={styles.rowView}>
+                                                    <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                                <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                    </TouchableOpacity> 
+                                                    <Text style={styles.buttonText}>Select an event to view field locations</Text>
+                                                </View>
+                                           
+                                                <Picker
+                                                    selectedValue={this.state.YourTeamEventSelection}
+                                                    style={styles.input}
+                                                    onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
+                                                >
+                                
+                                                <Picker.Item label="Select a event" value="" />
+                                                <Picker.Item label="Goal" value="Goal" />
+                                                <Picker.Item label="Point" value="Point"/>
+                                                <Picker.Item label="Shots" value="Shots"/>
+                                                <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
+                                                <Picker.Item label="Pass" value="Pass"/>
+                                
+                                
+                                                </Picker>
+                                            
+                                   
+                                                <View style={styles.rowView}>
+                                                    <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventPlayerDetailedAnalysis}>
+                                                        <Text style={styles.buttonText}>Submit</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                             
+                                                            
+                                    </View> 
+
+                                    
+
+                                );
+
+                            }
+
                             
-                        
+                            else if(SportType == 'Soccer')
+                            {
+                                ReviewDetailGameAnalysis =  (
+                                    <View style={styles.DetailedGameAnalysisView}>
+                                       <View style={styles.rowView}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                            </TouchableOpacity> 
+                                        </View>         
+                                        <Text style={styles.buttonText}>Select an event to view field locations</Text>
+                                            <Picker
+                                                selectedValue={this.state.YourTeamEventSelection}
+                                                style={styles.input}
+                                                onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
+                                            >
+                            
+                                            <Picker.Item label="Select a event" value="" />
+                                            <Picker.Item label="Goal" value="Goal" />
+                                            <Picker.Item label="Pass" value="Pass"/>
+                                            <Picker.Item label="Shots" value="Shots"/>
+                                            <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
+                            
+                            
+                                            </Picker>
 
+                                            <View style={styles.rowView}>                         
+                                                <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventPlayerDetailedAnalysis}>
+                                                    <Text style={styles.buttonText}>Submit</Text>
+                                                </TouchableOpacity>
+                                            </View>
 
+                                                        
+                                    </View> 
+
+                                );
+                            }
+                        }
 
                       
 
@@ -5158,7 +5668,11 @@ ExecuteOpponentsPercentages = async() => {
 
                                 ReviewDetailGameAnalysis =  (
                                     <View style={styles.DetailedGameAnalysisView}>
-                                            
+                                            <View style={styles.rowView}>
+                                                    <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                                <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                    </TouchableOpacity> 
+                                            </View>
                                          <Text style={styles.buttonText}>Select an event to view field locations</Text>
                                              <Picker
                                                 selectedValue={this.state.YourTeamEventSelection}
@@ -5168,14 +5682,18 @@ ExecuteOpponentsPercentages = async() => {
                                               <Picker.Item label="Select a event" value="" />
                                               <Picker.Item label="Goal" value="Goal" />
                                               <Picker.Item label="Point" value="Point"/>
+                                              <Picker.Item label="Shots" value="Shots"/>
+                                              <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
                                               <Picker.Item label="Pass" value="Pass"/>
                         
                         
                                             </Picker>
-                                                                
-                                            <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventOpponentsPlayerDetailedAnalysis}>
-                                                <Text style={styles.buttonTitle}>Submit</Text>
-                                            </TouchableOpacity>
+
+                                            <View style={styles.rowView}>           
+                                                <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventOpponentsPlayerDetailedAnalysis}>
+                                                    <Text style={styles.buttonText}>Submit</Text>
+                                                </TouchableOpacity>
+                                            </View>
      
                                     </View> 
 
@@ -5188,7 +5706,13 @@ ExecuteOpponentsPercentages = async() => {
                                 ReviewDetailGameAnalysis =  (
                                     <View style={styles.DetailedGameAnalysisView}>
                                             
-                                         <Text style={styles.buttonText}>Select an event to view field locations</Text>
+                                            <View style={styles.rowView}>
+                                                    <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                                <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                    </TouchableOpacity> 
+                                            </View>
+
+                                            <Text style={styles.buttonText}>Select an event to view field locations</Text>
                                              <Picker
                                                 selectedValue={this.state.YourTeamEventSelection}
                                                 style={styles.input}
@@ -5196,14 +5720,18 @@ ExecuteOpponentsPercentages = async() => {
                                               >
                                               <Picker.Item label="Select a event" value="" />
                                               <Picker.Item label="Goal" value="Goal" />
+                                              <Picker.Item label="Shots" value="Shots"/>
+                                              <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
                                               <Picker.Item label="Pass" value="Pass"/>
                         
                         
                                             </Picker>
-                                                                
-                                            <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventOpponentsPlayerDetailedAnalysis}>
-                                                <Text style={styles.buttonTitle}>Submit</Text>
-                                            </TouchableOpacity>
+
+                                            <View style={styles.rowView}>                     
+                                                <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventOpponentsPlayerDetailedAnalysis}>
+                                                    <Text style={styles.buttonText}>Submit</Text>
+                                                </TouchableOpacity>
+                                            </View>
      
                                     </View> 
 
@@ -5215,48 +5743,34 @@ ExecuteOpponentsPercentages = async() => {
 
 
 
-                    
-            //Field Views - Your Team
+// Your Team event locations
+if(ExecuteTeamDetailAnalysisView == true)
+{
+    if(SportType == 'GAA')
+    {
+            if(screenWidth < 600 || screenHeight < 376)
+            {
 
-                      if(ExecuteDetailAnalysis == true)
-                      {
+                ReviewDetailGameAnalysisFieldView = (
 
-                            if(SportType == 'GAA')
-                            {
+                            <View>
+                                    <View style={styles.ReviewContainer2}>
+                                        
+                                        <View style={styles.rowView}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                            </TouchableOpacity>
+                                        </View>
+                                                                    
+                                        <View style={styles.rowView}>
+                                            <Text style={styles.StatsTitle}> Event Type: {YourTeamEventSelection}</Text>
+                                        </View>  
 
-                                ReviewDetailGameAnalysisFieldView =  (
-                    
-                                    <View>
-                                        <Image style = {styles.imageGAA} source={require('./GAApitch.png')}/> 
-                                                {this.state.DetailAnalysisStatHolder.map((data) => {
-                                                    return (
-                                                    <View 
-                                                        style={{
-                                                    
-                                                        position: 'absolute',
-                                                        left: data.x,
-                                                        top: data.y,
-                                                        backgroundColor:'#242424',
-                                                        width: 10,
-                                                        height: 10,
-                                                        borderRadius: 50
-                                                        }}>
-                                                    </View> 
-
-                                                )
-                                            })}        
                                     </View>
 
-                                );
-
-                            }
-                            else if(SportType == 'Soccer')
-                            {
-
-                                ReviewDetailGameAnalysisFieldView =  (
-                    
-                                <View>
-                                        <Image style = {styles.imageSoccer} source={require('./SoccerField.png')}/> 
+                                    <View style = {styles.fieldcontainer1}>
+                        
+                                    <Image style = {styles.imageGAAMobile} source={require('./GAApitch1.png')}/> 
                                         {this.state.DetailAnalysisStatHolder.map((data) => {
                                             return (
                                             <View 
@@ -5268,81 +5782,807 @@ ExecuteOpponentsPercentages = async() => {
                                                 backgroundColor:'#242424',
                                                 width: 10,
                                                 height: 10,
+                                                borderWidth:2,
+                                                borderColor:'#C30000',
                                                 borderRadius: 50
                                                 }}>
                                             </View> 
 
-                                        )
-                                    })}        
-                                </View>
+                                            )
+                                        })}        
+                                    </View>
+                            </View>        
+                        );
+                
+            }
+            else
+            {
 
-                                );
+                ReviewDetailGameAnalysisFieldView = (
+
+                            <View>
+                                    <View style={styles.ReviewContainer2}>
+                                        
+                                        <View style={styles.rowView}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                            </TouchableOpacity>
+                                        </View>
+                                                                    
+                                        <View style={styles.rowView}>
+                                            <Text style={styles.StatsTitle}> Event Type: {YourTeamEventSelection}</Text>
+                                        </View>  
+
+                                    </View>
+
+                                    <View style = {styles.fieldcontainer1}>
+                        
+                                    <Image style = {styles.imagePxGAA} source={require('./GAApitch1.png')}/> 
+                                        {this.state.DetailAnalysisStatHolder.map((data) => {
+                                            return (
+                                            <View 
+                                                style={{
+                                            
+                                                position: 'absolute',
+                                                left: data.x,
+                                                top: data.y,
+                                                backgroundColor:'#242424',
+                                                width: 10,
+                                                height: 10,
+                                                borderWidth:2,
+                                                borderColor:'#C30000',
+                                                borderRadius: 50
+                                                }}>
+                                            </View> 
+
+                                            )
+                                        })}        
+                                    </View>
+                            </View>        
+                        );
+            }
+
+    }
+    else if(SportType == 'Soccer')
+    {
+            if(screenWidth < 600 || screenHeight < 376)
+            {
+                
+                ReviewDetailGameAnalysisFieldView = (
+
+                    <View>
+                    
+                        <View style={styles.ReviewContainer2}>
+                                <View style={styles.rowView}>
+                                    <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                        <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                    </TouchableOpacity>
+                                </View>
+                                
+                                <View style={styles.rowView}>
+                                    <Text style={styles.StatsTitle}> Event Type: {YourTeamEventSelection}</Text>
+                                </View>  
+
+                        </View>    
+                    
+                        <View style = {styles.fieldcontainer1}>
+                                <Image style = {styles.imageSoccerMobile} source={require('./SoccerField.png')}/> 
+                                {this.state.DetailAnalysisStatHolder.map((data) => {
+                                    return (
+                                    <View 
+                                        style={{
+                                    
+                                        position: 'absolute',
+                                        left: data.x,
+                                        top: data.y,
+                                        backgroundColor:'#242424',
+                                        width: 10,
+                                        height: 10,
+                                        borderWidth:2,
+                                        borderColor:'#C30000',
+                                        borderRadius: 50
+                                        }}>
+                                    </View> 
+
+                                )
+                            })}        
+                        </View>
+                    </View>
+
+                );
+            
+            }
+            else
+            {
+                ReviewDetailGameAnalysisFieldView = (
+                    <View>
+
+                                     <View style={styles.ReviewContainer2}>
+                                             <View style={styles.rowView}>
+                                                  <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                     <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                                  </TouchableOpacity>
+                                             </View>
+                                            
+                                             <View style={styles.rowView}>
+                                                 <Text style={styles.StatsTitle}> Event Type: {YourTeamEventSelection}</Text>
+                                             </View>  
+                    
+                                     </View>    
+                    
+                                     <View style = {styles.fieldcontainer1}>
+                                             <Image style = {styles.imagePxSoccer} source={require('./SoccerField.png')}/> 
+                                             {this.state.DetailAnalysisStatHolder.map((data) => {
+                                                 return (
+                                                 <View 
+                                                     style={{
+                                                
+                                                     position: 'absolute',
+                                                     left: data.x,
+                                                     top: data.y,
+                                                     backgroundColor:'#242424',
+                                                     width: 10,
+                                                     height: 10,
+                                                     borderWidth:2,
+                                                     borderColor:'#C30000',
+                                                     borderRadius: 50
+                                                    }}>
+                                                </View> 
+                    
+                                            )
+                                        })}        
+                                    </View>
+                    
+                                    </View>
+                );
+            }
+
+    }
+}
+
+
+
+
+
+// -------------------------- Opponents Team Detailed Event Location ----------------------
+//Execute Team Location Events - e.g All Passes locations 
+ if(ExecuteDetailOpponentsTeamAnalysis == true)
+    {
+
+        if(SportType == 'GAA')
+        {
+
+                if(screenWidth < 600 || screenHeight < 376)
+                {
+
+                        ReviewDetailGameAnalysisFieldView = (
+                            <View>
+                                    <View style={styles.ReviewContainer2}>
+                                        
+                                        <View style={styles.rowView}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                            </TouchableOpacity>
+                                        </View>
+                                                                    
+                                        <View style={styles.rowView}>
+                                            <Text style={styles.StatsTitle}> Event Type: {YourTeamEventSelection}</Text>
+                                        </View>  
+
+                                    </View>
+
+                                    <View style = {styles.fieldcontainer1}>
+                        
+                                    <Image style = {styles.imageGAAMobile} source={require('./SoccerField.png')}/> 
+                                        {this.state.OpponentsDetailAnalysisStatHolder.map((data) => {
+                                            return (
+                                            <View 
+                                                style={{
+                                            
+                                                position: 'absolute',
+                                                left: data.x,
+                                                top: data.y,
+                                                backgroundColor:'#242424',
+                                                width: 10,
+                                                height: 10,
+                                                borderWidth:2,
+                                                borderColor:'#C30000',
+                                                borderRadius: 50
+                                                }}>
+                                            </View> 
+
+                                            )
+                                        })}        
+                                    </View>
+                            </View>        
+                        );
+
+                }
+                else
+                {
+                    ReviewDetailGameAnalysisFieldView =  (
+                                                    
+                        <View>
+                            <View style={styles.ReviewContainer2}>
+                                    <View style={styles.rowView}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                            </TouchableOpacity>
+                                    </View>
+                                    
+                                    <View style={styles.rowView}>
+                                        <Text style={styles.StatsTitle}> Event Type: {YourTeamEventSelection}</Text>
+                                    </View>  
+
+                            </View>    
+
+                                        <View style = {styles.fieldcontainer1}>
+                                    
+                                                <Image style = {styles.imagePxGAA} source={require('./GAApitch1.png')}/> 
+                                                    {this.state.OpponentsEventFieldPositions.map((data) => {
+                                                        return (
+                                                        <View 
+                                                            style={{
+                                                    
+                                                            position: 'absolute',
+                                                            left: data.x,
+                                                            top: data.y,
+                                                            backgroundColor:'#242424',
+                                                            width: 10,
+                                                            height: 10,
+                                                            borderWidth:2,
+                                                            borderColor:'#C30000',
+                                                            borderRadius: 50
+                                                        }}>
+                                                        </View> 
+
+                                                    )
+                                                    })}        
+                                        </View>
+
+                                    </View>
+
+                    );
+                }
+            }
+    }
+    else if(SportType == 'Soccer')
+    {
+        if(screenWidth < 600 || screenHeight < 376)
+        {
+
+            ReviewDetailGameAnalysisFieldView =  (
+                <View>
+                
+                <View style={styles.ReviewContainer2}>
+                        <View style={styles.rowView}>
+                             <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                 <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                             </TouchableOpacity>
+                        </View>
+                        
+                        <View style={styles.rowView}>
+                            <Text style={styles.StatsTitle}> Event Type: {YourTeamEventSelection}</Text>
+                        </View>  
+
+                </View>    
+            
+                <View style = {styles.fieldcontainer1}>
+                        <Image style = {styles.imageSoccerMobile} source={require('./SoccerField.png')}/> 
+                        {this.state.OpponentsEventFieldPositions.map((data) => {
+                            return (
+                            <View 
+                                style={{
+                            
+                                position: 'absolute',
+                                left: data.x,
+                                top: data.y,
+                                backgroundColor:'#242424',
+                                width: 10,
+                                height: 10,
+                                borderWidth:2,
+                                borderColor:'#C30000',
+                                borderRadius: 50
+                                }}>
+                            </View> 
+
+                        )
+                    })}        
+                </View>
+                </View>
+
+            );
+        }
+        else
+        {
+            ReviewDetailGameAnalysisFieldView =  (
+            
+            <View>
+
+                <View style={styles.ReviewContainer2}>
+                        <View style={styles.rowView}>
+                             <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                 <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                             </TouchableOpacity>
+                        </View>
+                        
+                        <View style={styles.rowView}>
+                            <Text style={styles.StatsTitle}> Event Type: {YourTeamEventSelection}</Text>
+                        </View>  
+
+                </View>    
+
+                <View style = {styles.fieldcontainer1}>
+                        <Image style = {styles.imagePxSoccer} source={require('./SoccerField.png')}/> 
+                        {this.state.OpponentsEventFieldPositions.map((data) => {
+                            return (
+                            <View 
+                                style={{
+                            
+                                position: 'absolute',
+                                left: data.x,
+                                top: data.y,
+                                backgroundColor:'#242424',
+                                width: 10,
+                                height: 10,
+                                borderWidth:2,
+                                borderColor:'#C30000',
+                                borderRadius: 50
+                                }}>
+                            </View> 
+
+                        )
+                    })}        
+                </View>
+
+                </View>
+
+            );
+        }
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    
+            //Field Views - Your Team individual Player 
+
+                      if(ExecuteDetailAnalysis == true)
+                      {
+
+                            if(SportType == 'GAA')
+                            {
+
+                                if(screenWidth < 600 || screenHeight < 376)
+                                {
+
+                                
+                                    ReviewDetailGameAnalysisFieldView =  (
+
+                                        <View>
+                                 
+                                        <View style={styles.ReviewContainer2}>
+                                            <View style={styles.rowView}>
+                                                <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                                </TouchableOpacity>
+                                            </View>
+                                        <View style={styles.rowView}>
+                                             <Text style={styles.StatsTitle}> Player Number: {selectedPlayerKitNumber}  ,   Event Type: {YourTeamEventSelection}</Text>
+                                        </View>  
+
+                                        </View>
+                                            <View style = {styles.fieldcontainer1}>
+                                                <Image style = {styles.imageGAAMobile} source={require('./GAApitch1.png')}/> 
+                                                        {this.state.DetailAnalysisStatHolder.map((data) => {
+                                                                return (
+                                                                    <View 
+                                                                        style={{
+                                                                    
+                                                                        position: 'absolute',
+                                                                        left: data.x,
+                                                                        top: data.y,
+                                                                        backgroundColor:'#242424',
+                                                                        width: 10,
+                                                                        height: 10,
+                                                                        borderWidth:2,
+                                                                        borderColor:'#C30000',
+                                                                        borderRadius: 50
+                                                                        }}>
+                                                                    </View> 
+
+                                                                )
+                                                            })} 
+
+                                            </View>
+
+                                    
+                                    </View>
+                                      
+
+
+
+
+                                    );
+                                }
+                                else
+                                {
+
+                   
+
+                                ReviewDetailGameAnalysisFieldView =  (
+                                            
+         
+                                 <View>
+                                      <View style={styles.ReviewContainer2}>
+                                                <View style={styles.rowView}>
+                                                     <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                         <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                                     </TouchableOpacity>
+                                                </View>
+                                                
+                                                <View style={styles.rowView}>
+                                                    <Text style={styles.StatsTitle}> Player Number: {selectedPlayerKitNumber}  ,   Event Type: {YourTeamEventSelection}</Text>
+                                                </View>  
+
+                                      </View>    
+
+                                                 <View style = {styles.fieldcontainer1}>
+                                             
+                                                         <Image style = {styles.imagePxGAA} source={require('./GAApitch1.png')}/> 
+                                                             {this.state.DetailAnalysisStatHolder.map((data) => {
+                                                                 return (
+                                                                 <View 
+                                                                     style={{
+                                                                
+                                                                     position: 'absolute',
+                                                                     left: data.x,
+                                                                     top: data.y,
+                                                                     backgroundColor:'#242424',
+                                                                     width: 10,
+                                                                     height: 10,
+                                                                     borderWidth:2,
+                                                                     borderColor:'#C30000',
+                                                                     borderRadius: 50
+                                                                 }}>
+                                                                 </View> 
+
+                                                                )
+                                                             })}        
+                                                 </View>
+
+                                             </View>
+
+                                    );
+                                }
+
+                            }
+                            else if(SportType == 'Soccer')
+                            {
+
+                                if(screenWidth < 600 || screenHeight < 376)
+                                {
+
+                                    ReviewDetailGameAnalysisFieldView =  (
+                                        <View>
+                                        
+                                        <View style={styles.ReviewContainer2}>
+                                                <View style={styles.rowView}>
+                                                     <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                         <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                                     </TouchableOpacity>
+                                                </View>
+                                                
+                                                <View style={styles.rowView}>
+                                                    <Text style={styles.StatsTitle}> Player Number: {selectedPlayerKitNumber}  ,   Event Type: {YourTeamEventSelection}</Text>
+                                                </View>  
+
+                                        </View>    
+                                    
+                                        <View style = {styles.fieldcontainer1}>
+                                                <Image style = {styles.imageSoccerMobile} source={require('./SoccerField.png')}/> 
+                                                {this.state.DetailAnalysisStatHolder.map((data) => {
+                                                    return (
+                                                    <View 
+                                                        style={{
+                                                    
+                                                        position: 'absolute',
+                                                        left: data.x,
+                                                        top: data.y,
+                                                        backgroundColor:'#242424',
+                                                        width: 10,
+                                                        height: 10,
+                                                        borderWidth:2,
+                                                        borderColor:'#C30000',
+                                                        borderRadius: 50
+                                                        }}>
+                                                    </View> 
+
+                                                )
+                                            })}        
+                                        </View>
+                                        </View>
+
+                                    );
+                                }
+                                else
+                                {
+                                    ReviewDetailGameAnalysisFieldView =  (
+                                    
+                                    <View>
+
+                                        <View style={styles.ReviewContainer2}>
+                                                <View style={styles.rowView}>
+                                                     <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                         <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                                     </TouchableOpacity>
+                                                </View>
+                                                
+                                                <View style={styles.rowView}>
+                                                    <Text style={styles.StatsTitle}> Player Number: {selectedPlayerKitNumber}  ,   Event Type: {YourTeamEventSelection}</Text>
+                                                </View>  
+
+                                        </View>    
+
+                                        <View style = {styles.fieldcontainer1}>
+                                                <Image style = {styles.imagePxSoccer} source={require('./SoccerField.png')}/> 
+                                                {this.state.DetailAnalysisStatHolder.map((data) => {
+                                                    return (
+                                                    <View 
+                                                        style={{
+                                                    
+                                                        position: 'absolute',
+                                                        left: data.x,
+                                                        top: data.y,
+                                                        backgroundColor:'#242424',
+                                                        width: 10,
+                                                        height: 10,
+                                                        borderWidth:2,
+                                                        borderColor:'#C30000',
+                                                        borderRadius: 50
+                                                        }}>
+                                                    </View> 
+
+                                                )
+                                            })}        
+                                        </View>
+
+                                        </View>
+
+                                    );
+                                }
                             }
                       }
 
                       
-            //Field Views - Opponents
+            //Field Views - Opponents individual player
 
-                      if(ExecuteOpponentsDetailAnalysis == true)
+                      if(ExecuteOpponentsTeamDetailAnalysis == true)
                       {
 
                         if(SportType == 'GAA')
                         {
 
-                            ReviewDetailGameAnalysisFieldView =  (
-                                
-                                <View>
- 
-                                        <Image style = {styles.imageGAA} source={require('./GAApitch.png')}/> 
-                                        {this.state.OpponentsDetailAnalysisStatHolder.map((data) => {
-                                            return (
-                                            <View 
-                                                style={{
-                                            
-                                                position: 'absolute',
-                                                left: data.x,
-                                                top: data.y,
-                                                backgroundColor:'#242424',
-                                                width: 10,
-                                                height: 10,
-                                                borderRadius: 50
-                                                }}>
+                            if(screenWidth < 600 || screenHeight < 376)
+                            {
+
+                                ReviewDetailGameAnalysisFieldView =  (
+                                    
+                                    <View>
+
+                                        <View style={styles.ReviewContainer2}>
+                                                <View style={styles.rowView}>
+                                                    <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                        <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            <View style={styles.rowView}>
+                                                <Text style={styles.StatsTitle}> Player Number: {selectedOpponentsPlayerKitNumber}  ,   Event Type: {YourTeamEventSelection}</Text>
                                             </View> 
+                                        </View>
 
-                                            )
-                                        })}        
-                                </View>
 
-                            );
+                                        <View style = {styles.fieldcontainer1}>
+        
+                                                <Image style = {styles.imageGAAMobile} source={require('./GAApitch1.png')}/> 
+                                                {this.state.OpponentsDetailAnalysisStatHolder.map((data) => {
+                                                    return (
+                                                    <View 
+                                                        style={{
+                                                    
+                                                        position: 'absolute',
+                                                        left: data.x,
+                                                        top: data.y,
+                                                        backgroundColor:'#242424',
+                                                        width: 10,
+                                                        height: 10,
+                                                        borderWidth:2,
+                                                        borderColor:'#C30000',
+                                                        borderRadius: 50
+                                                        }}>
+                                                    </View> 
+
+                                                    )
+                                                })}        
+                                        </View>
+
+                                    </View>
+
+                                );
+                            }
+                            else
+                            {
+
+                                ReviewDetailGameAnalysisFieldView =  (
+                                    
+                                    <View>
+
+                                    <View style={styles.ReviewContainer2}>
+                                            <View style={styles.rowView}>
+                                                <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                                </TouchableOpacity>
+                                            </View>
+                                        <View style={styles.rowView}>
+                                            <Text style={styles.StatsTitle}> Player Number: {selectedOpponentsPlayerKitNumber}  ,   Event Type: {YourTeamEventSelection}</Text>
+                                        </View> 
+                                    </View>
+
+                                    <View style = {styles.fieldcontainer1}>
+    
+                                            <Image style = {styles.imagePxGAA} source={require('./GAApitch1.png')}/> 
+                                            {this.state.OpponentsDetailAnalysisStatHolder.map((data) => {
+                                                return (
+                                                <View 
+                                                    style={{
+                                                
+                                                    position: 'absolute',
+                                                    left: data.x,
+                                                    top: data.y,
+                                                    backgroundColor:'#242424',
+                                                    width: 10,
+                                                    height: 10,
+                                                    borderWidth:2,
+                                                    borderColor:'#C30000',
+                                                    borderRadius: 50
+                                                    }}>
+                                                </View> 
+
+                                                )
+                                            })}        
+                                    </View>
+
+                                    </View>
+
+                                );
+                            }
 
                         }
                         else if(SportType == 'Soccer')
                         {
-                            ReviewDetailGameAnalysisFieldView =  (
+
+                            if(screenWidth < 600 || screenHeight < 376)
+                            {
+    
+                                ReviewDetailGameAnalysisFieldView =  (
                                 
                                 <View>
- 
-                                        <Image style = {styles.imageSoccer} source={require('./SoccerField.png')}/> 
-                                        {this.state.OpponentsDetailAnalysisStatHolder.map((data) => {
-                                            return (
-                                            <View 
-                                                style={{
-                                            
-                                                position: 'absolute',
-                                                left: data.x,
-                                                top: data.y,
-                                                backgroundColor:'#242424',
-                                                width: 10,
-                                                height: 10,
-                                                borderRadius: 50
-                                                }}>
-                                            </View> 
 
-                                            )
-                                        })}        
-                                </View>
+                                    <View style={styles.ReviewContainer2}>
+                                                <View style={styles.rowView}>
+                                                     <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                         <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                                     </TouchableOpacity>
+                                                </View>
+                                                
+                                                <View style={styles.rowView}>
+                                                    <Text style={styles.StatsTitle}> Player Number: {selectedOpponentsPlayerKitNumber}  ,   Event Type: {YourTeamEventSelection}</Text>
+                                                </View>  
 
-                            );
+                                    </View>    
+
+                                    <View style = {styles.fieldcontainer1}>
+    
+                                            <Image style = {styles.imageSoccerMobile} source={require('./SoccerField.png')}/> 
+                                            {this.state.OpponentsDetailAnalysisStatHolder.map((data) => {
+                                                return (
+                                                <View 
+                                                    style={{
+                                                
+                                                    position: 'absolute',
+                                                    left: data.x,
+                                                    top: data.y,
+                                                    backgroundColor:'#242424',
+                                                    width: 10,
+                                                    height: 10,
+                                                    borderWidth:2,
+                                                    borderColor:'#C30000',
+                                                    borderRadius: 50
+                                                    }}>
+                                                </View> 
+
+                                                )
+                                            })}        
+                                    </View>
+
+                                    </View>
+                                );
+
+                            }
+                            else
+                            {
+                                ReviewDetailGameAnalysisFieldView =  (
+                                    <View>
+                                       <View style={styles.ReviewContainer2}>
+                                                <View style={styles.rowView}>
+                                                     <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                         <Image style={styles.ExitButton} source={require('./exit.png')}/>
+                                                     </TouchableOpacity>
+                                                </View>
+                                                
+                                                <View style={styles.rowView}>
+                                                    <Text style={styles.StatsTitle}> Player Number: {selectedOpponentsPlayerKitNumber}  ,   Event Type: {YourTeamEventSelection}</Text>
+                                                </View>  
+
+                                        </View>    
+                                        <View style = {styles.fieldcontainer1}>
+        
+                                                <Image style = {styles.imagePxSoccer} source={require('./SoccerField.png')}/> 
+                                                {this.state.OpponentsDetailAnalysisStatHolder.map((data) => {
+                                                    return (
+                                                    <View 
+                                                        style={{
+                                                    
+                                                        position: 'absolute',
+                                                        left: data.x,
+                                                        top: data.y,
+                                                        backgroundColor:'#242424',
+                                                        width: 10,
+                                                        height: 10,
+                                                        borderWidth:2,
+                                                        borderColor:'#C30000',
+                                                        borderRadius: 50
+                                                        }}>
+                                                    </View> 
+
+                                                    )
+                                                })}        
+                                        </View>
+                                    </View>
+
+                                );
+
+                            }
                         }
 
                       }
@@ -5355,16 +6595,20 @@ ExecuteOpponentsPercentages = async() => {
                        {
 
                                 /* Selection  - Buttons to choose Your Team or Opponents */
-                                ReviewDetailGameAnalysis =  (
-
+                                ReviewDetailGameAnalysisOptions =  (
                                     <View style={styles.ReviewContainer}>
+                                         <View style={styles.columnView}>
+                                         <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity> 
+                                          </View>
                                         <View style={styles.columnView}>
-                                            <TouchableOpacity activeOpacity={0.6}style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.ReviewYourTeamDGA}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.button}  onPress={this.ReviewYourTeamDGA}>
                                                     <Text style={styles.buttonText}>Your Team</Text> 
                                             </TouchableOpacity>
                                         </View>
                                         <View style={styles.columnView}>
-                                            <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.ReviewOpponentsDGA}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.button}  onPress={this.ReviewOpponentsDGA}>
                                                     <Text style={styles.buttonText}>Opponents</Text> 
                                             </TouchableOpacity>
                                         </View>
@@ -5378,21 +6622,26 @@ ExecuteOpponentsPercentages = async() => {
                         {
 
                                 /* Selection screen - Buttons to choose a view to navigate to */
-                                ReviewDetailGameAnalysis =  (
+                                ReviewDetailGameAnalysisOptions =  (
                                     
                                     <View style={styles.ReviewContainer}>
+                                         <View style={styles.columnView}>
+                                         <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity> 
+                                          </View>
                                         <View style={styles.columnView}>
-                                            <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.UserSelectsTeamEventsLocations}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.button}  onPress={this.UserSelectsTeamEventsLocations}>
                                                     <Text style={styles.buttonText}>Review team events and field locations</Text> 
                                             </TouchableOpacity>
                                         </View>
                                         <View style={styles.columnView}>
-                                            <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.UserSelectsPlayerEventsLocations}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.button}  onPress={this.UserSelectsPlayerEventsLocations}>
                                                     <Text style={styles.buttonText}>Review a players events and field locations</Text> 
                                             </TouchableOpacity>
                                         </View>
                                         <View style={styles.columnView}>
-                                            <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.UserSelectsTeamPercentages}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.button}  onPress={this.UserSelectsTeamPercentages}>
                                                     <Text style={styles.buttonText}>Event percentages</Text> 
                                             </TouchableOpacity>
                                         </View>
@@ -5404,20 +6653,25 @@ ExecuteOpponentsPercentages = async() => {
                         {
                             
                                 /* Selection - Buttons to choose a view to navigate to */
-                                ReviewDetailGameAnalysis =  (
+                                ReviewDetailGameAnalysisOptions =  (
                                     <View style={styles.ReviewContainer}>
+                                         <View style={styles.columnView}>
+                                         <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity> 
+                                          </View>
                                         <View style={styles.columnView}>
-                                            <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.UserSelectsOpponentsEventsLocations}>
-                                            <Text style={styles.buttonText}>Review team events and field locations</Text> 
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.button}  onPress={this.UserSelectsOpponentsEventsLocations}>
+                                                <Text style={styles.buttonText}>Review team events and field locations</Text> 
                                             </TouchableOpacity>
                                         </View>
                                         <View style={styles.columnView}>
-                                            <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.UserSelectsOpponentsPlayerEventsLocations}>
-                                            <Text style={styles.buttonText}>Review a players events and field locations</Text> 
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.button}  onPress={this.UserSelectsOpponentsPlayerEventsLocations}>
+                                                <Text style={styles.buttonText}>Review a players events and field locations</Text> 
                                             </TouchableOpacity>
                                         </View>
                                         <View style={styles.columnView}>
-                                            <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.UserSelectsTeamPercentages}>
+                                            <TouchableOpacity activeOpacity={0.6} style={styles.button}  onPress={this.UserSelectsTeamPercentages}>
                                                     <Text style={styles.buttonText}> Event percentages</Text> 
                                             </TouchableOpacity>
                                         </View>
@@ -5431,15 +6685,20 @@ ExecuteOpponentsPercentages = async() => {
                             {
                                 ReviewIndividualPlayerStatsContainer = (
                                     <View style={styles.ReviewContainer}>
-                                            
+                                                <View style={styles.playerColumnView}>
+                                                    <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                                <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                    </TouchableOpacity> 
+                                                </View>
                                             <Text style={styles.buttonText}>Review a individual player from your team - Select an option</Text>
-    
+                                           
+                                        
                                             <View style={styles.playerColumnView}>
                                                 
                                                         <TouchableOpacity
                                                                 onPress={this.DetailedAnalysisIndividualSquadPlayer}
                                                                 activeOpacity={0.6}
-                                                                style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                                                style={styles.button} 
                                                 
                                                             > 
                                                             <Text style={styles.buttonText}>Squad Player</Text>
@@ -5450,7 +6709,7 @@ ExecuteOpponentsPercentages = async() => {
                                                             <TouchableOpacity
                                                                 onPress={this.DetailedAnalysisIndividualSubBenchPlayer}
                                                                 activeOpacity={0.6}
-                                                                style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                                                style={styles.button} 
                                                     
                                                             > 
                                                                 <Text style={styles.buttonText}>Sub Bench</Text>
@@ -5467,15 +6726,19 @@ ExecuteOpponentsPercentages = async() => {
                             {
                                 ReviewIndividualPlayerStatsContainer = (
                                     <View style={styles.ReviewContainer}>
-                                            
+                                               <View style={styles.playerColumnView}>
+                                                    <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                        <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                    </TouchableOpacity> 
+                                                </View>
                                             <Text style={styles.buttonText}>Review a individual player from your team - Select an option</Text>
-    
+                                         
                                             <View style={styles.playerColumnView}>
                                                 
                                                         <TouchableOpacity
                                                                 onPress={this.OpponentsDetailedAnalysisIndividualSquadPlayer}
                                                                 activeOpacity={0.6}
-                                                                style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                                                style={styles.button} 
                                                 
                                                             > 
                                                             <Text style={styles.buttonText}>Squad Player</Text>
@@ -5486,7 +6749,7 @@ ExecuteOpponentsPercentages = async() => {
                                                             <TouchableOpacity
                                                                 onPress={this.OpponentsDetailedAnalysisIndividualSubBenchPlayer}
                                                                 activeOpacity={0.6}
-                                                                style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                                                style={styles.button} 
                                                     
                                                             > 
                                                                 <Text style={styles.buttonText}>Sub Bench</Text>
@@ -5563,7 +6826,17 @@ ExecuteOpponentsPercentages = async() => {
 
                                     ReviewDetailGameAnalysis =  (
                                         <View style={styles.DetailedGameAnalysisView}>
-                                        
+                                             
+                                             <View style={styles.rowView}>
+                                                <TouchableOpacity
+                                                    onPress={this.ExitReviewDetailAnalysis}
+                                                    activeOpacity={0.6}
+                                                    style={styles.ExitButton} 
+                                                    > 
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity>
+                                              </View>
+
                                                 <Text style={styles.buttonText}>Select an event to view field locations</Text>
                                                     <Picker
                                                         selectedValue={this.state.YourTeamEventSelection}
@@ -5571,19 +6844,20 @@ ExecuteOpponentsPercentages = async() => {
                                                         onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                                         >
             
-                                                        <Picker.Item label="Select a event" value="" />
+                                                        <Picker.Item label="Select a events" value="" />
                                                         <Picker.Item label="Goal" value="Goal" />
                                                         <Picker.Item label="Point" value="Point"/>
-                                                        <Picker.Item label="Shots" value="Shot"/>
+                                                        <Picker.Item label="Shots" value="Shots"/>
+                                                        <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
                                                         <Picker.Item label="Pass" value="Pass"/>
             
             
                                                     </Picker>
-                
-                                                <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteTeamDetailAnalysis}>
-                                                    <Text style={styles.buttonTitle}>Submit</Text>
-                                                </TouchableOpacity>
-    
+                                                <View style={styles.rowView}>
+                                                    <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteTeamDetailAnalysis}>
+                                                        <Text style={styles.buttonText}>Submit</Text>
+                                                    </TouchableOpacity>
+                                                </View>
                                         </View> 
     
                                     );
@@ -5592,8 +6866,18 @@ ExecuteOpponentsPercentages = async() => {
                                 else if(SportType == 'Soccer')
                                 {
                                     ReviewDetailGameAnalysis =  (
+
                                         <View style={styles.DetailedGameAnalysisView}>
-                                        
+                                              <View style={styles.rowView}>
+                                                <TouchableOpacity
+                                                    onPress={this.ExitReviewDetailAnalysis}
+                                                    activeOpacity={0.6}
+                                                    style={styles.ExitButton} 
+                                                    > 
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity>
+                                              </View>
+
                                                 <Text style={styles.buttonText}>Select an event to view field locations</Text>
                                                     <Picker
                                                         selectedValue={this.state.YourTeamEventSelection}
@@ -5604,14 +6888,17 @@ ExecuteOpponentsPercentages = async() => {
                                                         <Picker.Item label="Select a event" value="" />
                                                         <Picker.Item label="Goal" value="Goal" />
                                                         <Picker.Item label="Shots" value="Shot"/>
+                                                        <Picker.Item label="Shots" value="Shots"/>
+                                                        <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
                                                         <Picker.Item label="Pass" value="Pass"/>
             
             
                                                     </Picker>
-                
-                                                <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteTeamDetailAnalysis}>
-                                                    <Text style={styles.buttonTitle}>Submit</Text>
-                                                </TouchableOpacity>
+                                                <View style={styles.rowView}>
+                                                    <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteTeamDetailAnalysis}>
+                                                        <Text style={styles.buttonText}>Submit</Text>
+                                                   </TouchableOpacity>
+                                                </View>
     
                                         </View> 
     
@@ -5628,9 +6915,19 @@ ExecuteOpponentsPercentages = async() => {
                                 if(SportType == 'GAA')
                                 {
                                     ReviewDetailGameAnalysis =  (
+
                                         <View style={styles.DetailedGameAnalysisView}>
-                                        
-                                                <Text style={styles.buttonText}>Select an event to view field locations</Text>
+                                             <View style={styles.rowView}>
+                                                <TouchableOpacity
+                                                    onPress={this.ExitReviewDetailAnalysis}
+                                                    activeOpacity={0.6}
+                                                    style={styles.ExitButton} 
+                                                    > 
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity>
+                                              </View>
+                                          
+                                                <Text style={styles.buttonText}>Select an event to view field locations test</Text>
                                                     <Picker
                                                         selectedValue={this.state.YourTeamEventSelection}
                                                         style={styles.input}
@@ -5641,13 +6938,15 @@ ExecuteOpponentsPercentages = async() => {
                                                         <Picker.Item label="Goal" value="Goal" />
                                                         <Picker.Item label="Point" value="Point"/>
                                                         <Picker.Item label="Shots" value="Shot"/>
+                                                        <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
                                                         <Picker.Item label="Pass" value="Pass"/>
             
             
                                                     </Picker>
+                                              
                 
                                                 <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteOpponentsDetailAnalysis}>
-                                                    <Text style={styles.buttonTitle}>Submit</Text>
+                                                    <Text style={styles.buttonText}>Submit</Text>
                                                 </TouchableOpacity>
     
                                         </View> 
@@ -5658,8 +6957,18 @@ ExecuteOpponentsPercentages = async() => {
                                 else if(SportType == 'Soccer')
                                 {
                                     ReviewDetailGameAnalysis =  (
+
                                         <View style={styles.DetailedGameAnalysisView}>
-                                        
+                                            <View style={styles.rowView}>
+                                                <TouchableOpacity
+                                                    onPress={this.ExitReviewDetailAnalysis}
+                                                    activeOpacity={0.6}
+                                                    style={styles.ExitButton} 
+                                                    > 
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity>
+                                              </View>
+
                                                 <Text style={styles.buttonText}>Select an event to view field locations</Text>
                                                     <Picker
                                                         selectedValue={this.state.YourTeamEventSelection}
@@ -5670,13 +6979,14 @@ ExecuteOpponentsPercentages = async() => {
                                                         <Picker.Item label="Select a event" value="" />
                                                         <Picker.Item label="Goal" value="Goal" />
                                                         <Picker.Item label="Shots" value="Shot"/>
+                                                        <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
                                                         <Picker.Item label="Pass" value="Pass"/>
             
             
                                                     </Picker>
                 
                                                 <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteOpponentsDetailAnalysis}>
-                                                    <Text style={styles.buttonTitle}>Submit</Text>
+                                                    <Text style={styles.buttonText}>Submit</Text>
                                                 </TouchableOpacity>
     
                                         </View> 
@@ -5701,6 +7011,18 @@ ExecuteOpponentsPercentages = async() => {
                                     ReviewDetailGameAnalysis =  (
                                             
                                         <View style={styles.DetailedGameAnalysisView}>
+                                            
+                                            <View style={styles.playerColumnView}>
+                                                <TouchableOpacity
+                                                    onPress={this.ExitReviewDetailAnalysis}
+                                                    activeOpacity={0.6}
+                                                    style={styles.ExitButton} 
+                                                    > 
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity>
+                                            </View>
+                                            
+                                            
                                             <Text style={styles.buttonText}>{this.state.TeamName} Event Percentages</Text>
                                                             {/* Select an event  */}
                                                             <Picker
@@ -5713,6 +7035,7 @@ ExecuteOpponentsPercentages = async() => {
                                                                 <Picker.Item label="Goal" value="Goal" />
                                                                 <Picker.Item label="Point" value="Point"/>
                                                                 <Picker.Item label="Shots" value="Shot"/>
+                                                                <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
                                                                 <Picker.Item label="Pass" value="Pass"/>
             
             
@@ -5728,6 +7051,18 @@ ExecuteOpponentsPercentages = async() => {
                                     ReviewDetailGameAnalysis =  (
                                             
                                         <View style={styles.DetailedGameAnalysisView}>
+                                            
+                                            <View style={styles.playerColumnView}>
+                                                <TouchableOpacity
+                                                    onPress={this.ExitReviewDetailAnalysis}
+                                                    activeOpacity={0.6}
+                                                    style={styles.ExitButton} 
+                                                    > 
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity>
+                                            </View>
+                                            
+                                            
                                             <Text style={styles.buttonText}>{this.state.TeamName} Event Percentages</Text>
                                                             {/* Select an event  */}
                                                             <Picker
@@ -5738,7 +7073,8 @@ ExecuteOpponentsPercentages = async() => {
             
                                                                 <Picker.Item label="Select a event" value="" />
                                                                 <Picker.Item label="Goal" value="Goal" />
-                                                                <Picker.Item label="Shots" value="Shot"/>
+                                                                <Picker.Item label="Shots" value="Shots"/>
+                                                                <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
                                                                 <Picker.Item label="Pass" value="Pass"/>
             
             
@@ -5761,6 +7097,17 @@ ExecuteOpponentsPercentages = async() => {
                                  
                                     ReviewDetailGameAnalysis =  (
                                         <View style={styles.DetailedGameAnalysisView}>
+                                            
+                                            <View style={styles.playerColumnView}>
+                                                <TouchableOpacity
+                                                    onPress={this.ExitReviewDetailAnalysis}
+                                                    activeOpacity={0.6}
+                                                    style={styles.ExitButton} 
+                                                    > 
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity>
+                                            </View>
+                                            
                                             <Text style={styles.buttonText}>{this.state.OpponentsName} Event Percentages</Text>
 
                                             {/* Select an event  */}
@@ -5773,14 +7120,15 @@ ExecuteOpponentsPercentages = async() => {
                                                 <Picker.Item label="Select a event" value="" />
                                                 <Picker.Item label="Goal" value="Goal" />
                                                 <Picker.Item label="Point" value="Point"/>
-                                                <Picker.Item label="Shots" value="Shot"/>
+                                                <Picker.Item label="Shots" value="Shots"/>
+                                                <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
                                                 <Picker.Item label="Pass" value="Pass"/>
 
 
                                             </Picker>
 
                                             <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteOpponentsPercentages}>
-                                                <Text style={styles.buttonTitle}>Submit</Text>
+                                                <Text style={styles.buttonText}>Submit</Text>
                                             </TouchableOpacity>
 
                                         </View> 
@@ -5791,6 +7139,19 @@ ExecuteOpponentsPercentages = async() => {
                                 {
                                     ReviewDetailGameAnalysis =  (
                                         <View style={styles.DetailedGameAnalysisView}>
+                                            
+                                            <View style={styles.playerColumnView}>
+                                                <TouchableOpacity
+                                                    onPress={this.ExitReviewDetailAnalysis}
+                                                    activeOpacity={0.6}
+                                                    style={styles.ExitButton} 
+                                                    > 
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity>
+                                            </View>
+                                            
+                                            
+                                            
                                             <Text style={styles.buttonText}>{this.state.OpponentsName} Event Percentages</Text>
 
                                             {/* Select an event  */}
@@ -5802,14 +7163,15 @@ ExecuteOpponentsPercentages = async() => {
 
                                                 <Picker.Item label="Select a event" value="" />
                                                 <Picker.Item label="Goal" value="Goal" />
-                                                <Picker.Item label="Shots" value="Shot"/>
+                                                <Picker.Item label="Shots" value="Shots"/>
+                                                <Picker.Item label="Shots on target" value="ShotsOnTarget"/>
                                                 <Picker.Item label="Pass" value="Pass"/>
 
 
                                             </Picker>
 
                                             <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteOpponentsPercentages}>
-                                                <Text style={styles.buttonTitle}>Submit</Text>
+                                                <Text style={styles.buttonText}>Submit</Text>
                                             </TouchableOpacity>
 
                                         </View> 
@@ -5997,13 +7359,19 @@ ExecuteOpponentsPercentages = async() => {
                                  <View style={styles.ReviewContainer}>
                                          
                                          <Text style={styles.buttonText}>Review a individual player from the opponents team - Select an option</Text>
- 
+                                         
+                                         <View style={styles.playerColumnView}>
+                                         <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                                    <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                                </TouchableOpacity> 
+                                        </View>
+
                                          <View style={styles.playerColumnView}>
                                              
                                                      <TouchableOpacity
                                                      onPress={this.ReviewOpponentsIndividualSquadPlayer}
                                                              activeOpacity={0.6}
-                                                             style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                                             style={styles.button} 
                                              
                                                          > 
                                                          <Text style={styles.buttonText}>Squad Player</Text>
@@ -6014,7 +7382,7 @@ ExecuteOpponentsPercentages = async() => {
                                                          <TouchableOpacity
                                                              onPress={this.ReviewOpponentsIndividualSubBenchPlayer}
                                                              activeOpacity={0.6}
-                                                             style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                                             style={styles.button} 
                                                  
                                                          > 
                                                              <Text style={styles.buttonText}>Sub Bench</Text>
@@ -6112,8 +7480,8 @@ ExecuteOpponentsPercentages = async() => {
                                                         <Text style={styles.StatsText}>Goals: {data.Goals}</Text>
                                                         <Text style={styles.StatsText}>Points:</Text>
                                                         <Text style={styles.StatsText}>Passes: {data.Passes}</Text>
-                                                        <Text style={styles.StatsText}>Shots:</Text>
-                                                        <Text style={styles.StatsText}>Shots on target:</Text>
+                                                        <Text style={styles.StatsText}>Shots:{data.Shots}</Text>
+                                                        <Text style={styles.StatsText}>Shots on target:{data.ShotsOnTarget}</Text>
                                                         <Text style={styles.StatsText}>Tackle:</Text>
                                                     
                                                 </View>
@@ -6155,8 +7523,8 @@ ExecuteOpponentsPercentages = async() => {
                                                 <View style={styles.column}>
                                                         <Text style={styles.StatsText}>Goals: {data.Goals}</Text>
                                                         <Text style={styles.StatsText}>Passes: {data.Passes}</Text>
-                                                        <Text style={styles.StatsText}>Shots:</Text>
-                                                        <Text style={styles.StatsText}>Shots on target:</Text>
+                                                        <Text style={styles.StatsText}>Shots:{data.Shots}</Text>
+                                                        <Text style={styles.StatsText}>Shots on target:{data.ShotsOnTarget}</Text>
                                                         <Text style={styles.StatsText}>Tackle:</Text>
                                                     
                                                 </View>
@@ -6181,12 +7549,15 @@ ExecuteOpponentsPercentages = async() => {
                         }
 
                     }
-
+                 
 
                     if(displayReviewYourTeamIndividualSquadPlayer == true)
                     {
 
-                    
+                        if(SportType == 'GAA')
+                        {
+
+                     
 
                            IndividualStatsTable = (
                                 
@@ -6205,8 +7576,8 @@ ExecuteOpponentsPercentages = async() => {
                                                         <Text style={styles.StatsText}>Goals: {data.Goals}</Text>
                                                         <Text style={styles.StatsText}>Points:</Text>
                                                         <Text style={styles.StatsText}>Passes: {data.Passes}</Text>
-                                                        <Text style={styles.StatsText}>Shots:</Text>
-                                                        <Text style={styles.StatsText}>Shots on target:</Text>
+                                                        <Text style={styles.StatsText}>Shots: {data.Shots}</Text>
+                                                        <Text style={styles.StatsText}>Shots on target: {data.ShotsOnTarget}</Text>
                                                         <Text style={styles.StatsText}>Tackle:</Text>
                                                     
                                                 </View>
@@ -6229,6 +7600,51 @@ ExecuteOpponentsPercentages = async() => {
                                 </View>
                             );
 
+                        }
+
+                        else if(SportType == 'Soccer')
+                        {
+                            IndividualStatsTable = (
+                                
+                                <View style={styles.StatsTable}>
+                                        
+                                    {this.state.SelectedPlayerArray.map((data,element) => {
+                                        return (
+                                        <View  key={element} style={styles.StatsRow}>
+                                                <View style={styles.column}>
+                                                        <Text style={styles.StatsText}>Player Name: {data.fullName}</Text>
+                                                        <Text style={styles.StatsText}>Player Number: {data.playerKitNumber}</Text>
+                                                        <Text style={styles.StatsText}>Position: {data.playerPosition}</Text>
+                                                    
+                                                </View>
+                                                <View style={styles.column}>
+                                                        <Text style={styles.StatsText}>Goals: {data.Goals}</Text>
+                                                        <Text style={styles.StatsText}>Passes: {data.Passes}</Text>
+                                                        <Text style={styles.StatsText}>Shots: {data.Shots}</Text>
+                                                        <Text style={styles.StatsText}>Shots on target: {data.ShotsOnTarget}</Text>
+                                                        <Text style={styles.StatsText}>Tackle:</Text>
+                                                    
+                                                </View>
+                                                <View style={styles.column}>
+                                                        <Text style={styles.StatsText}>Won the ball:</Text>
+                                                        <Text style={styles.StatsText}>Lost the ball:</Text>
+                                                        <Text style={styles.StatsText}>Yellow Card:</Text>
+                                                        <Text style={styles.StatsText}>Red Card:</Text>
+                                                        <Text style={styles.StatsText}>Assist:</Text>
+                                                    
+                                                    
+                                                </View>
+
+
+                                        </View>
+
+                              
+                                                )
+                                        })}
+                                </View>
+                            );
+                        }
+
 
 
                         
@@ -6249,7 +7665,7 @@ ExecuteOpponentsPercentages = async() => {
                         {
                             FieldPositionSelectionContainer = (
 
-                                 <TouchableOpacity style = {{ top: '15%', width: 590 }} onPress={this.ObtainFieldPositionSelected}>
+                                 <TouchableOpacity style = {{ top: '5%',  width: 590, alignItems: "center", justifyContent: 'center'}} onPress={this.ObtainFieldPositionSelected}>
                                     <Image style = {styles.imageGAAMobile} source={require('./GAApitch1.png')}/> 
                                  </TouchableOpacity>
     
@@ -6259,7 +7675,7 @@ ExecuteOpponentsPercentages = async() => {
                         {
                             FieldPositionSelectionContainer = (
 
-                                <TouchableOpacity style = {{ top: '15%' , width: 700 }}  onPress={this.ObtainFieldPositionSelected}>
+                                <TouchableOpacity style = {{ top: '5%',width: 700, alignItems: "center", justifyContent: 'center' }}  onPress={this.ObtainFieldPositionSelected}>
                                     <Image style = {styles.imagePxGAA} source={require('./GAApitch1.png')}/> 
                                 </TouchableOpacity>
                                
@@ -6282,7 +7698,7 @@ ExecuteOpponentsPercentages = async() => {
 
                             FieldPositionSelectionContainer = (
 
-                                <TouchableOpacity style = {{ top: '15%', width: 480 }} onPress={this.ObtainFieldPositionSelected}>
+                                <TouchableOpacity style = {{ top: '5%', width: 480 ,alignItems: "center",justifyContent: 'center'}} onPress={this.ObtainFieldPositionSelected}>
                                     <Image style = {styles.imageSoccerMobile} source={require('./SoccerField.png')}/> 
                                 </TouchableOpacity>
 
@@ -6293,7 +7709,7 @@ ExecuteOpponentsPercentages = async() => {
                         {
                             FieldPositionSelectionContainer = (
 
-                                <TouchableOpacity style = {{ top: '15%', width: 700}} onPress={this.ObtainFieldPositionSelected}>
+                                <TouchableOpacity style = {{ top: '5%', width: 700 ,alignItems: "center",justifyContent: 'center'}} onPress={this.ObtainFieldPositionSelected}>
                                     <Image style = {styles.imagePxSoccer} source={require('./SoccerField.png')}/> 
                                 </TouchableOpacity>
     
@@ -6309,8 +7725,13 @@ ExecuteOpponentsPercentages = async() => {
         
         
             //Scoreboard 
-            if(SportType == 'GAA')
+            if(ScoreboardContainerToggle == true)
             {
+
+                if(SportType == 'GAA')
+                {
+              
+                
                 ScoreboardContainer = (
 
                         <View style={styles.Wrapper}>
@@ -6331,7 +7752,7 @@ ExecuteOpponentsPercentages = async() => {
                             <TouchableOpacity
                                 onPress={this.onButtonStart}
                                 activeOpacity={0.6}
-                                style={[styles.button, { backgroundColor: this.state.startDisable ? '#B0BEC5' : '#FF6F00' }]} 
+                                style={[styles.button, { backgroundColor: this.state.startDisable ? '#C30000' : '#0187F7', }]}  
 
                                 disabled={this.state.startDisable} >
                                             
@@ -6345,7 +7766,7 @@ ExecuteOpponentsPercentages = async() => {
                             <TouchableOpacity
                                 onPress={this.onButtonStop}
                                 activeOpacity={0.6}
-                                style={[styles.button, { backgroundColor:  '#FF6F00'}]} >
+                                style={styles.button}>
                                 
                                 <Text style={styles.buttonText}>STOP</Text>
                     
@@ -6361,7 +7782,7 @@ ExecuteOpponentsPercentages = async() => {
                             <TouchableOpacity
                                     onPress={this.onButtonClear}
                                     activeOpacity={0.6}
-                                    style={[styles.button, { backgroundColor: this.state.startDisable ? '#B0BEC5' : '#FF6F00' }]} 
+                                    style={[styles.button, { backgroundColor: this.state.startDisable ? '#C30000' : '#0187F7', }]}  
                                     disabled={this.state.startDisable} >
                                 
                             <Text style={styles.buttonText}> CLEAR </Text>
@@ -6382,7 +7803,7 @@ ExecuteOpponentsPercentages = async() => {
                             <TouchableOpacity
                                 onPress={this.ReviewGame}
                                 activeOpacity={0.6}
-                                style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                style={styles.button} 
                                 >
                                 <Text style={styles.buttonText}>Review Game</Text>
                     
@@ -6395,7 +7816,7 @@ ExecuteOpponentsPercentages = async() => {
                             <TouchableOpacity
                                 onPress={this.EndGame}
                                 activeOpacity={0.6}
-                                style={[styles.button, { backgroundColor:'#FF6F00' }]} 
+                                style={styles.button} 
                                     >
                                 <Text style={styles.buttonText}>End Game</Text>
 
@@ -6407,114 +7828,112 @@ ExecuteOpponentsPercentages = async() => {
 
                     </View>
 
-                );
-            }
-            else if(SportType == 'Soccer')
-            {
-                    ScoreboardContainer = (
+                    );
+                }
+                else if(SportType == 'Soccer')
+                {
+                        ScoreboardContainer = (
 
-                        <View style={styles.Wrapper}>
+                            <View style={styles.Wrapper}>
+                            
+                            <View style={styles.columnView}>
+                                <Text style={styles.buttonText}>{this.state.minutes_Counter} : {this.state.seconds_Counter}</Text>
+                            </View>
+
                         
-                        <View style={styles.columnView}>
-                            <Text style={styles.buttonText}>{this.state.minutes_Counter} : {this.state.seconds_Counter}</Text>
-                        </View>
+                            <View style={styles.columnView}>
+                                <Text style={styles.buttonText}>{this.state.TeamName}: {this.state.UsersTeamSoccerGoalCounter}</Text>
+                            </View>
 
-                    
-                        <View style={styles.columnView}>
-                            <Text style={styles.buttonText}>{this.state.TeamName}: {this.state.UsersTeamSoccerGoalCounter}</Text>
-                        </View>
-
-        
-                        <View style={styles.columnView}>
-
-
-                            <TouchableOpacity
-                                onPress={this.onButtonStart}
-                                activeOpacity={0.6}
-                                style={[styles.button, { backgroundColor: this.state.startDisable ? '#B0BEC5' : '#FF6F00' }]} 
-
-                                disabled={this.state.startDisable} >
-                                            
-                                <Text style={styles.buttonText}>START</Text>
-                                            
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style={styles.columnView}>
-
-                            <TouchableOpacity
-                                onPress={this.onButtonStop}
-                                activeOpacity={0.6}
-                                style={[styles.button, { backgroundColor:  '#FF6F00'}]} >
-                                
-                                <Text style={styles.buttonText}>STOP</Text>
-                    
-                                </TouchableOpacity>
-
-                        </View>    
-
-                    
-                            {UndoButton}
-                        
-
-                        <View style={styles.columnView}>
-                            <TouchableOpacity
-                                    onPress={this.onButtonClear}
-                                    activeOpacity={0.6}
-                                    style={[styles.button, { backgroundColor: this.state.startDisable ? '#B0BEC5' : '#FF6F00' }]} 
-                                    disabled={this.state.startDisable} >
-                                
-                            <Text style={styles.buttonText}> CLEAR </Text>
-                    
-                            </TouchableOpacity>
-
-                        </View>
-                        
-                        
-                        
-
-                        <View style={styles.columnView}>
-                            <Text style={styles.buttonText}>{this.state.OpponentName}: {this.state.OpponentsTeamSoccerGoalCounter} </Text>
-                        </View>
-
-                        <View style={styles.columnView}>
-
-                            <TouchableOpacity
-                                onPress={this.ReviewGame}
-                                activeOpacity={0.6}
-                                style={[styles.button, { backgroundColor:'#FF6F00' }]} 
-                                >
-                                <Text style={styles.buttonText}>Review Game</Text>
-                    
-                                </TouchableOpacity>
-
-                        </View>    
-
-                        <View style={styles.columnView}>
-
-                            <TouchableOpacity
-                                onPress={this.EndGame}
-                                activeOpacity={0.6}
-                                style={[styles.button, { backgroundColor:'#FF6F00' }]} 
-                                    >
-                                <Text style={styles.buttonText}>End Game</Text>
-
-                            </TouchableOpacity>
-
-                        </View>    
-
-
-                        {/* <View style={styles.WrapperRow2}>
-                        <Text>ttadsd</Text>
-                        </View> */}
-                      
-                        
-
-                    </View>
-
-                );
-            }
             
+                            <View style={styles.columnView}>
+
+
+                                <TouchableOpacity
+                                    onPress={this.onButtonStart}
+                                    activeOpacity={0.6}
+                                    style={[styles.button, { backgroundColor: this.state.startDisable ? '#C30000' : '#0187F7', }]} 
+
+                                    disabled={this.state.startDisable} >
+                                                
+                                    <Text style={styles.buttonText}>START</Text>
+                                                
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={styles.columnView}>
+
+                                <TouchableOpacity
+                                    onPress={this.onButtonStop}
+                                    activeOpacity={0.6}
+                                    style={[styles.button, { backgroundColor:  '#C30000'}]} >
+                                    
+                                    <Text style={styles.buttonText}>STOP</Text>
+                        
+                                    </TouchableOpacity>
+
+                            </View>    
+
+                        
+                                {UndoButton}
+                            
+
+                            <View style={styles.columnView}>
+                                <TouchableOpacity
+                                        onPress={this.onButtonClear}
+                                        activeOpacity={0.6}
+                                        style={[styles.button, { backgroundColor: this.state.startDisable ? '#C30000' : '#FF6F00' }]} 
+                                        disabled={this.state.startDisable} >
+                                    
+                                <Text style={styles.buttonText}> CLEAR </Text>
+                        
+                                </TouchableOpacity>
+
+                            </View>
+                            
+                            
+                            
+
+                            <View style={styles.columnView}>
+                                <Text style={styles.buttonText}>{this.state.OpponentName}: {this.state.OpponentsTeamSoccerGoalCounter} </Text>
+                            </View>
+
+                            <View style={styles.columnView}>
+
+                                <TouchableOpacity
+                                    onPress={this.ReviewGame}
+                                    activeOpacity={0.6}
+                                    style={styles.button} 
+                                    >
+                                    <Text style={styles.buttonText}>Review Game</Text>
+                        
+                                    </TouchableOpacity>
+
+                            </View>    
+
+                            <View style={styles.columnView}>
+
+                                <TouchableOpacity
+                                    onPress={this.EndGame}
+                                    activeOpacity={0.6}
+                                    style={styles.button} 
+                                        >
+                                    <Text style={styles.buttonText}>End Game</Text>
+
+                                </TouchableOpacity>
+
+                            </View>    
+
+
+            
+                        
+                            
+
+                        </View>
+
+                    );
+                }
+            }
 
             if(displayEventsContainer == true)
             {
@@ -6529,16 +7948,16 @@ ExecuteOpponentsPercentages = async() => {
                                 <View style={styles.EventsContainerRowView}>
                                 
                                         <TouchableOpacity style={styles.eventbutton1} value='Goal'  onPress={this.ObtainEventSelected('Goal')}>
-                                            <Text style={styles.buttonTitle}>Goal</Text>
+                                            <Text style={styles.buttonText}>Goal</Text>
                                         </TouchableOpacity> 
 
                                         <TouchableOpacity style={styles.eventbutton2} value='Point'   onPress={this.ObtainEventSelected('Point')}>
-                                            <Text style={styles.buttonTitle}>Point</Text>
+                                            <Text style={styles.buttonText}>Point</Text>
                                         </TouchableOpacity>
 
                                         
                                         <TouchableOpacity style={styles.eventbutton3} value='Shot'  onPress={this.ObtainEventSelected('Shot')}>
-                                            <Text style={styles.buttonTitle}>Shot</Text>
+                                            <Text style={styles.buttonText}>Shot</Text>
                                         </TouchableOpacity>
 
                                 </View>
@@ -6548,15 +7967,15 @@ ExecuteOpponentsPercentages = async() => {
                                 <View style={styles.EventsContainerRowView}>
                                                     
                                                 <TouchableOpacity style={styles.eventbutton4} value='Tackle'  onPress={this.ObtainEventSelected('Tackle')}>
-                                                        <Text style={styles.buttonTitle}>Tackle</Text>
+                                                        <Text style={styles.buttonText}>Tackle</Text>
                                                 </TouchableOpacity>
 
                                                 <TouchableOpacity style={styles.eventbutton5}  value='Pass' onPress={this.ObtainEventSelected('Pass')}>
-                                                        <Text style={styles.buttonTitle}>Pass</Text>
+                                                        <Text style={styles.buttonText}>Pass</Text>
                                                 </TouchableOpacity>
 
                                                 <TouchableOpacity style={styles.eventbutton6} value='LostTheBall'  onPress={this.ObtainEventSelected('LostTheBall')}>
-                                                        <Text style={styles.buttonTitle}>Lost the Ball</Text>
+                                                        <Text style={styles.buttonText}>Lost the Ball</Text>
                                                 </TouchableOpacity>
 
 
@@ -6566,15 +7985,15 @@ ExecuteOpponentsPercentages = async() => {
                                 <View style={styles.EventsContainerRowView}>
                                                     
                                     <TouchableOpacity style={styles.eventbutton7} value='Foul'  onPress={this.ObtainEventSelected('Foul')}>
-                                    <Text style={styles.buttonTitle}>Foul</Text>
+                                    <Text style={styles.buttonText}>Foul</Text>
                                     </TouchableOpacity>
 
                                     <TouchableOpacity style={styles.eventbutton8} value='WonTheBall'  onPress={this.ObtainEventSelected('WonTheBall')}>
-                                        <Text style={styles.buttonTitle}>Won the Ball</Text>
+                                        <Text style={styles.buttonText}>Won the Ball</Text>
                                     </TouchableOpacity>
 
                                     <TouchableOpacity style={styles.eventbutton9} value='Kickout' onPress={this.ObtainEventSelected('Kickout')}>
-                                        <Text style={styles.buttonTitle}>Kickout</Text>
+                                        <Text style={styles.buttonText}>Kickout</Text>
                                     </TouchableOpacity>
             
             
@@ -6582,7 +8001,7 @@ ExecuteOpponentsPercentages = async() => {
 
                                 <View style={styles.EventsContainerRowView}>
                                         <TouchableOpacity style={styles.eventSubButton10} value='Sub' onPress={this.SubEventSelected()}>
-                                            <Text style={styles.buttonTitle}>Sub</Text>
+                                            <Text style={styles.buttonText}>Sub</Text>
                                         </TouchableOpacity>
                                 </View>
 
@@ -6605,16 +8024,16 @@ ExecuteOpponentsPercentages = async() => {
                                 <View style={styles.EventsContainerRowView}>
                                 
                                         <TouchableOpacity style={styles.eventbutton1} value='Goal' onPress={this.ObtainEventSelected('Goal')}>
-                                            <Text style={styles.buttonTitle}>Goal</Text>
+                                            <Text style={styles.buttonText}>Goal</Text>
                                         </TouchableOpacity> 
 
                                         <TouchableOpacity style={styles.eventbutton2} value='Interception'>
-                                            <Text style={styles.buttonTitle}>Interception</Text>
+                                            <Text style={styles.buttonText}>Interception</Text>
                                         </TouchableOpacity>
 
                                         
                                         <TouchableOpacity style={styles.eventbutton3} value='Shot' onPress={this.ObtainEventSelected('Shot')}>
-                                            <Text style={styles.buttonTitle}>Shot</Text>
+                                            <Text style={styles.buttonText}>Shot</Text>
                                         </TouchableOpacity>
                     
                                 
@@ -6625,15 +8044,15 @@ ExecuteOpponentsPercentages = async() => {
                                 <View style={styles.EventsContainerRowView}>
                                                     
                                                 <TouchableOpacity style={styles.eventbutton4} value='Tackle' onPress={this.ObtainEventSelected('Tackle')}>
-                                                        <Text style={styles.buttonTitle}>Tackle</Text>
+                                                        <Text style={styles.buttonText}>Tackle</Text>
                                                 </TouchableOpacity>
 
                                                 <TouchableOpacity style={styles.eventbutton5}  value='Pass' onPress={this.ObtainEventSelected('Pass')}>
-                                                        <Text style={styles.buttonTitle}>Pass</Text>
+                                                        <Text style={styles.buttonText}>Pass</Text>
                                                 </TouchableOpacity>
 
                                                 <TouchableOpacity style={styles.eventbutton6} value='LostTheBall' onPress={this.ObtainEventSelected('LostTheBall')}>
-                                                        <Text style={styles.buttonTitle}>Lost the Ball</Text>
+                                                        <Text style={styles.buttonText}>Lost the Ball</Text>
                                                 </TouchableOpacity>
 
 
@@ -6643,15 +8062,15 @@ ExecuteOpponentsPercentages = async() => {
                                 <View style={styles.EventsContainerRowView}>
                                                     
                                     <TouchableOpacity style={styles.eventbutton7} value='Foul' onPress={this.ObtainEventSelected('Foul')}>
-                                    <Text style={styles.buttonTitle}>Foul</Text>
+                                    <Text style={styles.buttonText}>Foul</Text>
                                     </TouchableOpacity>
 
                                     <TouchableOpacity style={styles.eventbutton8} value='WonTheBall' onPress={this.ObtainEventSelected('WonTheBall')}>
-                                        <Text style={styles.buttonTitle}>Won the Ball</Text>
+                                        <Text style={styles.buttonText}>Won the Ball</Text>
                                     </TouchableOpacity>
 
                                     <TouchableOpacity style={styles.eventbutton9} value='Kickout' onPress={this.ObtainEventSelected('Kickout')}>
-                                        <Text style={styles.buttonTitle}>Kickout</Text>
+                                        <Text style={styles.buttonText}>Kickout</Text>
                                     </TouchableOpacity>
 
 
@@ -6659,7 +8078,7 @@ ExecuteOpponentsPercentages = async() => {
 
                                 <View style={styles.EventsContainerRowView}>
                                         <TouchableOpacity style={styles.eventSubButton10} value='Sub' onPress={this.SubEventSelected()}>
-                                            <Text style={styles.buttonTitle}>Sub</Text>
+                                            <Text style={styles.buttonText}>Sub</Text>
                                         </TouchableOpacity>
                                 </View>
 
@@ -6787,734 +8206,54 @@ ExecuteOpponentsPercentages = async() => {
 
                 }
 
-        //         if(ActivateUndoButton == true)
-        //         {
-        //             UndoButton = (
-                    
-        //                 <View >
 
-        //                     <TouchableOpacity
-        //                         onPress={this.UndoEvent}
-        //                         activeOpacity={0.6}
-        //                         style={[styles.buttonUndo, { backgroundColor:'#FF6F00' }]} 
-        //                     > 
-        //                         <Text style={styles.buttonText}>Undo Event</Text>
-                                            
-        //                     </TouchableOpacity>
-        //                 </View>
-        //             );
-        //         }
-
-            
-        //         if(ActivateUndoButtonForFieldSelection == true)
-        //         {
-        //             UndoButton = (
-                    
-        //                 <View >
-
-        //                     <TouchableOpacity
-        //                         onPress={this.UndoEvent}
-        //                         activeOpacity={0.6}
-        //                         style={[styles.buttonUndo, { backgroundColor:'#FF6F00',width:'100%' }]} 
-        //                     > 
-        //                         <Text style={styles.buttonText}>Undo Event</Text>
-                                            
-        //                     </TouchableOpacity>
-        //                 </View>
-        //             );
-        //         }
-
-        //      if(ActivateUndoReviewButton == true)
-        //      {
-        //         UndoButton = (
-                
-        //             <View >
-
-        //                 <TouchableOpacity
-        //                     onPress={this.UndoReviewButton}
-        //                     activeOpacity={0.6}
-        //                     style={[styles.buttonUndo, { backgroundColor:'#FF6F00', width:'100%' }]} 
-        //                 > 
-        //                     <Text style={styles.buttonText}>Go back to Review Section</Text>
-                                        
-        //                 </TouchableOpacity>
-        //             </View>
-        //         );
-        //      }
-
-
-
-
-            
-        
-
-        //      if(displayStartingTeam == true)
-        //      {
-
-        //         OpponentsMode = (
-
-        //             <View style={styles.GetOpponentsPlayers}>
-        //                  <TouchableOpacity style={styles.OpponentsModeBtn} onPress={this.GetOpponentsPlayers}>
-        //                       <Text style={styles.buttonText}>Opponents Players</Text>
-        //                   </TouchableOpacity> 
-        //             </View>
-        //          );
-
-
-
-
-        //         PlayerContainer = (
-
-        //             <View style ={styles.playerRowView}>
-                            
-                    
-        //                             {this.state.StartingTeamArray.map((data,element) => {
-        //                                 return (
-        //                                     <View key={element} style={styles.listItemContainer}>
-        //                                         <View style={styles.playerColumnView}>
-        //                                             <TouchableOpacity style={styles.StartingKitNumberbutton} value={data.playerKitNumber}  onPress={this.SelectPlayer(data.playerKitNumber)}>
-        //                                                 <Text style={styles.buttonText}>{data.playerKitNumber}</Text>
-        //                                             </TouchableOpacity> 
-
-        //                                         </View>
-                                    
-        //                                     </View>
-
-        //                                 )
-        //                             })}
-
-                                
-
-                                
-        //             </View>
-
-                    
-        //         ); 
-
-
-
-
-
-        //      }
-
-
-      
-
-
-
-        //      //Display Opponents Starting Team 
-        //      if(displayOpponentsStartingTeam == true)
-        //      {
-                 
-        //         YourTeamMode = (
-
-        //             <View style={styles.GetYourTeamPlayers}>
-        //                  <TouchableOpacity style={styles.OpponentsModeBtn} onPress={this.GetYourTeamPlayers}>
-        //                       <Text style={styles.buttonText}>Your Team Players</Text>
-        //                   </TouchableOpacity> 
-        //             </View>
-        //          );
-
-
-
-
-        //         PlayerContainer = (
-
-        //             <View style ={styles.playerRowView}>
-                            
-                    
-        //                             {this.state.OpponentsStartingTeamArray.map((data,element) => {
-        //                                 return (
-        //                                     <View key={element} style={styles.listItemContainer}>
-        //                                         <View style={styles.playerColumnView}>
-        //                                             <TouchableOpacity style={styles.SubKitNumberbutton} value={data.playerKitNumber}  onPress={this.SelectPlayer(data.playerKitNumber)}>
-        //                                                 <Text style={styles.buttonText}>{data.playerKitNumber}</Text>
-        //                                             </TouchableOpacity> 
-
-        //                                         </View>
-                                    
-        //                                     </View>
-
-        //                                 )
-        //                             })}
-
-                                
-
-                                
-        //             </View>
-
-                    
-        //         ); 
-        //      }
-
-        //      //Display Opponents Sub bench 
-        //      if(displayOpponentsSubBench == true)
-        //      {
-        //         PlayerContainer = (
-
-        //             <View style ={styles.playerRowView}>
-                   
-        //                             {this.state.OpponentsSubBenchArray.map((data,element) => {
-        //                                 return (
-        //                                     <View key={element} style={styles.listItemContainer}>
-        //                                         <View style={styles.playerColumnView}>
-        //                                             <TouchableOpacity style={styles.SubKitNumberbutton} value={data.playerKitNumber}  onPress={this.ExecuteOpponentSub(data.playerKitNumber)}>
-        //                                                 <Text style={styles.buttonText}>{data.playerKitNumber}</Text>
-        //                                             </TouchableOpacity> 
-
-        //                                         </View>
-                                    
-        //                                     </View>
-
-        //                                 )
-        //                             })}
-
-                                
-                        
-                                
-        //             </View>
-
-                    
-        //         ); 
-        //      }
-
-
-
-        //     //displays DetailedIndividualSquadPlayer EventSelection
-        //     if(displayDetailedIndividualSquadPlayerEventSelection == true)
-        //     {
-
-        //         ReviewDetailGameAnalysis =  (
-        //             <View style={styles.DetailedGameAnalysisView}>
-                    
-        //                     <Text style={styles.buttonText}>Select an event to view field locations</Text>
-        //                         <Picker
-        //                             selectedValue={this.state.YourTeamEventSelection}
-        //                             style={styles.input}
-        //                             onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
-        //                             >
-
-        //                             <Picker.Item label="Select a event" value="" />
-        //                             <Picker.Item label="Goal" value="Goal" />
-        //                             <Picker.Item label="Shots" value="Shot"/>
-        //                             <Picker.Item label="Pass" value="Pass"/>
-
-
-        //                         </Picker>
-
-        //                     <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventPlayerDetailedAnalysis}>
-        //                         <Text style={styles.buttonTitle}>Submit</Text>
-        //                     </TouchableOpacity>
-
-        //             </View> 
-
-        //         );
-        //     }
-
-        //     // - Opponent Player event selection
-
-        //     //displays DetailedIndividualSquadPlayer EventSelection
-        //     if(displayDetailedIndividualOpponentsSquadPlayerEventSelection == true)
-        //     {
-        //         ReviewDetailGameAnalysis =  (
-        //             <View style={styles.DetailedGameAnalysisView}>
-                    
-        //                     <Text style={styles.buttonText}>Select an event to view field locations</Text>
-        //                         <Picker
-        //                             selectedValue={this.state.YourTeamEventSelection}
-        //                             style={styles.input}
-        //                             onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
-        //                             >
-
-        //                             <Picker.Item label="Select a event" value="" />
-        //                             <Picker.Item label="Goal" value="Goal" />
-        //                             <Picker.Item label="Shots" value="Shot"/>
-        //                             <Picker.Item label="Pass" value="Pass"/>
-
-
-        //                         </Picker>
-
-        //                     <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventOpponentsPlayerDetailedAnalysis}>
-        //                         <Text style={styles.buttonTitle}>Submit</Text>
-        //                     </TouchableOpacity>
-
-        //             </View> 
-
-        //         );
-        //     }
-
-        //     //Field Views - Your Team
-
-        //     if(ExecuteDetailAnalysis == true)
-        //     {
-        //           ReviewDetailGameAnalysisFieldView =  (
-        //               <View>
-                      
-                        
-                                      
-        //               <Image style = {styles.imageSoccer} source={require('./SoccerField.png')}/>
-        //                         {this.state.DetailAnalysisStatHolder.map((data) => {
-        //                             return (
-        //                             <View 
-        //                                 style={{
-                                    
-        //                                 position: 'absolute',
-        //                                 left: data.x,
-        //                                 top: data.y,
-        //                                 backgroundColor:'#242424',
-        //                                 width: 10,
-        //                                 height: 10,
-        //                                 borderRadius: 50
-        //                                 }}>
-        //                             </View> 
-
-        //                             )
-        //                         })}        
-        //               </View>
-
-       
-             
-
-        //           );
-        //     }
-
-                                 
-        // //Field Views - Opponents
-
-        //     if(ExecuteOpponentsDetailAnalysis == true)
-        //     {
-        //           ReviewDetailGameAnalysisFieldView =  (
-        //               <View>             
-        //                     <Image style = {styles.imageSoccer} source={require('./SoccerField.png')}/>
-        //                     {this.state.OpponentsDetailAnalysisStatHolder.map((data) => {
-        //                         return (
-        //                         <View 
-        //                             style={{
-                                
-        //                             position: 'absolute',
-        //                             left: data.x,
-        //                             top: data.y,
-        //                             backgroundColor:'#242424',
-        //                             width: 10,
-        //                             height: 10,
-        //                             borderRadius: 50
-        //                             }}>
-        //                         </View> 
-
-        //                         )
-        //                     })}        
-        //               </View>
-
-      
-          
-
-        //           );
-        //     }
-
-
-
-
-
-
-
-
-        //      //Detailled Game Analysis - Soccer
-        //      if(DetailedGameAnalysisSelectionView == true)
-        //      {
-
-        //               /* Selection  - Buttons to choose Your Team or Opponents */
-        //               ReviewDetailGameAnalysis =  (
-
-        //                   <View style={styles.ReviewContainer}>
-        //                       <View style={styles.columnView}>
-        //                           <TouchableOpacity activeOpacity={0.6}style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.ReviewYourTeamDGA}>
-        //                                   <Text style={styles.buttonText}>Your Team</Text> 
-        //                           </TouchableOpacity>
-        //                       </View>
-        //                       <View style={styles.columnView}>
-        //                           <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.ReviewOpponentsDGA}>
-        //                                   <Text style={styles.buttonText}>Opponents</Text> 
-        //                           </TouchableOpacity>
-        //                       </View>
-        //                   </View>
-        //               );
-              
-        //       }
-
-        //        //Your Team Review Selection Option
-        //        if(YourTeamReviewSelection == true)
-        //        {
-
-        //                /* Selection screen - Buttons to choose a view to navigate to */
-        //                ReviewDetailGameAnalysis =  (
-                           
-        //                    <View style={styles.ReviewContainer}>
-        //                        <View style={styles.columnView}>
-        //                            <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.UserSelectsTeamEventsLocations}>
-        //                                    <Text style={styles.buttonText}>Review team events and field locations</Text> 
-        //                            </TouchableOpacity>
-        //                        </View>
-        //                        <View style={styles.columnView}>
-        //                            <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.UserSelectsPlayerEventsLocations}>
-        //                                    <Text style={styles.buttonText}>Review a players events and field locations</Text> 
-        //                            </TouchableOpacity>
-        //                        </View>
-        //                    </View>
-        //                ); 
-        //         }
-
-        //         if(OpponentsReviewSelection == true)
-        //         {
-                            
-        //                     /* Selection - Buttons to choose a view to navigate to */
-        //                      ReviewDetailGameAnalysis =  (
-        //                             <View style={styles.ReviewContainer}>
-        //                                 <View style={styles.columnView}>
-        //                                     <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.UserSelectsOpponentsEventsLocations}>
-        //                                     <Text style={styles.buttonText}>Review team events and field locations</Text> 
-        //                                     </TouchableOpacity>
-        //                                 </View>
-        //                                 <View style={styles.columnView}>
-        //                                     <TouchableOpacity activeOpacity={0.6} style={[styles.button, { backgroundColor:'#FF6F00' }]}  onPress={this.UserSelectsOpponentsPlayerEventsLocations}>
-        //                                     <Text style={styles.buttonText}>Review a players events and field locations</Text> 
-        //                                     </TouchableOpacity>
-        //                                 </View>
-        //                             </View>
-        //                     ); 
-        //         }
-
-
-        //         //Your Team Event Locations - Select Squad or Sub Bench
-        //         if(TeamSelection == true)
-        //         {
-        //             ReviewIndividualPlayerStatsContainer = (
-        //                 <View style={styles.ReviewContainer}>
-                                
-        //                         <Text style={styles.buttonText}>Review a individual player from your team - Select an option</Text>
-
-        //                         <View style={styles.playerColumnView}>
-                                    
-        //                                     <TouchableOpacity
-        //                                             onPress={this.DetailedAnalysisIndividualSquadPlayer}
-        //                                             activeOpacity={0.6}
-        //                                             style={[styles.button, { backgroundColor:'#FF6F00' }]} 
-                                    
-        //                                         > 
-        //                                         <Text style={styles.buttonText}>Squad Player</Text>
-        //                                     </TouchableOpacity>
-        //                             </View>
-
-        //                             <View style={styles.playerColumnView}>
-        //                                         <TouchableOpacity
-        //                                             onPress={this.DetailedAnalysisIndividualSubBenchPlayer}
-        //                                             activeOpacity={0.6}
-        //                                             style={[styles.button, { backgroundColor:'#FF6F00' }]} 
-                                        
-        //                                         > 
-        //                                             <Text style={styles.buttonText}>Sub Bench</Text>
-        //                                         </TouchableOpacity>
-        //                             </View>
-                
-        //                 </View>
-
-        //             );
-        //         }
-                
-        //         //Opponents Event Locations - Select Squad or Sub Bench
-        //         if(OpponentsSelection == true)
-        //         {
-        //             ReviewIndividualPlayerStatsContainer = (
-        //                 <View style={styles.ReviewContainer}>
-                                
-        //                         <Text style={styles.buttonText}>Review a individual player from your team - Select an option</Text>
-
-        //                         <View style={styles.playerColumnView}>
-                                    
-        //                                     <TouchableOpacity
-        //                                             onPress={this.OpponentsDetailedAnalysisIndividualSquadPlayer}
-        //                                             activeOpacity={0.6}
-        //                                             style={[styles.button, { backgroundColor:'#FF6F00' }]} 
-                                    
-        //                                         > 
-        //                                         <Text style={styles.buttonText}>Squad Player</Text>
-        //                                     </TouchableOpacity>
-        //                             </View>
-
-        //                             <View style={styles.playerColumnView}>
-        //                                         <TouchableOpacity
-        //                                             onPress={this.OpponentsDetailedAnalysisIndividualSubBenchPlayer}
-        //                                             activeOpacity={0.6}
-        //                                             style={[styles.button, { backgroundColor:'#FF6F00' }]} 
-                                        
-        //                                         > 
-        //                                             <Text style={styles.buttonText}>Sub Bench</Text>
-        //                                         </TouchableOpacity>
-        //                             </View>
-                
-        //                 </View>
-
-        //             );
-        //         }
-                
-        //         //Your Team Players Selection view
-        //         if(displayDetailedIndividualSquadPlayer == true)
-        //         {
-                    
-        //             ReviewIndividualSquadPlayer =  (
-                                           
-        //                 <View style ={styles.playerRowView}>
-
-        //                  {this.state.StartingTeamArray.map((data,element) => {
-        //                         return (
-        //                             <View key={element} style={styles.listItemContainer}>
-        //                                 <View style={styles.playerColumnView}>
-        //                                     <TouchableOpacity style={styles.StartingKitNumberbutton} value={data.playerKitNumber} onPress={this.GetSelectedPlayerForDetailedAnalysis(data.playerKitNumber)}>
-        //                                         <Text style={styles.buttonText}>{data.playerKitNumber}</Text>
-        //                                     </TouchableOpacity> 
-        //                                 </View>
-        //                             </View>
-        //                         )
-        //                     })}
-
-                        
-        //                 </View>
-        //             );
-
-        //         }
-
-        //         //Your Team Players Selection view - Sub bench 
-        //         if(displayDetailedIndividualSubBenchPlayer == true)
-        //         {
-        //                 ReviewIndividualSubBenchPlayer = ( 
-            
-        //                     <View style ={styles.playerRowView}>
-            
-        //                         {this.state.SubBenchArray.map((data,element) => {
-        //                                                 return (
-        //                                                     <View key={element} style={styles.listItemContainer}>
-        //                                                         <View style={styles.playerColumnView}>
-        //                                                             <TouchableOpacity style={styles.SubKitNumberbutton} value={data.playerKitNumber}  onPress={this.GetSelectedSubBenchPlayerForDetailedAnalysis(data.playerKitNumber)}>
-        //                                                                 <Text style={styles.buttonText}>{data.playerKitNumber}</Text> 
-        //                                                             </TouchableOpacity> 
-        //                                                         </View>
-        //                                                     </View>
-        //                                                 )
-        //                                             })}
-            
-        //                     </View>
-            
-                                
-        //                 );
-        //         }
-
-
-        //            //Select an Event (Team Events View)
-        //            if(EventSelectionTeamDetailAnalysis)
-        //            {
-
-        //                 ReviewDetailGameAnalysis =  (
-        //                      <View style={styles.DetailedGameAnalysisView}>
-        
-        //                             <Text style={styles.buttonText}>Select an event to view field locations</Text>
-        //                                         <Picker
-        //                                             selectedValue={this.state.YourTeamEventSelection}
-        //                                             style={styles.input}
-        //                                             onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
-        //                                             >
-            
-        //                                               <Picker.Item label="Select a event" value="" />
-        //                                               <Picker.Item label="Goal" value="Goal" />
-        //                                               <Picker.Item label="Shots" value="Shot"/>
-        //                                               <Picker.Item label="Pass" value="Pass"/>
-            
-            
-        //                                         </Picker>
-                
-        //                                     <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteTeamDetailAnalysis}>
-        //                                         <Text style={styles.buttonTitle}>Submit</Text>
-        //                                     </TouchableOpacity>
-    
-        //                        </View> 
-    
-        //                  );
-        //            }
-
-        //                  //Select an Event (Opponents Events View)
-        //                  if(EventSelectionOpponentsDetailAnalysis)
-        //                  {
-        //                          ReviewDetailGameAnalysis =  (
-        //                              <View style={styles.DetailedGameAnalysisView}>
-                                     
-        //                                      <Text style={styles.buttonText}>Select an event to view field locations</Text>
-        //                                          <Picker
-        //                                              selectedValue={this.state.YourTeamEventSelection}
-        //                                              style={styles.input}
-        //                                              onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
-        //                                              >
-         
-        //                                              <Picker.Item label="Select a event" value="" />
-        //                                              <Picker.Item label="Goal" value="Goal" />
-        //                                              <Picker.Item label="Shots" value="Shot"/>
-        //                                              <Picker.Item label="Pass" value="Pass"/>
-         
-         
-        //                                          </Picker>
-             
-        //                                      <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteOpponentsDetailAnalysis}>
-        //                                          <Text style={styles.buttonTitle}>Submit</Text>
-        //                                      </TouchableOpacity>
- 
-        //                              </View> 
- 
-        //                          );
-                             
-        //                   }
-
-
-                          
-                           
-
-        //                      // Your Team percentages
-        //                     if(TeamEventPercentages == true)
-        //                     {
-                                
-        //                             ReviewDetailGameAnalysis =  (
-        //                                 <View style={styles.DetailedGameAnalysisView}>
-        //                                     <Text style={styles.buttonText}>{this.state.TeamName} Event Percentages</Text>
-
-        //                                         {/* Select an event  */}
-        //                                         <Picker
-        //                                             selectedValue={this.state.YourTeamEventSelection}
-        //                                             style={styles.input}
-        //                                             onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
-        //                                             >
-
-        //                                             <Picker.Item label="Select a event" value="" />
-        //                                             <Picker.Item label="Goal" value="Goal" />
-        //                                             <Picker.Item label="Shots" value="Shot"/>
-        //                                             <Picker.Item label="Pass" value="Pass"/>
-
-
-        //                                         </Picker>
-
-        //                                         <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteTeamPercentages}>
-        //                                             <Text style={styles.buttonTitle}>Submit</Text>
-        //                                         </TouchableOpacity>
-
-
-        //                                 </View> 
-        //                             );
-                                
-                               
-                                 
-                                
-
-        //                     }
-
-        //                     // Opponents percentages
-        //                     if(OpponentsEventPercentages == true)
-        //                     {
-                                
-        //                             ReviewDetailGameAnalysis =  (
-        //                                 <View style={styles.DetailedGameAnalysisView}>
-        //                                     <Text style={styles.buttonText}>{this.state.OpponentName} Percentages</Text>
-
-        //                                     {/* Select an event  */}
-        //                                     <Picker
-        //                                         selectedValue={this.state.OpponentsEventSelection}
-        //                                         style={styles.input}
-        //                                         onValueChange={(text) => this.setState({OpponentsEventSelection:text})}
-        //                                         >
-
-        //                                         <Picker.Item label="Select a event" value="" />
-        //                                         <Picker.Item label="Goal" value="Goal" />
-        //                                         <Picker.Item label="Shots" value="Shot"/>
-        //                                         <Picker.Item label="Pass" value="Pass"/>
-
-
-        //                                     </Picker>
-
-        //                                     <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteOpponentsPercentages}>
-        //                                         <Text style={styles.buttonTitle}>Submit</Text>
-        //                                     </TouchableOpacity>
-
-        //                                 </View> 
-        //                             );
-
-        //                     }
-
-
-        //                     if(displayTeamPercentages == true)
-        //                     {
-
-        //                         ReviewDetailGameAnalysis =  (
-        //                             <View>
-        //                                 <Text style={styles.buttonText}>{this.state.YourTeamEventSelection} Analysis</Text>
-
-                                        
-
-        //                             </View>
-
-        //                         );
-        //                     }
-
-        //                     if(displayOpponentsPercentages == true)
-        //                     {
-        //                         ReviewDetailGameAnalysis =  (
-        //                             <View>
-        //                                <Text style={styles.buttonText}>{this.state.OpponentsEventSelection} Analysis</Text>
-        //                             </View>
-    
-        //                         );
-        //                     }
-
-
-
-
-
-
-
-
-
-
-
-           // }
             return (
 
                 <View style={{flex: 1,backgroundColor: '#252626'}}>
 
-                        
 
                     <StatusBar hidden />
             
                     <View>
                         {ScoreboardContainer}
-
+                        {ReviewIndividualPlayerStatsContainer}
                         <View>
-                         {UndoButton}
-                         </View>
+                            {UndoButton}
+                        </View>
 
                                           
-                          {HistoryContainer}
+                        {HistoryContainer}
                    
-                 
-                         {EventsPatternContainer}
+                        {EventsPatternContainer}
+
+
+                           
+                        
+                            {ReviewDetailGameAnalysis}
+                  
+
+ 
+                   
+
+                        {FieldPositionSelectionContainer}
+
+
                     </View>
 
 
+                
+                {ReviewDetailGameAnalysisOptions}
+
                   
-
-                     {/* <View>  */}
-                        {FieldPositionSelectionContainer}
-                    
-                     {/* </View>   */}
              
-  
+                         
+                        <View> 
+                            {ReviewDetailGameAnalysisFieldView}
+                        </View>
 
-                    {ReviewDetailGameAnalysisFieldView}
-                      
-                 
-                     
+
+
+              
 
 
                    
@@ -7560,10 +8299,9 @@ ExecuteOpponentsPercentages = async() => {
             
                          {ReviewOpponentsTotalTeamStatsContainer}
               
-
+                         
              
-                         {ReviewIndividualPlayerStatsContainer}
-              
+           
                          {ReviewIndividualSquadPlayer}
                  
                          {IndividualStatsTable}
@@ -7571,9 +8309,8 @@ ExecuteOpponentsPercentages = async() => {
                          {ReviewIndividualSubBenchPlayer}
                  
                 
-                    <View>
-                        {ReviewDetailGameAnalysis}
-                    </View>
+                        
+
                  
 
                     <View>
@@ -7582,15 +8319,14 @@ ExecuteOpponentsPercentages = async() => {
 
                     <View>
                          {YourTeamMode}
-                    </View>
-
-                    <View>
+                    
                          {OpponentsMode}
-                    </View>
-
+                
                     <View >
                          {PlayerContainer}
                      
+                    </View>
+
                     </View>
 
               
@@ -7612,7 +8348,7 @@ ExecuteOpponentsPercentages = async() => {
 }
 
 const styles = StyleSheet.create({
-
+ 
     FieldContainer: {
         flex: 1,
         flexDirection:"row",
@@ -7620,10 +8356,36 @@ const styles = StyleSheet.create({
         width:wp('90%'),
         paddingLeft: 10, 
 
-        
-  
-        
     },
+
+    imagePlotContainer: {
+
+    
+        flexWrap: 'wrap',
+        flexDirection:"column",
+        top:wp('5%'),
+     
+    
+  
+
+    },
+
+    fieldcontainer1: {
+        // top:wp('5%'),
+        flexWrap: 'wrap',
+        
+       
+
+    },
+
+    fieldcontainer2: {
+        top:wp('5%'),
+        // flexWrap: 'wrap',
+        
+       
+
+    },
+
 
        
     EventsContainerRowView: {
@@ -7644,6 +8406,18 @@ const styles = StyleSheet.create({
         fontSize:18,
         fontWeight: "bold",
     },
+
+    EventContainer:{
+        flex:1,
+        flexDirection:"row",
+        justifyContent:'center',
+        marginLeft: 30,
+        marginRight: 30,
+        marginTop: 20,
+        height: 48,
+    },
+
+    
     footerContainer: {
         width: wp('100%') ,  // % of width device screen
    
@@ -7678,38 +8452,46 @@ const styles = StyleSheet.create({
 
     },
 
-//     WrapperRow2: {
-    
-//         // position:'absolute',
-//         // flex:1,
-//         // flexDirection:'col',
-//         // justifyContent:'space-between',
-//         // alignItems: 'center',
-//         // height: 50,
-//         // width:'100%',
+
+    ReviewWrapper: {
+
+        width: wp('100%') ,  // % of width device screen
+        position:'absolute',
+        flex:1,
+        flexDirection:"row",
+        flexWrap: 'wrap',
+        justifyContent:'space-between',
+        alignItems: 'center',
+        fontSize: hp('1%') ,
+        backgroundColor: 'black',
+  
+      },
+
      
-//         // fontSize: hp('1%') ,
-//         // backgroundColor: 'black',   
-//    flex:1,
-//         flexDirection: 'row',
-//         flexWrap: 'wrap',
-//         width: wp('100%') ,  // % of width device screen
-//     },
+    input: {
+        height: 48,
+        width:'100',
+        borderRadius: 5,
+        // overflow: 'hidden',
+        backgroundColor: 'white',
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 30,
+        marginRight: 30,
+        paddingLeft: 16
+    },
+    
 
     DetailedGameAnalysisView: {
-        position: 'absolute',
-        width:hp('100%'),
-         justifyContent:'center',
-    
-      
-        // flexDirection:"row",
-        // // flexWrap:'wrap',
-         marginTop: wp('20%'),
+ 
+        flex: 1,
+        height:'100%',
+        top:hp('30%'), 
 
-   
-        // fontSize: hp('1%') ,
-   
-        // zIndex: 1,
+
+        width: wp('80%') ,  // % of width device screen
+        padding:4,
+
     },
 
     StatsTable: {
@@ -7717,7 +8499,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection:"row",
         flexWrap:'wrap',
-        marginTop: wp('20%'),
+        marginTop: hp('20%'),
 
    
         fontSize: hp('1%') ,
@@ -7770,6 +8552,14 @@ const styles = StyleSheet.create({
     
     },
 
+    textAnalysis:{
+        fontSize: hp('2%') ,
+        padding:5,
+        color: "white",
+        fontWeight: "bold",
+        justifyContent:'center',
+    },
+
     StatsTitle:{
         fontSize: hp('2%') ,
         padding:5,
@@ -7779,8 +8569,6 @@ const styles = StyleSheet.create({
     column:{
         flex:1,
         justifyContent:'center',
-        // flexWrap:'wrap',
-    
         alignItems: 'center',
         flexDirection: 'column',
         fontSize: hp('1%') 
@@ -7788,8 +8576,6 @@ const styles = StyleSheet.create({
 
     ReviewContainer: {
 
-        // width: wp('100%') ,  // % of width device screen
-        
         flexDirection:"row",
         top:wp('5%'),
         bottom:'5%',
@@ -7803,21 +8589,31 @@ const styles = StyleSheet.create({
   
       },
 
-    // Wrapper: {
-    //     height: hp('10%'), // 70% of height device screen
-    //     width: wp('10%') ,  // % of width device screen
-    //     flex: 1,
-    //     justifyContent:'space-between',
-    //     flexDirection: 'row',
- 
+
+      
+    ReviewContainer2: {
+
+        flexDirection:"row",
+        // top:wp('5%'),
+        alignItems: 'center',
+        justifyContent:'space-between',
   
-    //   },
+        // height: 50,
+     
+   
+        fontSize: hp('1%') ,
+        backgroundColor: 'black',
+  
+      },
+
+
     myText: {
       fontSize: hp('5%') // End result looks like the provided UI mockup
     },
 
+   
     input: {
-        height: hp('100%'),
+        height: 48,
         borderRadius: 5,
         overflow: 'hidden',
         backgroundColor: 'white',
@@ -7827,8 +8623,11 @@ const styles = StyleSheet.create({
         marginRight: 30,
         paddingLeft: 16
     },
+
+
+
     button: {
-        backgroundColor: '#788eec',
+        backgroundColor: '#C30000',
       
         padding: 1,
       
@@ -7856,12 +8655,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent:'space-between'
     },
-    buttonTitle: {
-        color: 'white',
-     
-        fontSize: hp('1%'),
-        fontWeight: "bold"
-    },
+  
     footerView: {
         flex: 1,
         alignItems: "center",
@@ -7878,12 +8672,15 @@ const styles = StyleSheet.create({
     },
   
     container: {
-        
+        flex: 1,
 
-      
         backgroundColor: '#242424', 
   
 
+    },
+    row:{
+        flex: 1,  
+        flexDirection: 'row'
     },
 
     rowView: {
@@ -7913,9 +8710,6 @@ const styles = StyleSheet.create({
   
         flexDirection: 'row',
 
-        // top: 400,
-  
-        // bottom:'20%'
 
    
     },
@@ -7924,18 +8718,15 @@ const styles = StyleSheet.create({
   
         flexDirection: 'row',
          position: 'absolute' , 
-        // top: 400,
-        // left:100,
-   
+  
 
-   
     },
 
     ReviewListPlayerRowText1: {
   
         flexDirection: 'row',
          position: 'absolute' , 
-        // top: 400,
+     
         left:10,
 
    
@@ -7945,8 +8736,7 @@ const styles = StyleSheet.create({
   
         flexDirection: 'row',
          position: 'absolute' , 
-        // top: 400,
-        // left:100,
+    
         bottom:'10%'
 
    
@@ -7969,14 +8759,44 @@ const styles = StyleSheet.create({
         
       
         marginLeft: 10,
-        paddingBottom: 12,
+  
 
-        // justifyContent: 'space-around',
+      
         flex:1,
         flexDirection: 'column',
-        // justifyContent: 'flex-end',
+
     
         
+    },
+    testrrr: {
+
+        flex:1,
+        flexDirection: 'row',
+     
+        
+    },
+
+ 
+    
+
+    playerColumnView1: {
+
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+    },
+
+    playerColumnView2: {
+
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+    },
+
+
+    testrow: { 
+        flex:1,
+        flexDirection: 'column',
     },
 
     columnView: {
@@ -8013,8 +8833,8 @@ const styles = StyleSheet.create({
         fontSize: hp('1%') ,
         borderRadius:7,
         // marginTop: 395,
-        padding:40,
-        backgroundColor: '#FF6D01',
+        // padding:40,
+        backgroundColor: '#C30000',
         justifyContent: 'space-around'
     },
 
@@ -8039,7 +8859,7 @@ const styles = StyleSheet.create({
         borderRadius:7,
         // marginTop: 395,
         padding:4,
-        backgroundColor: '#FF6D01',
+        backgroundColor: '#C30000',
         justifyContent: 'space-around'
                 // flexWrap:'wrap',
  
@@ -8178,7 +8998,7 @@ const styles = StyleSheet.create({
     },
 
     eventbutton1: {
-        backgroundColor: '#FF6F00',
+        backgroundColor: '#C30000',
         height: 60,
         width: 100,
         position:"absolute",
@@ -8196,7 +9016,7 @@ const styles = StyleSheet.create({
     },
 
     eventbutton2: {
-        backgroundColor: '#FF6F00',
+        backgroundColor: '#C30000',
         position:"absolute",
         left: 220,
         height: 60,
@@ -8212,7 +9032,7 @@ const styles = StyleSheet.create({
     },
     eventbutton3: {
 
-        backgroundColor: '#FF6F00',
+        backgroundColor: '#C30000',
         position:"absolute",
         left: 335,
         // height: 48,
@@ -8228,16 +9048,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent:'space-between'
 
-
-
-
-
-
-
-
     },
     eventbutton4: {
-        backgroundColor: '#FF6F00',
+        
+        backgroundColor: '#C30000',
         position:"absolute",
         left: 115,
         // height: 48,
@@ -8254,7 +9068,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     eventbutton5: {
-        backgroundColor: '#FF6F00',
+        backgroundColor: '#C30000',
         position:"absolute",
         left: 220,
         // height: 48,
@@ -8271,7 +9085,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     eventbutton6: {
-        backgroundColor: '#FF6F00',
+        backgroundColor: '#C30000',
         position:"absolute",
         left: 335,
         // height: 48,
@@ -8288,7 +9102,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     eventbutton7: {
-        backgroundColor: '#FF6F00',
+        backgroundColor: '#C30000',
         position:"absolute",
         left: 115,
         // height: 48,
@@ -8305,7 +9119,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     eventbutton8: {
-        backgroundColor: '#FF6F00',
+        backgroundColor: '#C30000',
         position:"absolute",
         left: 220,
         // height: 48,
@@ -8322,7 +9136,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     eventbutton9: {
-        backgroundColor: '#FF6F00',
+        backgroundColor: '#C30000',
         position:"absolute",
         left: 335,
         // height: 48,
@@ -8340,7 +9154,7 @@ const styles = StyleSheet.create({
     },
 
     eventbutton10:{
-        backgroundColor: '#FF6F00',
+        backgroundColor: '#C30000',
         position:"absolute",
         left: 115,
         // height: 48,
@@ -8358,7 +9172,7 @@ const styles = StyleSheet.create({
     },
 
     eventSubButton10: {
-        backgroundColor: '#FF6F00',
+        backgroundColor: '#C30000',
         position:"absolute",
         left: 355,
         // height: 48,
@@ -8398,13 +9212,11 @@ FieldImage: {
 
 
      position:"absolute",
-    //  top:10,
+ 
       right:200,
-    // backgroundColor:'green',
      height: hp('90%'), // 70% of height device screen
      width: wp('20%') ,  // % of width device screen
-    // width:'100%',
-    // height:'100%',
+
 },
 
 
@@ -8412,8 +9224,7 @@ FieldImage: {
 
 EventsPatternContainer:{
     position:'absolute', 
-    // marginTop: wp('30%'),
-    // marginLeft: wp('40%'),
+
     marginTop: hp('10%'),
     marginLeft: wp('60%'),
     borderWidth: 1,
@@ -8423,8 +9234,6 @@ EventsPatternContainer:{
  
     flexDirection: 'column',  
  
-    // justifyContent:'center',
-    // alignItems: 'center',
     fontSize: hp('2%') ,
 
 },
@@ -8460,6 +9269,11 @@ EventHistoryContainer:{
 
 
 
+},
+
+ExitButton:{
+    width:50,
+    height: 48,
 },
 
 viewRow:{
@@ -8504,12 +9318,7 @@ input: {
     paddingLeft: 16
 },
 
-buttonTitle: {
-    color: 'white',
-    alignItems: "center",
-    fontSize: hp('2%') ,
-    fontWeight: "bold"
-},
+
 footerView: {
     flex: 1,
     alignItems: "center",
@@ -8541,23 +9350,21 @@ parent: {
     justifyContent: "center",
 },
 
-child: {
-  fontSize: 26,
-  color: "#FFFFFF",
-},
 
 
 
-  counterText:{
+counterText:{
 
     fontSize: 28,
     color: '#000'
-  },
+},
+
 buttonText: {
     padding:3,
     color: "#FFFFFF",
     fontSize: hp('2%'),
-    alignSelf: "center"
+    alignSelf: "center",
+    fontWeight: "bold",
 },
 
 HeadStyle: { 
@@ -8565,21 +9372,16 @@ HeadStyle: {
     alignContent: "center",
     backgroundColor: '#ffe0f0'
   },
-  TableText: { 
-    margin: 10
-  },
 
-  field:{
-    // backgroundColor: '#FFFFFF',
-    // borderWidth: 4,
-    // borderColor:'#949494',
-    // borderRadius: 6,
+
+field:{
+
     position:'absolute',
     flex:1,
     height: hp('100%'),
     width:  wp('60%'),
     resizeMode: 'contain',
-    // bottom: 0
+
 },
 
 test: {
@@ -8590,21 +9392,16 @@ test: {
 },
 
 imagePxGAA:{
-    
-    
+ 
     height:376,
     width: 700,
     
-  
- 
  },
 
  imagePxSoccer:{
     height: 400,
     width: 700,
 
-  
- 
 },
 
 imageSoccerMobile:
@@ -8624,7 +9421,7 @@ imageGAAMobile:
 
 imageGAA:{
     width: win.width,
-    height: 376 * ratioView, //399 is actual height of image
+    height: 300 * ratioView, //399 is actual height of image
   
  
 
@@ -8637,20 +9434,6 @@ imageSoccer:{
 },
 
 
-
-imagePlotContainer: {
-
-    // flex:1,
-    // // flexWrap: 'wrap',
-    // // flexDirection:"row",
-    // position: 'relative',
- 
-    // top: '10%',
-
-
-    
-
-  }
 
 });
 

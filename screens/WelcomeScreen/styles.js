@@ -7,8 +7,16 @@ export default StyleSheet.create({
    
     },
    
-    title: {
-
+    Text:{
+        color: "white",
+        fontSize:15,
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 16,
+        marginRight: 30,
+        paddingLeft: 16,
+        fontWeight: "bold",
+        justifyContent:'center'
     },
     logo: {
         flex: 1,
@@ -29,14 +37,16 @@ export default StyleSheet.create({
         paddingLeft: 16
     },
     button: {
-        backgroundColor: '#FF6D01',
+        backgroundColor: '#C30000',
         marginLeft: 30,
         marginRight: 30,
         marginTop: 20,
         height: 48,
         borderRadius: 5,
+        borderWidth: 2,
+        borderColor:'#000000',
         alignItems: "center",
-        justifyContent: 'center'
+        // justifyContent: 'center'
     },
     buttonTitle: {
          color: 'white',

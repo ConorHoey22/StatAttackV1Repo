@@ -2,7 +2,9 @@ import React, { useEffect, useState , Component  } from 'react'
 import {FlatList, Keyboard, Text, View , ScrollView, TouchableOpacity,TextInput , Button , Alert} from 'react-native'
 import styles from './styles';
 
-import {Picker} from '@react-native-community/picker';
+// import {Picker} from '@react-native-community/picker';
+
+import {Picker} from '@react-native-picker/picker';
 // import * as firebase from 'firebase/app';
 import firebase from 'firebase/app'
 import 'firebase/auth';
@@ -24,8 +26,10 @@ class CreateATeam extends Component {
             TeamName: '',
             SportType: '',
             inviteCode:'',
+            teamAdminInvite:'',
             hasATeam: false,
-            userType: []
+            userType: [],
+          
             };
         }
 
@@ -54,63 +58,79 @@ class CreateATeam extends Component {
                   
                 if (SportType.length > 0) {
                     
-                    var myUserId = firebase.auth().currentUser.uid;
+                        var myUserId = firebase.auth().currentUser.uid;
 
-                    const data = {
-                        TeamName:this.state.TeamName,
-                        SportType:this.state.SportType,
-                        CreatedByUserID: myUserId,
-                        playercounter:0,
-                        gamecounter:0,
-         
-
-                    };
-
-                    const teamsRef = firebase.database().ref('/teams').child(myUserId)
-                    teamsRef.
-                        set(data).then(function() {
-                
-                            //update user teamcreated
-                            const usersRef = firebase.database().ref('/users')
-                            usersRef.child(myUserId).update({'teamCreated': 1})
-        
- 
-                            .catch(function(error) {
-                                console.error("Error writing document: ", error);
-                            });
-        
-                         this.props.navigation.navigate('Home')
-                            alert("Team Created");
-                                                            
-                    })
-        
-                
-                    .catch(function(error) {
-                        console.error("Error writing document: ", error);
-                    });
-                      
+                        const data = {
+                            
+                            TeamName:this.state.TeamName,
+                            SportType:this.state.SportType,
+                            CreatedByUserID: myUserId,
+                            teamAdminInvite: this.state.teamAdminInvite,
+                            playercounter:0,
+                            gamecounter:0,
                         
+            
+                        };
+
+
+
+                        //Checking that the teamAdminvite code is unique
+
+                        const teamAdmincode = firebase.database().ref('/teams').orderByChild('teamAdminInvite').equalTo(data.teamAdminInvite).once('value' , snapshot =>  {
+                            if (snapshot.exists()){
+                            alert('This team admin invite code is not unique, try again');
+                            }
+                            else
+                            {
+
+                                    const teamsRef = firebase.database().ref('/teams').child(myUserId)
+                                    teamsRef.
+                                        set(data).then(function() {
+                                
+                                            //update user teamcreated
+                                            const usersRef = firebase.database().ref('/users')
+                                            usersRef.child(myUserId).update({'teamCreated': 1 , 'teamID':myUserId})
+                                            
+                
+                                            .catch(function(error) {
+                                                console.error("Error writing document: ", error);
+                                            });
+                        
+                                       
+                                            alert("Team Created");
+                                                                            
+                                    })
+                        
+                                
+                                    .catch(function(error) {
+                                        console.error("Error writing document: ", error);
+                                    });
+
+
+                                    this.props.navigation.navigate('Home');
+
+
+                            }
+                        
+                            
+                    });
+
                 }
                 else if(SportType == "")
                 {
-                    alert("Please select your sport.")
+                        alert("Please select your sport.")
                 }
-                     
+
             }
             else
             {
                 alert("Please enter your Team Name.")
             }
 
-          
 
-            
-           
+     
 
-
-         
-            this.props.navigation.navigate('Home')
-        }
+}
 
 
 
@@ -145,6 +165,18 @@ class CreateATeam extends Component {
                                 <Picker.Item label="Soccer" value="Soccer" />
                                 <Picker.Item label="GAA" value="GAA" />
                         </Picker>
+
+
+                        <Text style={styles.text}>Enter your team admin invite code: </Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Team Admin code'
+                            placeholderTextColor="#aaaaaa"
+                            onChangeText={(text) => this.setState({teamAdminInvite:text})}
+                            value={this.state.teamAdminInvite}
+                            underlineColorAndroid="transparent"
+                            autoCapitalize="none"
+                        />
                         
                   
                             <View style={styles.footerView}>
