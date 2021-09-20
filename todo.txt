@@ -39,9 +39,24 @@ TASKS To be looked at
 
 
 
-RISK ACCEPTANCE features
+---------------RISK ACCEPTANCE features--------------------
 --Mobile version its never going to be pin point as the device can be very small. 
         --issue right now is that mobile view as we have a nav bar which means the image is not fully displayed pn mobile
+
+--LANDSCAPE SHOULD WORK WHen you release app to production -- *VERY IMPORTANT FOR IOS* as it must be landscape throught to get the correct display
+---landscape for Ios but mainly Ipad. so we are going to make a alert to say rotate screen for the best visual experience
+            -- This is due to ios defaulting to landascape but it looks portrait. This is not an issue with android
+
+
+
+-------------------Release Checks--------------------------------
+
+THINGS TO CHECK ONCE WE RELEASE to app store----------------
+-- landscape for Ios but mainly Ipad. so we are going to make a alert to say rotate screen for the best visual experience -- *VERY IMPORTANT FOR IOS* as it must be landscape throught to get the correct display
+-- This is due to ios defaulting to landascape but it looks portrait. This is not an issue with android
+-- having landscape in app.json should work in production or may need to alter this in xcode?
+-- Offline mode
+-- Full UI Test
 
 
 

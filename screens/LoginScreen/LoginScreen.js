@@ -13,7 +13,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 
- 
 const screenWidth = Dimensions.get('window').width;
 
 const screenHeight = Dimensions.get('window').height;
@@ -49,9 +48,12 @@ class LoginScreen extends Component {
        
 
          };
+         
+         
+    
 
-    // // teamplayersref.push(playerData);
-    // addgame.push(playerData);
+   
+      
 
 
 
@@ -59,13 +61,14 @@ class LoginScreen extends Component {
 
       this.state.SelectedStartingTeam.push(tempArr);
 
-      console.log(this.state.SelectedStartingTeam);
+
     
 
 
  
 
     }
+
 
     onLogin = async() => {
 
@@ -152,25 +155,6 @@ class LoginScreen extends Component {
 
 
             </ScrollView>
-
-          //   <ScrollView>
-       
-          //     <ScrollView>
-          //       <SmartPicker
-          //         selectedValue={this.state.selectedPlayer}
-          //         label='Set you favorite country'
-          //        onValueChange={this.handleChange}
-          //       >
-          //       {this.state.SelectedStartingTeam.map((item, index) => {
-          //           return (
-                          
-          //                 <Picker.Item label={item.fullname} value={item.UserID}/>)
-          //           })}
-
-          //       </SmartPicker>
-          //     </ScrollView>
-           
-          // </ScrollView>
 
         )
 

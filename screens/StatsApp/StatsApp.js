@@ -1,9 +1,8 @@
 import React, { useEffect, useState , Component  } from 'react'
-import { ImageBackground,Dimensions,StatusBar,TouchableOpacity,StyleSheet,Image,FlatList, Keyboard, Text, View , TextInput , Alert, SegmentedControlIOSComponent , ScrollView, VirtualizedList, TouchableNativeFeedbackBase} from 'react-native'
+import { Picker, ImageBackground,Dimensions,StatusBar,TouchableOpacity,StyleSheet,Image,FlatList, Keyboard, Text, View , TextInput , Alert, SegmentedControlIOSComponent , ScrollView, VirtualizedList, TouchableNativeFeedbackBase} from 'react-native'
 
 
 
-import {Picker} from '@react-native-picker/picker';
 
 
 import firebase from 'firebase/app'
@@ -5481,18 +5480,16 @@ ExecuteOpponentsPercentages = async() => {
                                 ReviewDetailGameAnalysis =  (
                                    
                            
+                                    <View style={{backgroundColor:'#ffffff' ,  top:hp('20%') }}>
+                                
+                                         <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
+                                             <Image style={styles.ExitButton} source={require('./exit.png')}/> 
+                                         </TouchableOpacity> 
                                    
-                                    <View style={styles.DetailedGameAnalysisView}>
-                                                <View style={styles.rowView}>
-                                                    <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
-                                                                <Image style={styles.ExitButton} source={require('./exit.png')}/> 
-                                                    </TouchableOpacity> 
-                                                    <Text style={styles.buttonText}>Select an event to view field locations</Text>
-                                                </View>
-                                           
+
                                                 <Picker
                                                     selectedValue={this.state.YourTeamEventSelection}
-                                                    style={styles.input}
+                                                 
                                                     onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                                 >
                                 
@@ -5506,12 +5503,11 @@ ExecuteOpponentsPercentages = async() => {
                                 
                                                 </Picker>
                                             
-                                   
-                                                <View style={styles.rowView}>
+                              
                                                     <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventPlayerDetailedAnalysis}>
                                                         <Text style={styles.buttonText}>Submit</Text>
                                                     </TouchableOpacity>
-                                                </View>
+                                             
                                              
                                                             
                                     </View> 
@@ -5526,16 +5522,19 @@ ExecuteOpponentsPercentages = async() => {
                             else if(SportType == 'Soccer')
                             {
                                 ReviewDetailGameAnalysis =  (
-                                    <View style={styles.DetailedGameAnalysisView}>
-                                       <View style={styles.rowView}>
+                                    <View style={{backgroundColor:'#ffffff' ,  top:hp('20%') }}>
+                             
+                                     
                                             <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
                                                 <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                             </TouchableOpacity> 
-                                        </View>         
-                                        <Text style={styles.buttonText}>Select an event to view field locations</Text>
+                                   
+
+                                       
+
                                             <Picker
                                                 selectedValue={this.state.YourTeamEventSelection}
-                                                style={styles.input}
+                                           
                                                 onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                             >
                             
@@ -5548,11 +5547,11 @@ ExecuteOpponentsPercentages = async() => {
                             
                                             </Picker>
 
-                                            <View style={styles.rowView}>                         
+                                                               
                                                 <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventPlayerDetailedAnalysis}>
                                                     <Text style={styles.buttonText}>Submit</Text>
                                                 </TouchableOpacity>
-                                            </View>
+                                          
 
                                                         
                                     </View> 
@@ -5574,17 +5573,17 @@ ExecuteOpponentsPercentages = async() => {
                                    
                            
                                    
-                                    <View style={styles.DetailedGameAnalysisView}>
-                                                <View style={styles.rowView}>
+                                      <View style={{backgroundColor:'#ffffff' ,  top:hp('20%'), }}>
+                                             
                                                     <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
                                                                 <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                                     </TouchableOpacity> 
-                                                    <Text style={styles.buttonText}>Select an event to view field locations</Text>
-                                                </View>
-                                           
+
+                                            
+                                         
                                                 <Picker
                                                     selectedValue={this.state.YourTeamEventSelection}
-                                                    style={styles.input}
+                                              
                                                     onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                                 >
                                 
@@ -5599,11 +5598,11 @@ ExecuteOpponentsPercentages = async() => {
                                                 </Picker>
                                             
                                    
-                                                <View style={styles.rowView}>
+                                          
                                                     <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventPlayerDetailedAnalysis}>
                                                         <Text style={styles.buttonText}>Submit</Text>
                                                     </TouchableOpacity>
-                                                </View>
+                                               
                                              
                                                             
                                     </View> 
@@ -5618,16 +5617,17 @@ ExecuteOpponentsPercentages = async() => {
                             else if(SportType == 'Soccer')
                             {
                                 ReviewDetailGameAnalysis =  (
-                                    <View style={styles.DetailedGameAnalysisView}>
-                                       <View style={styles.rowView}>
+                                    <View style={{backgroundColor:'#ffffff' ,  top:hp('20%'), }}>
+                                    
                                             <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
                                                 <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                             </TouchableOpacity> 
-                                        </View>         
-                                        <Text style={styles.buttonText}>Select an event to view field locations</Text>
+                                          
+
+                                   
                                             <Picker
                                                 selectedValue={this.state.YourTeamEventSelection}
-                                                style={styles.input}
+                                              
                                                 onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                             >
                             
@@ -5640,11 +5640,11 @@ ExecuteOpponentsPercentages = async() => {
                             
                                             </Picker>
 
-                                            <View style={styles.rowView}>                         
+                                                 
                                                 <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventPlayerDetailedAnalysis}>
                                                     <Text style={styles.buttonText}>Submit</Text>
                                                 </TouchableOpacity>
-                                            </View>
+                                           
 
                                                         
                                     </View> 
@@ -5667,16 +5667,17 @@ ExecuteOpponentsPercentages = async() => {
                             {
 
                                 ReviewDetailGameAnalysis =  (
-                                    <View style={styles.DetailedGameAnalysisView}>
-                                            <View style={styles.rowView}>
+                                    <View style={{backgroundColor:'#ffffff' ,  top:hp('30%'), }}>
+                                        
                                                     <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
                                                                 <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                                     </TouchableOpacity> 
-                                            </View>
-                                         <Text style={styles.buttonText}>Select an event to view field locations</Text>
+                                           
+
+                                    
                                              <Picker
                                                 selectedValue={this.state.YourTeamEventSelection}
-                                                style={styles.input}
+                                               
                                                 onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                               >
                                               <Picker.Item label="Select a event" value="" />
@@ -5689,11 +5690,11 @@ ExecuteOpponentsPercentages = async() => {
                         
                                             </Picker>
 
-                                            <View style={styles.rowView}>           
+                                
                                                 <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventOpponentsPlayerDetailedAnalysis}>
                                                     <Text style={styles.buttonText}>Submit</Text>
                                                 </TouchableOpacity>
-                                            </View>
+                                       
      
                                     </View> 
 
@@ -5704,18 +5705,18 @@ ExecuteOpponentsPercentages = async() => {
                             {
 
                                 ReviewDetailGameAnalysis =  (
-                                    <View style={styles.DetailedGameAnalysisView}>
+                                    <View style={{backgroundColor:'#ffffff' ,  top:hp('30%'), }}>
                                             
-                                            <View style={styles.rowView}>
+                                          
                                                     <TouchableOpacity activeOpacity={0.6} style={styles.ExitButton} onPress={this.ExitReviewDetailAnalysis}>
                                                                 <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                                     </TouchableOpacity> 
-                                            </View>
+                                            
 
-                                            <Text style={styles.buttonText}>Select an event to view field locations</Text>
+                                        
                                              <Picker
                                                 selectedValue={this.state.YourTeamEventSelection}
-                                                style={styles.input}
+                                              
                                                 onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                               >
                                               <Picker.Item label="Select a event" value="" />
@@ -5727,11 +5728,11 @@ ExecuteOpponentsPercentages = async() => {
                         
                                             </Picker>
 
-                                            <View style={styles.rowView}>                     
+                                                        
                                                 <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.SelectEventOpponentsPlayerDetailedAnalysis}>
                                                     <Text style={styles.buttonText}>Submit</Text>
                                                 </TouchableOpacity>
-                                            </View>
+                                       
      
                                     </View> 
 
@@ -6825,9 +6826,9 @@ if(ExecuteTeamDetailAnalysisView == true)
                                 {
 
                                     ReviewDetailGameAnalysis =  (
-                                        <View style={styles.DetailedGameAnalysisView}>
-                                             
-                                             <View style={styles.rowView}>
+                                        <View style={{backgroundColor:'#ffffff' ,  top:hp('20%'), }}>
+                                          
+                                      
                                                 <TouchableOpacity
                                                     onPress={this.ExitReviewDetailAnalysis}
                                                     activeOpacity={0.6}
@@ -6835,16 +6836,15 @@ if(ExecuteTeamDetailAnalysisView == true)
                                                     > 
                                                     <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                                 </TouchableOpacity>
-                                              </View>
-
-                                                <Text style={styles.buttonText}>Select an event to view field locations</Text>
+                                           
+                                                   
                                                     <Picker
                                                         selectedValue={this.state.YourTeamEventSelection}
-                                                        style={styles.input}
+                                                      
                                                         onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                                         >
             
-                                                        <Picker.Item label="Select a events" value="" />
+                                                        <Picker.Item label="Select a event" value="" />
                                                         <Picker.Item label="Goal" value="Goal" />
                                                         <Picker.Item label="Point" value="Point"/>
                                                         <Picker.Item label="Shots" value="Shots"/>
@@ -6853,11 +6853,14 @@ if(ExecuteTeamDetailAnalysisView == true)
             
             
                                                     </Picker>
-                                                <View style={styles.rowView}>
+
+                                                
+                                                  
+                                           
                                                     <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteTeamDetailAnalysis}>
                                                         <Text style={styles.buttonText}>Submit</Text>
                                                     </TouchableOpacity>
-                                                </View>
+                                                
                                         </View> 
     
                                     );
@@ -6867,8 +6870,9 @@ if(ExecuteTeamDetailAnalysisView == true)
                                 {
                                     ReviewDetailGameAnalysis =  (
 
-                                        <View style={styles.DetailedGameAnalysisView}>
-                                              <View style={styles.rowView}>
+                                        <View style={{backgroundColor:'#ffffff' ,  top:hp('20%'), }}>
+                                           
+                                          
                                                 <TouchableOpacity
                                                     onPress={this.ExitReviewDetailAnalysis}
                                                     activeOpacity={0.6}
@@ -6876,12 +6880,13 @@ if(ExecuteTeamDetailAnalysisView == true)
                                                     > 
                                                     <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                                 </TouchableOpacity>
-                                              </View>
 
-                                                <Text style={styles.buttonText}>Select an event to view field locations</Text>
+                                            
+
+                                              
                                                     <Picker
                                                         selectedValue={this.state.YourTeamEventSelection}
-                                                        style={styles.input}
+                                                        
                                                         onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                                         >
             
@@ -6894,11 +6899,11 @@ if(ExecuteTeamDetailAnalysisView == true)
             
             
                                                     </Picker>
-                                                <View style={styles.rowView}>
+                                            
                                                     <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteTeamDetailAnalysis}>
                                                         <Text style={styles.buttonText}>Submit</Text>
                                                    </TouchableOpacity>
-                                                </View>
+                                            
     
                                         </View> 
     
@@ -6916,8 +6921,9 @@ if(ExecuteTeamDetailAnalysisView == true)
                                 {
                                     ReviewDetailGameAnalysis =  (
 
-                                        <View style={styles.DetailedGameAnalysisView}>
-                                             <View style={styles.rowView}>
+                                        <View style={{backgroundColor:'#ffffff' ,  top:hp('20%'), }}>
+                                  
+                                           
                                                 <TouchableOpacity
                                                     onPress={this.ExitReviewDetailAnalysis}
                                                     activeOpacity={0.6}
@@ -6925,12 +6931,12 @@ if(ExecuteTeamDetailAnalysisView == true)
                                                     > 
                                                     <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                                 </TouchableOpacity>
-                                              </View>
+
                                           
-                                                <Text style={styles.buttonText}>Select an event to view field locations test</Text>
+                                          
                                                     <Picker
                                                         selectedValue={this.state.YourTeamEventSelection}
-                                                        style={styles.input}
+                                                      
                                                         onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                                         >
             
@@ -6958,8 +6964,10 @@ if(ExecuteTeamDetailAnalysisView == true)
                                 {
                                     ReviewDetailGameAnalysis =  (
 
-                                        <View style={styles.DetailedGameAnalysisView}>
-                                            <View style={styles.rowView}>
+                                        <View style={{backgroundColor:'#ffffff' ,  top:hp('20%'), }}>
+                                            
+                                    
+                                          
                                                 <TouchableOpacity
                                                     onPress={this.ExitReviewDetailAnalysis}
                                                     activeOpacity={0.6}
@@ -6967,12 +6975,11 @@ if(ExecuteTeamDetailAnalysisView == true)
                                                     > 
                                                     <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                                 </TouchableOpacity>
-                                              </View>
+                                           
 
-                                                <Text style={styles.buttonText}>Select an event to view field locations</Text>
                                                     <Picker
                                                         selectedValue={this.state.YourTeamEventSelection}
-                                                        style={styles.input}
+                                                     
                                                         onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                                         >
             
@@ -7010,8 +7017,8 @@ if(ExecuteTeamDetailAnalysisView == true)
                                 
                                     ReviewDetailGameAnalysis =  (
                                             
-                                        <View style={styles.DetailedGameAnalysisView}>
-                                            
+                                        <View style={{backgroundColor:'#ffffff' ,  top:hp('20%'), }}>
+                                       
                                             <View style={styles.playerColumnView}>
                                                 <TouchableOpacity
                                                     onPress={this.ExitReviewDetailAnalysis}
@@ -7023,11 +7030,11 @@ if(ExecuteTeamDetailAnalysisView == true)
                                             </View>
                                             
                                             
-                                            <Text style={styles.buttonText}>{this.state.TeamName} Event Percentages</Text>
+                                    
                                                             {/* Select an event  */}
                                                             <Picker
                                                                 selectedValue={this.state.YourTeamEventSelection}
-                                                                style={styles.input}
+                                                                
                                                                 onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                                                 >
             
@@ -7040,6 +7047,11 @@ if(ExecuteTeamDetailAnalysisView == true)
             
             
                                                             </Picker>
+
+
+                                                <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteOpponentsDetailAnalysis}>
+                                                    <Text style={styles.buttonText}>Submit</Text>
+                                                </TouchableOpacity>
         
                                         </View> 
 
@@ -7050,8 +7062,8 @@ if(ExecuteTeamDetailAnalysisView == true)
                                 {
                                     ReviewDetailGameAnalysis =  (
                                             
-                                        <View style={styles.DetailedGameAnalysisView}>
-                                            
+                                        <View style={{backgroundColor:'#ffffff' ,  top:hp('20%'), }}>
+                                           
                                             <View style={styles.playerColumnView}>
                                                 <TouchableOpacity
                                                     onPress={this.ExitReviewDetailAnalysis}
@@ -7067,7 +7079,7 @@ if(ExecuteTeamDetailAnalysisView == true)
                                                             {/* Select an event  */}
                                                             <Picker
                                                                 selectedValue={this.state.YourTeamEventSelection}
-                                                                style={styles.input}
+                                                                
                                                                 onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                                                 >
             
@@ -7080,6 +7092,12 @@ if(ExecuteTeamDetailAnalysisView == true)
             
                                                             </Picker>
         
+                                                <TouchableOpacity activeOpacity={0.6} style={styles.button3} onPress={this.ExecuteOpponentsDetailAnalysis}>
+                                                    <Text style={styles.buttonText}>Submit</Text>
+                                                </TouchableOpacity>
+
+
+
                                         </View> 
 
                                     );
@@ -7096,9 +7114,9 @@ if(ExecuteTeamDetailAnalysisView == true)
                                 {
                                  
                                     ReviewDetailGameAnalysis =  (
-                                        <View style={styles.DetailedGameAnalysisView}>
-                                            
-                                            <View style={styles.playerColumnView}>
+                                        <View style={{backgroundColor:'#ffffff' ,  top:hp('20%'), }}>
+                                      
+                                          
                                                 <TouchableOpacity
                                                     onPress={this.ExitReviewDetailAnalysis}
                                                     activeOpacity={0.6}
@@ -7106,14 +7124,14 @@ if(ExecuteTeamDetailAnalysisView == true)
                                                     > 
                                                     <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                                 </TouchableOpacity>
-                                            </View>
+                                            
                                             
                                             <Text style={styles.buttonText}>{this.state.OpponentsName} Event Percentages</Text>
 
                                             {/* Select an event  */}
                                             <Picker
                                                 selectedValue={this.state.OpponentsEventSelection}
-                                                style={styles.input}
+                                                
                                                 onValueChange={(text) => this.setState({OpponentsEventSelection:text})}
                                                 >
 
@@ -7138,9 +7156,9 @@ if(ExecuteTeamDetailAnalysisView == true)
                                 else if(SportType == 'Soccer')
                                 {
                                     ReviewDetailGameAnalysis =  (
-                                        <View style={styles.DetailedGameAnalysisView}>
+                                        <View style={{backgroundColor:'#ffffff' ,  top:hp('20%'), }}>
                                             
-                                            <View style={styles.playerColumnView}>
+                                       
                                                 <TouchableOpacity
                                                     onPress={this.ExitReviewDetailAnalysis}
                                                     activeOpacity={0.6}
@@ -7148,7 +7166,7 @@ if(ExecuteTeamDetailAnalysisView == true)
                                                     > 
                                                     <Image style={styles.ExitButton} source={require('./exit.png')}/> 
                                                 </TouchableOpacity>
-                                            </View>
+                                           
                                             
                                             
                                             
@@ -7157,7 +7175,7 @@ if(ExecuteTeamDetailAnalysisView == true)
                                             {/* Select an event  */}
                                             <Picker
                                                 selectedValue={this.state.OpponentsEventSelection}
-                                                style={styles.input}
+                                                
                                                 onValueChange={(text) => this.setState({OpponentsEventSelection:text})}
                                                 >
 
@@ -8401,6 +8419,12 @@ const styles = StyleSheet.create({
 
     },
 
+    TextBlack: {
+        color: "black",
+        fontSize:18,
+        fontWeight: "bold",
+    },
+
     Text:{
         color: "white",
         fontSize:18,
@@ -8483,14 +8507,14 @@ const styles = StyleSheet.create({
     
 
     DetailedGameAnalysisView: {
- 
+        backgroundColor: 'white',
         flex: 1,
-        height:'100%',
+        //  height:hp('100%'),
         top:hp('30%'), 
 
 
-        width: wp('80%') ,  // % of width device screen
-        padding:4,
+        // width: wp('100%') ,  // % of width device screen
+        // padding:4,
 
     },
 
@@ -8686,9 +8710,6 @@ const styles = StyleSheet.create({
     rowView: {
         flex: 1,
         padding: 8,
-
-    
-        alignItems: 'center',
         flexDirection: 'row'
     },
 

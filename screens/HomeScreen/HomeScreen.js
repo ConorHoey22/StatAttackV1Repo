@@ -7,7 +7,7 @@ import 'firebase/auth';
 import 'firebase/database';
 
 
-  
+
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -67,104 +67,19 @@ class HomeScreen extends Component {
                     this.ObtainUserData();
                 }
                     
-                // //Obtain user data
-                // if(teamCreated == 1 || hasTACreated == 1){
-                    
-                //     this.ObtainUserData();
-                // }
-                // else if(hasTACreated == 0)
-                // {
-                    
-                //     var myUserId = firebase.auth().currentUser.uid;
-
-                //     //Add the team Analyst to the Team Record
-                //     const addTeamAdmin = firebase.database().ref('teams').child(teamID).child('teamAdmins')
-                
-                //         var adminData = {
-
-                //             id: myUserId,
-                //             fullName: this.state.fullName,
-                //             teamID: teamID
-
-                //         };
-
-                //         addTeamAdmin.push(adminData);
-
-                //         //Update user id to make it change hasTACreated to = 1
-                //         const usersRef = firebase.database().ref('/users')
-                //         usersRef.child(myUserId).update({'hasTACreated': 1})
-    
-                // }
+            
+              
             
 
 
+         
 
 
             });
 
-
-  
-
-
-
-
-
-
-
-        
-          
-              
-        
-        
-            // if(userTypeState == 'TeamAnalyst') 
-            // {
-            //     firebase.database().ref('/users/' + uid).on('value', (snapshot) => {
-            //         const userObj = snapshot.val();
-        
-            //         let userType = userObj.userType;
-            //         this.setState({userType:userType});
-    
-            //         let teamAdminInvite = userObj.teamAdminInvite;
-            //         this.setState({teamAdminInvite:teamAdminInvite});
-    
-            //         let teamID = userObj.teamID;
-            //         this.setState({teamID:teamID});
-            //     });
-
-
-            //     if(hasTACreated == 0)
-            //     {
-
-            //         var myUserId = firebase.auth().currentUser.uid;
-
-            //         //Add the team Analyst to the Team Record
-            //         const addTeamAdmin = firebase.database().ref('teams').child(teamID).child('teamAdmins')
-            
-            //             var adminData = {
-
-            //                 id: myUserId,
-            //                 fullName: this.state.fullName,
-            //                 teamID: teamID
-
-            //             };
-
-            //         addTeamAdmin.push(adminData);
-
-
-
-            //         //Update user id to make it change hasTACreated to = 1
-            //         const usersRef = firebase.database().ref('/users')
-            //         usersRef.child(myUserId).update({'hasTACreated': 1})
-  
-
-                    
-            //     }
-               
-
-            // }
-
-                   
         }
+
+
 
 
         ObtainUserData = async () => {

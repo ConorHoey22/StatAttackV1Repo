@@ -46,11 +46,12 @@ import TeamProfile from './screens/TeamProfile/TeamProfile';
 //Player Profile 
 import ViewPlayer from './screens/ViewPlayer/ViewPlayer';
 
-//Game
+
 import ViewGame from './screens/ViewGame/ViewGame';
 
 
 export default class App extends React.Component {
+
 
 
   render() {

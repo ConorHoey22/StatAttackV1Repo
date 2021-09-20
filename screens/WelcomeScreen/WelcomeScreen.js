@@ -15,6 +15,9 @@ const screenHeight = Dimensions.get('window').height;
 
 
 export default function WelcomeScreen({navigation}){
+  
+
+    
     
     const Login = () => {
         navigation.navigate('Login')

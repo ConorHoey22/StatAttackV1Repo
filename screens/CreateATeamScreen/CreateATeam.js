@@ -4,7 +4,7 @@ import styles from './styles';
 
 // import {Picker} from '@react-native-community/picker';
 
-import {Picker} from '@react-native-picker/picker';
+
 // import * as firebase from 'firebase/app';
 import firebase from 'firebase/app'
 import 'firebase/auth';

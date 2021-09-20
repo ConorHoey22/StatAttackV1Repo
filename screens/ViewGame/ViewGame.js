@@ -1,5 +1,5 @@
 import React, { useEffect, useState , Component  } from 'react'
-import {ImageBackground, Dimensions,StatusBar,FlatList, Keyboard,  StyleSheet, Image, Text, View , ScrollView, TouchableOpacity,TextInput , Button , Alert} from 'react-native'
+import {Picker, ImageBackground, Dimensions,StatusBar,FlatList, Keyboard,  StyleSheet, Image, Text, View , ScrollView, TouchableOpacity,TextInput , Button , Alert} from 'react-native'
 
 import { DarkTheme, useNavigation } from '@react-navigation/native';
 import { createAppContainer } from 'react-navigation';
@@ -15,9 +15,9 @@ import 'firebase/database';
 import { createKeyboardAwareNavigator, ThemeColors } from 'react-navigation';
 
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {Picker} from '@react-native-picker/picker';
 
-// import {Picker} from '@react-native-community/picker';
+
+
 import { TapGestureHandler } from 'react-native-gesture-handler';
 
 const screenWidth = Dimensions.get('window').width;
@@ -1017,8 +1017,8 @@ class ViewGame extends Component {
 
                             ReviewSelection = (
 
-                                <ScrollView style={stylesViewGame.container}>
                                 
+                                <ScrollView style={stylesViewGame.container}>                
                                     <Text style={stylesViewGame.text}>Select an Option:</Text>
 
                                     <TouchableOpacity style={stylesViewGame.button} onPress = {this.ReviewGameStats}>
@@ -1054,7 +1054,7 @@ class ViewGame extends Component {
                             //We are here - cant get the rows//- look at github and replace that way
                             ReviewGameStats= (
 
-                                <View style={stylesViewGame.container}>
+                                <View>
 
                                     <View style={stylesViewGame.headerContainer}>
                                         <Text style={stylesViewGame.StatTextWhite}>{this.state.TeamName}</Text>
@@ -1106,7 +1106,7 @@ class ViewGame extends Component {
 
                             ReviewGameStats= (
 
-                                <View style={stylesViewGame.container}>
+                                <View>
 
                                     <View style={stylesViewGame.headerContainer}>
                                         <Text style={stylesViewGame.StatTextWhite}>{this.state.TeamName} records</Text>
@@ -1160,13 +1160,24 @@ class ViewGame extends Component {
 
                             ReviewPlayerStats = (
                                 
-                                <ScrollView style={stylesViewGame.container}>
-            
+                                
+                                <ScrollView contentContainerStyle={{   flexDirection:"column",
+                                justifyContent:'center',
+                                width: '100%',
+                                backgroundColor: 'white',
+                                alignItems: 'center',
+                                borderColor:'#C30000',
+                                borderWidth: 4,
+                                borderRadius: 10,
+                                padding: 50,
+                                marginTop: 100,
+                        }}>
+                                    <View>
                                         <Text style={stylesViewGame.buttonTitle}>Select a stat below</Text>
             
                                         <Picker
                                             selectedValue={this.state.YourTeamEventSelection}
-                                            style={stylesViewGame.input}
+                                         
                                             onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                         >
                                             
@@ -1185,7 +1196,7 @@ class ViewGame extends Component {
                                         <TouchableOpacity style={stylesViewGame.button} onPress = {this.GoToMainMenu}>
                                             <Text style={stylesViewGame.buttonTitle}>Back to Main Menu</Text>
                                         </TouchableOpacity>
-
+                                    </View>
             
                                 </ScrollView>
                             );
@@ -1196,13 +1207,24 @@ class ViewGame extends Component {
                         {
                             ReviewPlayerStats = (
                                 
-                                <ScrollView style={stylesViewGame.container}>
-            
+                                
+                               <ScrollView contentContainerStyle={{   flexDirection:"column",
+                                            justifyContent:'center',
+                                            width: '100%',
+                                            backgroundColor: 'white',
+                                            alignItems: 'center',
+                                            borderColor:'#C30000',
+                                            borderWidth: 4,
+                                            borderRadius: 10,
+                                            padding: 50,
+                                            marginTop: 100,
+                                    }}>
+                                    <View>
                                         <Text style={stylesViewGame.buttonTitle}>Select a stat below</Text>
             
                                         <Picker
                                             selectedValue={this.state.YourTeamEventSelection}
-                                            style={stylesViewGame.input}
+                                        
                                             onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                         >
                                             
@@ -1221,7 +1243,7 @@ class ViewGame extends Component {
                                             <Text style={stylesViewGame.buttonTitle}>Back to Main Menu</Text>
                                         </TouchableOpacity>
 
-            
+                                    </View>
                                 </ScrollView>
                             );
                         }
@@ -1235,13 +1257,24 @@ class ViewGame extends Component {
 
                             ReviewPlayerStats = (
 
-                                <ScrollView style={stylesViewGame.container}>
-                
+                                
+                               <ScrollView contentContainerStyle={{   flexDirection:"column",
+        justifyContent:'center',
+        width: '100%',
+        backgroundColor: 'white',
+        alignItems: 'center',
+        borderColor:'#C30000',
+         borderWidth: 4,
+         borderRadius: 10,
+        padding: 50,
+        marginTop: 100,
+  }}>
+                                    <View>
                                     <Text style={stylesViewGame.buttonTitle}>Select a stat below</Text>
                 
                                         <Picker
                                             selectedValue={this.state.OpponentsEventSelection}
-                                            style={stylesViewGame.input}
+                                         
                                             onValueChange={(text) => this.setState({OpponentsEventSelection:text})}
                                         >
                                                         
@@ -1260,7 +1293,7 @@ class ViewGame extends Component {
                                             <TouchableOpacity style={stylesViewGame.button} onPress = {this.GoToMainMenu}>
                                                 <Text style={stylesViewGame.buttonTitle}>Back to Main Menu</Text>
                                             </TouchableOpacity>
-
+                                    </View>
                 
                                 </ScrollView>
                             );
@@ -1270,13 +1303,25 @@ class ViewGame extends Component {
 
                             ReviewPlayerStats = (
 
-                                <ScrollView style={stylesViewGame.container}>
-                
+                                
+                               <ScrollView contentContainerStyle={{   flexDirection:"column",
+        justifyContent:'center',
+        width: '100%',
+        backgroundColor: 'white',
+        alignItems: 'center',
+        borderColor:'#C30000',
+         borderWidth: 4,
+         borderRadius: 10,
+        padding: 50,
+        marginTop: 100,
+  }}>
+
+                                    <View>
                                     <Text style={stylesViewGame.buttonTitle}>Select a stat</Text>
                 
                                         <Picker
                                             selectedValue={this.state.OpponentsEventSelection}
-                                            style={stylesViewGame.input}
+                                         
                                             onValueChange={(text) => this.setState({OpponentsEventSelection:text})}
                                         >
                                                         
@@ -1295,8 +1340,8 @@ class ViewGame extends Component {
                                                 <Text style={stylesViewGame.buttonTitle}>Back to Main Menu</Text>
                                             </TouchableOpacity>
 
-                
-                                </ScrollView>
+                                </View>
+                            </ScrollView>
                             );
                         }
                     }
@@ -1311,13 +1356,24 @@ class ViewGame extends Component {
 
                         ReviewPlayerStats = (
 
-                            <ScrollView style={stylesViewGame.container}>
-
-                                <Text style={stylesViewGame.buttonTitle}>Select a player </Text>
+                            
+                           <ScrollView contentContainerStyle={{   flexDirection:"column",
+                            justifyContent:'center',
+                            width: '100%',
+                            backgroundColor: 'white',
+                            alignItems: 'center',
+                            borderColor:'#C30000',
+                            borderWidth: 10,
+                            borderRadius: 10,
+                            padding: 50,
+                            marginTop: 100,
+                                }}>
+                             <View>
+                               <Text style={stylesViewGame.StatText}>Select a player </Text>
 
                                 <Picker
                                     selectedValue={this.state.selectedTeamPlayer}
-                                    style={stylesViewGame.input}
+                                 
                                     onValueChange={(text) => this.setState({selectedTeamPlayer:text})}
                                 >
 
@@ -1337,7 +1393,7 @@ class ViewGame extends Component {
 
                                 <Picker
                                     selectedValue={this.state.YourTeamEventSelection}
-                                    style={stylesViewGame.input}
+                                 
                                     onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                     >
                                                     
@@ -1365,7 +1421,7 @@ class ViewGame extends Component {
 
 
 
-
+                                </View>
                                 
                             </ScrollView>
 
@@ -1377,13 +1433,25 @@ class ViewGame extends Component {
                     {
                         ReviewPlayerStats = (
 
-                            <ScrollView style={stylesViewGame.container}>
+                            
+                           <ScrollView contentContainerStyle={{   flexDirection:"column",
+                            justifyContent:'center',
+                            width: '100%',
+                            backgroundColor: 'white',
+                            alignItems: 'center',
+                            borderColor:'#C30000',
+                            borderWidth: 4,
+                            borderRadius: 10,
+                            padding: 50,
+                            marginTop: 100,
+                            }}>
 
-                                <Text style={stylesViewGame.buttonTitle}>Select a player</Text>
+                                <View>
+                                <Text style={stylesViewGame.StatText}>Select a player</Text>
 
                                 <Picker
                                     selectedValue={this.state.selectedTeamPlayer}
-                                    style={stylesViewGame.input}
+                                 
                                     onValueChange={(text) => this.setState({selectedTeamPlayer:text})}
                                 >
 
@@ -1399,11 +1467,11 @@ class ViewGame extends Component {
 
                                 </Picker> 
 
-                                <Text style={stylesViewGame.buttonTitle}>Select a stat (*Optional*)</Text>
+                                <Text style={stylesViewGame.StatText}>Select a stat (*Optional*)</Text>
 
                                 <Picker
                                     selectedValue={this.state.YourTeamEventSelection}
-                                    style={stylesViewGame.input}
+                                 
                                     onValueChange={(text) => this.setState({YourTeamEventSelection:text})}
                                     >
                                                     
@@ -1427,7 +1495,7 @@ class ViewGame extends Component {
                                         <Text style={stylesViewGame.buttonTitle}>Back to Main Menu</Text>
                                 </TouchableOpacity>
 
-
+                                </View>
                                 
                             </ScrollView>
 
@@ -1448,13 +1516,24 @@ class ViewGame extends Component {
 
                             ReviewPlayerStats = (
                                 
-                                <ScrollView style={stylesViewGame.container}>
-
-                                    <Text style={stylesViewGame.buttonTitle}>Select a player</Text>
+                                
+                               <ScrollView contentContainerStyle={{   flexDirection:"column",
+                                justifyContent:'center',
+                                width: '100%',
+                                backgroundColor: 'white',
+                                alignItems: 'center',
+                                borderColor:'#C30000',
+                                borderWidth: 4,
+                                borderRadius: 10,
+                                padding: 50,
+                                marginTop: 100,
+                                }}>
+                            <View>
+                            <Text style={stylesViewGame.StatText}>Select a player</Text>
 
                                     <Picker
                                         selectedValue={this.state.selectedOpponentsPlayer}
-                                        style={stylesViewGame.input}
+                                     
                                         onValueChange={(text) => this.setState({selectedOpponentsPlayer:text})}
                                     >
 
@@ -1474,7 +1553,7 @@ class ViewGame extends Component {
 
                                     <Picker
                                         selectedValue={this.state.OpponentsEventSelection}
-                                        style={stylesViewGame.input}
+                                     
                                         onValueChange={(text) => this.setState({OpponentsEventSelection:text})}
                                         >
                                                         
@@ -1499,7 +1578,7 @@ class ViewGame extends Component {
                                             <Text style={stylesViewGame.buttonTitle}>Back to Main Menu</Text>
                                     </TouchableOpacity>
 
-
+                                    </View>
                                     
                                 </ScrollView>
 
@@ -1516,13 +1595,24 @@ class ViewGame extends Component {
 
                         ReviewPlayerStats = (
                             
-                            <ScrollView style={stylesViewGame.container}>
-
-                                <Text style={stylesViewGame.buttonTitle}>Select a player</Text>
+                            
+                            <ScrollView contentContainerStyle={{   flexDirection:"column",
+                            justifyContent:'center',
+                            width: '100%',
+                            backgroundColor: 'white',
+                            alignItems: 'center',
+                            borderColor:'#C30000',
+                            borderWidth: 4,
+                            borderRadius: 10,
+                            padding: 50,
+                            marginTop: 100,
+                            }}>
+                            <View>
+                            <Text style={stylesViewGame.StatText}>Select a player</Text>
 
                                 <Picker
                                     selectedValue={this.state.selectedOpponentsPlayer}
-                                    style={stylesViewGame.input}
+                                 
                                     onValueChange={(text) => this.setState({selectedOpponentsPlayer:text})}
                                 >
 
@@ -1538,11 +1628,11 @@ class ViewGame extends Component {
 
                                 </Picker> 
 
-                                <Text style={stylesViewGame.buttonTitle}>Select a stat (*Optional*)</Text>
+                                <Text style={stylesViewGame.StatText}>Select a stat (*Optional*)</Text>
 
                                 <Picker
                                     selectedValue={this.state.OpponentsEventSelection}
-                                    style={stylesViewGame.input}
+                                 
                                     onValueChange={(text) => this.setState({OpponentsEventSelection:text})}
                                     >
                                                     
@@ -1568,7 +1658,7 @@ class ViewGame extends Component {
 
 
 
-                                
+                                </View>   
                             </ScrollView>
 
                         );
@@ -1587,8 +1677,9 @@ class ViewGame extends Component {
                     if(SportType == 'GAA')
                     {
                         ReviewGameStats= (
-                            <ScrollView style={stylesViewGame.container}>
-
+                            
+                        <ScrollView style={stylesViewGame.container}>
+                            <View>
                                 <View>
                                     <View style={stylesViewGame.headerContainer}>
                                         <Text style={stylesViewGame.StatTextWhite}>{PlayerName}</Text>
@@ -1629,7 +1720,7 @@ class ViewGame extends Component {
                                         <Text style={stylesViewGame.StatTextWhite}>Back to View Game Menu</Text>
                                     </TouchableOpacity>
                                 </View>
-
+                                </View>
                             </ScrollView>
                         );
                     }
@@ -1638,8 +1729,9 @@ class ViewGame extends Component {
                     {
                         ReviewGameStats = (
 
+                            
                             <ScrollView style={stylesViewGame.container}>
-
+                                <View>
                                         <View>
                                             <View style={stylesViewGame.headerContainer}>
                                                 <Text style={stylesViewGame.StatTextWhite}>{PlayerName}</Text>
@@ -1670,7 +1762,7 @@ class ViewGame extends Component {
                                                 <Text style={stylesViewGame.StatTextWhite}>Back to View Game Menu</Text>
                                             </TouchableOpacity>
                                         </View>
-
+                               </View>
                             </ScrollView>
                         );
                     }
@@ -1684,8 +1776,9 @@ class ViewGame extends Component {
                     if(SportType == 'GAA')
                     {
                         ReviewGameStats= (
+                            
                             <ScrollView style={stylesViewGame.container}>
-
+                                <View>
                                 <View>
                                     <View style={stylesViewGame.headerContainer}>
                                         <Text style={stylesViewGame.StatTextWhite}>{PlayerName}</Text>
@@ -1718,7 +1811,7 @@ class ViewGame extends Component {
                                     </TouchableOpacity>
 
                                 </View>
-
+                                </View>
                             </ScrollView>
                         );
                     }
@@ -1727,8 +1820,9 @@ class ViewGame extends Component {
                     {
                         ReviewGameStats = (
 
+                            
                             <ScrollView style={stylesViewGame.container}>
-
+                                <View>
                                         <View>
                                             <View style={stylesViewGame.headerContainer}>
                                                 <Text style={stylesViewGame.StatTextWhite}>{PlayerName}</Text>
@@ -1761,7 +1855,7 @@ class ViewGame extends Component {
                                             </TouchableOpacity>
 
                                         </View>
-
+                                        </View>
                             </ScrollView>
                         );
                     }
@@ -2865,7 +2959,7 @@ class ViewGame extends Component {
             return (
  
 
-                <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', backgroundColor: '#252626', alignItems: "center", fontSize: 20}}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1,  backgroundColor: '#252626', alignItems:'center',fontSize: 20}}>
 
                     <View>
                         {ReviewSelection}  
@@ -2905,9 +2999,19 @@ class ViewGame extends Component {
 
 const stylesViewGame = StyleSheet.create({
     container: {
-  
-    
+
         fontSize: 20,
+   
+        
+       
+    },
+
+    container2: {
+  
+        backgroundColor:'#ffffff',
+      
+   
+        
        
     },
     dataContainer: {
@@ -2980,7 +3084,7 @@ const stylesViewGame = StyleSheet.create({
         flex:1,
         flexDirection:"row",
         borderWidth: 4,
-        borderRadius: 20,
+        borderRadius: 10,
         borderColor:'#ffffff',
         alignItems: "center",
         marginBottom:10,

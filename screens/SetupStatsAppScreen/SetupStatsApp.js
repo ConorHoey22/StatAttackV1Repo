@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Component } from 'react'
-import { Image, Text, StatusBar, TextInput,  FlatList, TouchableOpacity, View ,Button ,ScrollView, Alert , StyleSheet, SegmentedControlIOSComponent} from 'react-native'
+                             
+import { Image, TouchableWithoutFeedback,Text, StatusBar, Modal,TextInput,  Platform, FlatList, TouchableOpacity, View ,Button ,ScrollView, Alert , StyleSheet, SegmentedControlIOSComponent, Picker} from 'react-native'
 // import styles from './styles';
 
 import firebase from 'firebase/app'
@@ -8,10 +9,10 @@ import 'firebase/database';
 
 
 import { useNavigation } from '@react-navigation/native';
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, withOrientation } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import { Picker } from "@react-native-picker/picker";
+
 
 
 
@@ -59,7 +60,7 @@ export default class SetupStatsApp extends Component {
             TrainingSelected: false,
 
             SetUpMenu:false,
-
+            modalVisible: false,
             ViewTeamSheet:false,
             ViewOpponentsTeamsheet:false,
 
@@ -121,7 +122,9 @@ export default class SetupStatsApp extends Component {
           var array2 = this.state.SelectedOpponentsStartingTeam;
 
         
+  
 
+        
 
  
       }
@@ -1844,20 +1847,25 @@ for (var i = 0; i < starting11Selected.length; i++) {
                     if(OpenSelectedStarting11SubBench == true)
                     {
                         SetUpView = (
-                            <ScrollView style={styles.footerText}>
-                                    <Text style={styles.Text}>Your Current Starting 15 / Sub Bench</Text>
-                                    
-                                                    <TouchableOpacity style={styles.button} onPress={this.ExitListView} >
-                                                        <Text style={styles.buttonTitle}>Exit</Text>
-                                                    </TouchableOpacity>
+                            <ScrollView style={{backgroundColor:'#ffffff'}}>
 
-                                                    <Text style={styles.Text}>Select a player your want to remove from the teamsheet then click the remove button below</Text>
+                                <View style={styles.container}>
+                                    <Text style={styles.Text}>Your Current Starting 15 / Sub Bench</Text>
+                                </View>
+                                    
+                                            <TouchableOpacity style={styles.button} onPress={this.ExitListView}>
+                                                <Text style={styles.buttonTitle}>Exit</Text>
+                                             </TouchableOpacity>
+
+                                <View style={styles.container}>
+                                    <Text style={styles.Text}>Select a player your want to remove from the teamsheet then click the remove button below</Text>
+                                </View>
 
                                                     <Picker
                                                     selectedValue={this.state.selectedS11Removal}
                                                     
                                                     onValueChange={(text) => this.setState({selectedS11Removal:text})}
-                                                    itemStyle={{ backgroundColor: "white", color: "black"}}
+                                                 
                                                     >
 
                                                     <Picker.Item label="Select a Player" value="" />
@@ -1882,21 +1890,22 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                 </TouchableOpacity>
 
 
+                                                <View style={styles.container}>
+                                                    <Text style={styles.buttonTitle}>Player List</Text>  
+                                                </View>
 
-                                            <FlatList
-                                                data={this.state.SelectedStartingTeam}
-                                                renderItem={({ item }) => (
-                                                    <View style={styles.playerContainer}>
-                                                    <Text>Player name: {item.fullName}</Text>
-                                                    <Text>Position: {item.playerPosition}</Text>
-                                                    <Text>Kit number: {item.playerKitNumber}</Text>
-                                                    <Text>Status: {item.status}</Text>
-
-
-                                                    </View>
-                                            )}
+                                                <FlatList
+                                                    data={this.state.SelectedStartingTeam}
+                                                    renderItem={({ item }) => (
+                                                        <View style={styles.playerContainer}>
+                                                            <Text>Player name: {item.fullName}</Text>
+                                                            <Text>Position: {item.playerPosition}</Text>
+                                                            <Text>Kit number: {item.playerKitNumber}</Text>
+                                                            <Text>Status: {item.status}</Text>
+                                                         </View>
+                                                        )}
                                         
-                                            />
+                                                    />
 
 
 
@@ -1910,20 +1919,27 @@ for (var i = 0; i < starting11Selected.length; i++) {
                     if(OpenSelectedOpponentStarting11SubBench == true)
                     {
                         SetUpView = (
-                            <ScrollView style={styles.footerText}>
-                                <Text style={styles.TextBlack}>Opponents Current Starting 15 /  Sub Bench</Text>
+                            <ScrollView style={{backgroundColor:'#ffffff'}}>
+
+                                <View style={styles.container}>
+                                    <Text style={styles.Text}>Opponents Current Starting 15 /  Sub Bench</Text>
+                                </View>
                                 
                                                 <TouchableOpacity style={styles.button} onPress={this.ExitOpponentListView} >
                                                     <Text style={styles.buttonTitle}>Exit</Text>
                                                 </TouchableOpacity>
 
-                                                <Text style={styles.TextBlack}>Select a player your want to remove from the teamsheet then click the remove button below</Text>
+
+                                                <View style={styles.container}>
+                                                    <Text style={styles.Text}>Select a player your want to remove from the teamsheet then click the remove button below</Text>
+                                                </View>
+                                               
 
                                                 <Picker
                                                 selectedValue={this.state.selectedS11Removal}
-                                                style={styles.input}
+                                               
                                                 onValueChange={(text) => this.setState({selectedS11Removal:text})}
-                                                itemStyle={{ backgroundColor: "white", color: "black"}}
+                                            
                                                 >
 
                                                 <Picker.Item label="Select a Player" value="" />
@@ -1943,7 +1959,9 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                  <Text style={styles.buttonTitle}>Remove Player</Text>
                                               </TouchableOpacity>
 
-
+                                        <View style={styles.container}>
+                                            <Text style={styles.Text}>Player List</Text>
+                                        </View>
 
                                         <FlatList
                                             data={this.state.SelectedOpponentsStartingTeam}
@@ -1972,37 +1990,39 @@ for (var i = 0; i < starting11Selected.length; i++) {
 
                  
                    //Opponent Team Selection
-                if(OpenAddOpponentTeamsheet == true)
+                 if(OpenAddOpponentTeamsheet == true)
                 {
                     SetUpView = (
-                        <ScrollView >
+                        <ScrollView style={{backgroundColor:'#ffffff'}}>
            
              
 
                                     <View style = {styles.container}>
-                                
+                                        <Text style={styles.Text}>Select the Opponents Starting 15 team </Text>
+                                    </View>
+          
 
-                                            <Text style={styles.TextBlack}>Select the Opponents Starting 15 team </Text>
 
+                                        <Text style={styles.Text}>Enter the Players name:</Text>
+                                            <TextInput
+                                                style={styles.textInput}
+                                                placeholder='Enter here'
+                                                placeholderTextColor="#aaaaaa"
+                                                onChangeText={(text) => this.setState({selectedPlayer:text})}
+                                                value={this.state.selectedPlayer}
+                                                underlineColorAndroid="transparent"
+                                                autoCapitalize="none"
+                                            />
 
-                                            <Text style={styles.TextBlack}>Enter the Players name:</Text>
-                                                    <TextInput
-                                                        style={styles.textInput}
-                                                        placeholder='Enter here'
-                                                        placeholderTextColor="#aaaaaa"
-                                                        onChangeText={(text) => this.setState({selectedPlayer:text})}
-                                                        value={this.state.selectedPlayer}
-                                                        underlineColorAndroid="transparent"
-                                                        autoCapitalize="none"
-                                                    />
-
+                                    <View style = {styles.container}>
+                                        <Text style={styles.Text}>Select a position </Text>
+                                    </View>
 
                                             <Picker
                             
                                                 selectedValue={this.state.selectedPlayerPosition}
-                                                style={styles.input}
                                                 onValueChange={(text) => this.setState({selectedPlayerPosition:text})}
-                                                // itemStyle={{ backgroundColor: "white", color: "black"}}
+                                              
                                             >
                                                 <Picker.Item label="Select their position" value="" />
                                                 <Picker.Item label="Goalkeeper" value="GK" />
@@ -2010,6 +2030,11 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                 <Picker.Item label="Midfielder" value="Midfielder"  />
                                                 <Picker.Item label="Forward" value="Forward"  />
                                             </Picker> 
+
+                                            
+                                    <View style = {styles.container}>
+                                        <Text style={styles.Text}>Enter their kit number:</Text>
+                                    </View>
 
                                             <Text style={styles.Text}>Enter their kit number:</Text>
                                                     <TextInput
@@ -2037,128 +2062,127 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                               </TouchableOpacity>
 
 
-                                </View>
+                               
 
                           </ScrollView>
                     );
 
-                }
+            }
                     
                 
 
 
+            if(OpenAddTeamsheet == true)
+            {
 
-                    
-                    if(OpenAddTeamsheet == true)
-                    {
-                        SetUpView = (
-                    
 
-                            <ScrollView style={{backgroundColor:'#ffffff'}}>
+                            SetUpView = (
+                                <ScrollView style={{backgroundColor:'#ffffff'}}>
            
 
-                            <View style={styles.container}>
-
-                                    <Text style={styles.Text}> Select your Starting 15 and Sub Bench  </Text>
-                            </View>
-
-                            
-                     
-
-                                    <Picker
-
-                                        selectedValue={this.state.selectedPlayer}
-                                        onValueChange={(text) => this.setState({selectedPlayer:text})}
-                                    >
-
-                                        <Picker.Item label="Select a Player" value="" />
-                                        {this.state.AvailablePlayersList.map((item, index) => {
-                                        return (
-                                            <Picker.Item label={item.fullName} value={item.key} key={index}/>
-
-                                        )
-
-                                        })}
-                                    
-                                    </Picker>  
-                                
-
-                               
-
-
-                                
-                          
-
                                 <View style={styles.container}>
-                                    <Text style={styles.Text}> Select a position </Text>
+    
+                                        <Text style={styles.Text}> Select your Starting 15 and Sub Bench </Text>
                                 </View>
-                                   
-                                   
-                         
-                                   <Picker
-                    
-                                        selectedValue={this.state.selectedPlayerPosition}
-                                       
-                                        onValueChange={(text) => this.setState({selectedPlayerPosition:text})}
-                                        // itemStyle={{ backgroundColor: "white", color: "black"}}
-                                    >
-                                        <Picker.Item label="Select a position" value="" />
-                                        <Picker.Item label="Goalkeeper" value="GK" />
-                                        <Picker.Item label="Defender" value="Defender" />
-                                        <Picker.Item label="Midfielder" value="Midfielder"  />
-                                        <Picker.Item label="Forward" value="Forward"  />
-                                    </Picker>  
+    
 
+                                <Picker
+                                    selectedValue={this.state.selectedPlayer}
+                                  
+                                    onValueChange={(text) => this.setState({selectedPlayer:text})}
+                                
+                                >
+
+                                    <Picker.Item label="Select a Player" value="" />
+                                    {this.state.AvailablePlayersList.map((item, index) => {
+                                    return (
+                                        <Picker.Item label={item.fullName} value={item.key} key={index}/>
+
+                                    )
+
+                                    })}
+                                
+                                </Picker> 
 
 
                                     <View style={styles.container}>
-                                        <Text style={styles.Text}> Enter their kit number:</Text>
+                                        <Text style={styles.Text}> Select a position </Text>
                                     </View>
-                                            <TextInput
-                                                style={styles.textInput}
-                                                placeholder='Enter here'
-                                                placeholderTextColor="#aaaaaa"
-                                                onChangeText={(text) => this.setState({selectedPlayerKitNumber:text})}
-                                                value={this.state.selectedPlayerKitNumber}
-                                                underlineColorAndroid="transparent"
-                                                autoCapitalize="none"
-                                            />
-
-
-
-                                      <TouchableOpacity style={styles.button} onPress={this.AddToStartingTeam}>
-                                         <Text style={styles.buttonTitle}>Add player to the Starting 15</Text>
-                                      </TouchableOpacity>
-
-                                      <TouchableOpacity style={styles.button} onPress={this.AddToSubBench}>
-                                         <Text style={styles.buttonTitle}>Add player to the Sub Bench</Text>
-                                      </TouchableOpacity>
-
-                                      <TouchableOpacity style={styles.button} onPress={this.CloseAddTeamsheet}>
-                                            <Text style={styles.buttonTitle}>Go back to Main Menu</Text>
-                                      </TouchableOpacity>
-
-
-                      
-
-
-                  </ScrollView>
-                        );
-                    }
-
+                                       
+                                                                
+                                       <Picker
+                        
+                                            selectedValue={this.state.selectedPlayerPosition}
+                                           
+                                            onValueChange={(text) => this.setState({selectedPlayerPosition:text})}
+                                            // itemStyle={{ backgroundColor: "white", color: "black"}}
+                                        >
+                                            <Picker.Item label="Select a position" value="" />
+                                            <Picker.Item label="Goalkeeper" value="GK" />
+                                            <Picker.Item label="Defender" value="Defender" />
+                                            <Picker.Item label="Midfielder" value="Midfielder"  />
+                                            <Picker.Item label="Forward" value="Forward"  />
+                                        </Picker>   
     
-                }
-                else{
+    
+    
+                                        <View style={styles.container}>
+                                            <Text style={styles.Text}> Enter their kit number:</Text>
+                                        </View>
+                                                <TextInput
+                                                    style={styles.textInput}
+                                                    placeholder='Enter here'
+                                                    placeholderTextColor="#aaaaaa"
+                                                    onChangeText={(text) => this.setState({selectedPlayerKitNumber:text})}
+                                                    value={this.state.selectedPlayerKitNumber}
+                                                    underlineColorAndroid="transparent"
+                                                    autoCapitalize="none"
+                                                />
+    
+    
+    
+                                          <TouchableOpacity style={styles.button} onPress={this.AddToStartingTeam}>
+                                             <Text style={styles.buttonTitle}>Add player to the Starting 15</Text>
+                                          </TouchableOpacity>
+    
+                                          <TouchableOpacity style={styles.button} onPress={this.AddToSubBench}>
+                                             <Text style={styles.buttonTitle}>Add player to the Sub Bench</Text>
+                                          </TouchableOpacity>
+    
+                                          <TouchableOpacity style={styles.button} onPress={this.CloseAddTeamsheet}>
+                                                <Text style={styles.buttonTitle}>Go back to Main Menu</Text>
+                                          </TouchableOpacity>
+    
+    
+                          
+    
+    
+                      </ScrollView>
+                               
+                        );
+
+       
+            }
         
-                    SetUpView = (
+
+
+            }
+             else{
+        
+                     SetUpView = (
                     
-                    <View>
-                        <Text style={styles.Text}>You must have 15 or more players added to your team to proceed.</Text>
-                    </View>
+                        <View>
+                            <Text style={styles.Text}>You must have 15 or more players added to your team to proceed.</Text>
+                        </View>
 
                     );
+            
+                
                 }
-             }
+
+
+
+        }
              else if(SportType == 'Soccer'){
                
                 if(playercounter >= 11)
@@ -2312,7 +2336,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                 selectedValue={this.state.selectedS11Removal}
                                                 style={styles.input}
                                                 onValueChange={(text) => this.setState({selectedS11Removal:text})}
-                                                itemStyle={{ backgroundColor: "white", color: "black"}}
+                                     
                                                 >
 
                                                 <Picker.Item label="Select a Player" value="" />
@@ -2364,15 +2388,14 @@ for (var i = 0; i < starting11Selected.length; i++) {
                 if(OpenAddOpponentTeamsheet == true)
                 {
                     SetUpView = (
-                        <ScrollView >
+                        <ScrollView style={{backgroundColor:'#ffffff'}}>
            
              
 
-                                    <View style = {styles.container}>
+                        <View style={styles.container}>
+                            <Text style={styles.Text}>Select the Opponents Starting 11 team </Text>
+                        </View>
                                 
-
-                                            <Text style={styles.Text}>Select the Opponents Starting 11 team </Text>
-
 
                                             <Text style={styles.Text}>Enter the Players name:</Text>
                                                     <TextInput
@@ -2384,6 +2407,11 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                         underlineColorAndroid="transparent"
                                                         autoCapitalize="none"
                                                     />
+
+
+                                    <View style={styles.container}>
+                                        <Text style={styles.Text}> Select a position </Text>
+                                    </View>
 
 
                                             <Picker
@@ -2399,6 +2427,11 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                 <Picker.Item label="Midfielder" value="Midfielder"  />
                                                 <Picker.Item label="Forward" value="Forward"  />
                                             </Picker> 
+
+
+                                            <View style={styles.container}>
+                                                 <Text style={styles.Text}> Enter their kit number:</Text>
+                                            </View>
 
                                             <Text style={styles.Text}>Enter their kit number:</Text>
                                                     <TextInput
@@ -2417,8 +2450,6 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                                  <Text style={styles.buttonTitle}>Add player to the Starting 11</Text>
                                               </TouchableOpacity>
 
-                                              
-
                                               <TouchableOpacity style={styles.button} onPress={this.AddToOpponentSubBench}>
                                                  <Text style={styles.buttonTitle}>Add player to the Sub Bench</Text>
                                               </TouchableOpacity>
@@ -2428,7 +2459,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                               </TouchableOpacity>
 
 
-                                </View>
+                              
 
                           </ScrollView>
                     );
@@ -2462,6 +2493,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
                                         style={styles.input}
                                         onValueChange={(text) => this.setState({selectedPlayer:text})}
                                         itemStyle={{ backgroundColor: "white", color: "black"}}
+                                        
                                     >
 
                                         <Picker.Item label="Select a Player" value="" />
@@ -2542,47 +2574,47 @@ for (var i = 0; i < starting11Selected.length; i++) {
                 }
             }
            
-         }
+         
 
         
-        if(TrainingSelected == true)
-        {
-            if(SportType == 'GAA')
-            {
-                if(playercounter >= 15)
-                {
+        // if(TrainingSelected == true)
+        // {
+        //     if(SportType == 'GAA')
+        //     {
+        //         if(playercounter >= 15)
+        //         {
 
-                }
-                else
-                {
-                    SetUpView = (
+        //         }
+        //         else
+        //         {
+        //             SetUpView = (
                         
-                        <ScrollView>
-                          <Text style={styles.Text}>You must have 15 or more players added to your team to proceed.</Text>
-                        </ScrollView>
+        //                 <ScrollView>
+        //                   <Text style={styles.Text}>You must have 15 or more players added to your team to proceed.</Text>
+        //                 </ScrollView>
            
             
-                    );
-                }
-            }
-            else if(SportType == 'Soccer')
-            {
-                if(playercounter >= 11)
-                {
+        //             );
+        //         }
+        //     }
+        //     else if(SportType == 'Soccer')
+        //     {
+        //         if(playercounter >= 11)
+        //         {
 
-                }
-                else
-                {
-                    SetUpView = (
+        //         }
+        //         else
+        //         {
+        //             SetUpView = (
                     
-                        <ScrollView>
-                            <Text style={styles.Text}>You must have 11 or more players added to your team to proceed.</Text>
-                        </ScrollView>
+        //                 <ScrollView>
+        //                     <Text style={styles.Text}>You must have 11 or more players added to your team to proceed.</Text>
+        //                 </ScrollView>
            
 
-                    );
-                }
-            }
+        //             );
+        //         }
+        //     }
 
 
 
@@ -2594,7 +2626,7 @@ for (var i = 0; i < starting11Selected.length; i++) {
 
 
        
-        }
+        // }
 
         if(invalidPlayerSelection == true)
         {
@@ -2623,6 +2655,10 @@ for (var i = 0; i < starting11Selected.length; i++) {
 
         }
 
+    
+
+    }
+
 
 
         return(
@@ -2647,6 +2683,8 @@ for (var i = 0; i < starting11Selected.length; i++) {
         )
     }
 
+
+
 }
 
 const styles = StyleSheet.create({
@@ -2656,7 +2694,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         // alignItems:'center',
         backgroundColor: '#C30000',
-        // marginTop: 100,
+        
         borderColor:'#000000',
         borderWidth: 1,
         height:'100%',
@@ -2707,18 +2745,11 @@ const styles = StyleSheet.create({
     },
     input: {
      
-            height: 40,
-            margin: 12,
-            borderWidth: 1,
-            padding: 10,
+        height: '7%', width: '80%',
+        
 
+  
 
-      
-        marginTop: 10,
-        marginBottom: 10,
-        marginLeft: 30,
-        marginRight: 30,
-        paddingLeft: 16
     },
 
     textInput: {
@@ -2742,6 +2773,7 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30,
         marginTop: 20,
+        marginBottom:20,
         height: 48,
         borderRadius: 5,
         alignItems: "center",
