@@ -41,7 +41,7 @@ import { BorderlessButton } from 'react-native-gesture-handler';
                 tempArr = this.snapshotToArray(snapshot);
 
 
-                console.log(this.state.tempArr);
+        
                 this.setState({
                     listPlayers: tempArr
                 });
@@ -65,8 +65,14 @@ import { BorderlessButton } from 'react-native-gesture-handler';
             return retArr;
         }
 
-        ViewPlayer = async() => {
+        ViewPlayer = ( itemKey ) => {
 
+            this.props.navigation.navigate('ViewPlayer', 
+            {
+                  
+                    itemKey: itemKey,
+                  
+            });
         }
 
         RemovePlayer = ( itemKey ) => {

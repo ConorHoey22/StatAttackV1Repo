@@ -24,6 +24,7 @@ import { ImageEditor } from 'react-native';
             listPlayers:[],
             templist:[],
             tempid:'',
+            SportType:''
          };
 
     
@@ -98,6 +99,9 @@ import { ImageEditor } from 'react-native';
                     let playercounter= teamObj.playercounter;
                     this.setState({playercounter:playercounter});
 
+                    let SportType= teamObj.SportType;
+                    this.setState({SportType:SportType});
+
                 });
    
             });
@@ -152,6 +156,8 @@ import { ImageEditor } from 'react-native';
                             }
                             else
                             {
+                                
+
                                 const playerData = {
                                     fullName:this.state.fullName,
                                     inviteCode:this.state.inviteCode,
@@ -387,7 +393,7 @@ import { ImageEditor } from 'react-native';
                 
               
 
-                // <View styles= {{flex: 1, alignItems: 'center', justifyContent: 'center' }}> 
+    
 
 
                     <View>
@@ -511,7 +517,7 @@ const styles = StyleSheet.create({
     },
     columnView: {
         
-        paddingTop:10,
+          paddingTop:10,
           paddingBottom:10,
           paddingLeft: 10,
           paddingRight: 10,
@@ -557,14 +563,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         borderColor:'#C30000',
-         borderWidth: 4,
-        // marginTop: 10,
-        // marginBottom: 10,
-  
- 
-        //  paddingTop:10,
-        //  paddingLeft: 10,
-        // borderRadius: 10,
+        borderWidth: 4,
         padding: 50,
         marginTop: 100,
   

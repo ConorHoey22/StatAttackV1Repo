@@ -36,13 +36,12 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
             totalRedCards:0,
             totalAssists:0
         };
-
     }
 
     componentDidMount(){
 
 
-     this.getPlayerDetails();
+   
 
         var myUserId = firebase.auth().currentUser.uid;
 
@@ -58,145 +57,132 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
         });
 
 
+ 
+        const { state, setParams, navigate } = this.props.navigation;
+        const params = state.params || {};
+
+
+       var myUserId = firebase.auth().currentUser.uid;
+
+
+        //get Player details
+
+   firebase.database().ref('/users').child(params.itemKey)
+               .once('value' , snapshot =>  {
+
+                   if(snapshot.exists())
+                   {  
+                       const playerObj = snapshot.val();
+
+                                           let fullName = playerObj.fullName;
+                                           this.setState({fullName:fullName});
+               
+                                           let totalAssists = playerObj.totalAssists;
+                                           this.setState({totalAssists:totalAssists});
+               
+                                           let totalGoals = playerObj.totalGoals;
+                                           this.setState({totalGoals: playerObj.totalGoals});
+                                   
+                                           let totalLostTheBall = playerObj.totalLostTheBall;
+                                           this.setState({totalLostTheBall: totalLostTheBall});
+                                       
+                                           let totalPasses =  playerObj.totalPasses; 
+                                           this.setState({totalPasses: totalPasses});
+                                   
+                                           let totalPoints = playerObj.totalPoints;
+                                           this.setState({totalPoints: totalPoints});
+               
+                                           let totalRedCards = playerObj.totalRedCards;
+                                           this.setState({totalRedCards: totalRedCards});
+                                       
+                                           let totalShots =  playerObj.totalShots;
+                                           this.setState({totalShots: totalShots})
+                                       
+                                           let totalShotsOnTarget = playerObj.totalShotsOnTarget;
+                                           this.setState({totalShotsOnTarget: totalShotsOnTarget});
+                                       
+                                           let totalTackles = playerObj.totalTackles;
+                                           this.setState({totalTackles: totalTackles});
+                                           
+                                           let totalWonTheBall = playerObj.totalWonTheBall;
+                                           this.setState({totalWonTheBall:totalWonTheBall});
+               
+                                           let totalYellowCards = playerObj.totalYellowCards;
+                                           this.setState({totalYellowCards:totalYellowCards});
+                                           
+                                           let userType = playerObj.userType;
+                                           this.setState({userType:userType});
+               
+                                           let SportType = playerObj.sportType;
+                                           this.setState({SportType:SportType});
+               
+                                       }
+                                       else
+                                       {
+                                           console.log('Doesnt exist');
+               
+                                           //Players
+                                           firebase.database().ref('/teams').child(myUserId).child('/players').child(params.itemKey)
+                                           .once('value' , snapshot =>  {
+               
+                                               const playerObj = snapshot.val();
+               
+                                               
+                   
+                       
+                                               let fullName = playerObj.fullName;
+                                               this.setState({fullName:fullName});
+               
+                                               let totalAssists = playerObj.totalAssists;
+                                               this.setState({totalAssists:totalAssists});
+                       
+                                               let totalGoals = playerObj.totalGoals;
+                                               this.setState({totalGoals: playerObj.totalGoals});
+                                          
+                                               let totalLostTheBall = playerObj.totalLostTheBall;
+                                               this.setState({totalLostTheBall: totalLostTheBall});
+                                             
+                                               let totalPasses =  playerObj.totalPasses; 
+                                               this.setState({totalPasses: totalPasses});
+                                          
+                                               let totalPoints = playerObj.totalPoints;
+                                               this.setState({totalPoints: totalPoints});
+                       
+                                               let totalRedCards = playerObj.totalRedCards;
+                                               this.setState({totalRedCards: totalRedCards});
+                                              
+                                               let totalShots =  playerObj.totalShots;
+                                               this.setState({totalShots: totalShots})
+                                            
+                                               let totalShotsOnTarget = playerObj.totalShotsOnTarget;
+                                               this.setState({totalShotsOnTarget: totalShotsOnTarget});
+                                           
+                                               let totalTackles = playerObj.totalTackles;
+                                               this.setState({totalTackles: totalTackles});
+                                               
+                                               let totalWonTheBall = playerObj.totalWonTheBall;
+                                               this.setState({totalWonTheBall:totalWonTheBall});
+                       
+                                               let totalYellowCards = playerObj.totalYellowCards;
+                                               this.setState({totalYellowCards:totalYellowCards});
+                                               
+                                 
+                                           });
+               
+                                       }
+
+
+                   
+
+               });
+
+       
+            }
+
+
        
 
-    }
 
-
-    getPlayerDetails = async() => {
-
-         // Pass the sport type from the {manageTeam} use it to determine the screas
-
-            //Obtain SelectedStarting11 Array of players
-            const { state, setParams, navigate } = this.props.navigation;
-            const params = state.params || {};
-
-
-
-            var myUserId = firebase.auth().currentUser.uid;
-
-            var playerKey = params.playerKey;
-
-
-        // WE need to test the below also a condition so that playerKey has a temporary UserID - jsut display (/teams/players record)
-
-            //   Use record ref to get Player details
-
-                    firebase.database().ref('/users').child(params.playerKey)
-                    .once('value' , snapshot =>  {
-
-                        if(snapshot.exists())
-                        {
-
-                            const playerObj = snapshot.val();
-
-                            console.log(playerObj);
-
-                            let fullName = playerObj.fullName;
-                            this.setState({fullName:fullName});
-
-                            let totalAssists = playerObj.totalAssists;
-                            this.setState({totalAssists:totalAssists});
-
-                            let totalGoals = playerObj.totalGoals;
-                            this.setState({totalGoals: playerObj.totalGoals});
-                    
-                            let totalLostTheBall = playerObj.totalLostTheBall;
-                            this.setState({totalLostTheBall: totalLostTheBall});
-                        
-                            let totalPasses =  playerObj.totalPasses; 
-                            this.setState({totalPasses: totalPasses});
-                    
-                            let totalPoints = playerObj.totalPoints;
-                            this.setState({totalPoints: totalPoints});
-
-                            let totalRedCards = playerObj.totalRedCards;
-                            this.setState({totalRedCards: totalRedCards});
-                        
-                            let totalShots =  playerObj.totalShots;
-                            this.setState({totalShots: totalShots})
-                        
-                            let totalShotsOnTarget = playerObj.totalShotsOnTarget;
-                            this.setState({totalShotsOnTarget: totalShotsOnTarget});
-                        
-                            let totalTackles = playerObj.totalTackles;
-                            this.setState({totalTackles: totalTackles});
-                            
-                            let totalWonTheBall = playerObj.totalWonTheBall;
-                            this.setState({totalWonTheBall:totalWonTheBall});
-
-                            let totalYellowCards = playerObj.totalYellowCards;
-                            this.setState({totalYellowCards:totalYellowCards});
-                            
-                            let userType = playerObj.userType;
-                            this.setState({userType:userType});
-
-                            let SportType = playerObj.sportType;
-                            this.setState({SportType:SportType});
-
-                        }
-                        else
-                        {
-                            console.log('Doesnt exist');
-
-                            //Players
-                            firebase.database().ref('/teams').child(myUserId).child('/players').child(params.itemKey)
-                            .once('value' , snapshot =>  {
-
-                                const playerObj = snapshot.val();
-
-                                console.log(snapshot.val());
-    
-        
-                                let fullName = playerObj.fullName;
-                                this.setState({fullName:fullName});
-
-
-                                console.log(fullName);
-
-                                console.log(this.state.fullName);
-        
-                                let totalAssists = playerObj.totalAssists;
-                                this.setState({totalAssists:totalAssists});
-        
-                                let totalGoals = playerObj.totalGoals;
-                                this.setState({totalGoals: playerObj.totalGoals});
-                           
-                                let totalLostTheBall = playerObj.totalLostTheBall;
-                                this.setState({totalLostTheBall: totalLostTheBall});
-                              
-                                let totalPasses =  playerObj.totalPasses; 
-                                this.setState({totalPasses: totalPasses});
-                           
-                                let totalPoints = playerObj.totalPoints;
-                                this.setState({totalPoints: totalPoints});
-        
-                                let totalRedCards = playerObj.totalRedCards;
-                                this.setState({totalRedCards: totalRedCards});
-                               
-                                let totalShots =  playerObj.totalShots;
-                                this.setState({totalShots: totalShots})
-                             
-                                let totalShotsOnTarget = playerObj.totalShotsOnTarget;
-                                this.setState({totalShotsOnTarget: totalShotsOnTarget});
-                            
-                                let totalTackles = playerObj.totalTackles;
-                                this.setState({totalTackles: totalTackles});
-                                
-                                let totalWonTheBall = playerObj.totalWonTheBall;
-                                this.setState({totalWonTheBall:totalWonTheBall});
-        
-                                let totalYellowCards = playerObj.totalYellowCards;
-                                this.setState({totalYellowCards:totalYellowCards});
-                                
-                  
-                            });
-
-                        }
-                      
-                        
-            });
-    }
 
 
    render (){
@@ -275,12 +261,10 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
     return(
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'  ,  backgroundColor: '#242424', alignItems: "center", fontSize: 20,}}>
         
-            {/* <Text>test</Text>
-          <Text style = {styles.Text}>{this.state.fullName}</Text> */}
         {ProfileHeader}
-        <View style={styles.dataContainer}>
-        {Stats}
-        </View>
+            <View style={styles.dataContainer}>
+            {Stats}
+            </View>
         </ScrollView>
         )
    
@@ -290,9 +274,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
  }
 
  const styles = StyleSheet.create({
-    // container: {
-    //     backgroundColor: '#242424', 
-    // },
+
     Text: {
         color:'#ffffff',
         fontSize: 20,
@@ -318,10 +300,11 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
     
     headerContainer:{ 
 
-        backgroundColor: '#FF6D01',
+        backgroundColor: '#C30000',
         alignItems: "center",
         borderWidth: 4,
         borderColor:'#ffffff',
+        borderRadius: 20,
          alignItems: 'center',
         width: wp('50%') ,  // % of width device screen
         marginTop:30,
@@ -334,9 +317,10 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
     dataContainer: {
         // height: hp('50%'), // 70% of height device screen
         width: wp('50%') ,  // % of width device screen
-        backgroundColor: '#424242', 
+        backgroundColor: "#33343F",
         alignItems: "center",
         borderWidth: 4,
+        borderRadius: 20,
         borderColor:'#ffffff',
  
         marginBottom:10

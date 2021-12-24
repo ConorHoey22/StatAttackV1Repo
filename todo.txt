@@ -48,6 +48,9 @@ TASKS To be looked at
             -- This is due to ios defaulting to landascape but it looks portrait. This is not an issue with android
 
 
+            --Existing player regisation - Doesnt send the user back to the home back , i dunno how todo this as i used props but its because its within a big Firebase query - Maybe fix this in the future , but for now the user is prompt to login and if they try again it says already active player account
+
+
 
 -------------------Release Checks--------------------------------
 

@@ -79,6 +79,9 @@ class StatsApp extends Component {
           totalTeamShotsOnTarget:0,
 
 
+          PlayerMinutesTimer:0,
+          PlayerSecondsTimer:0,
+
           //DisplayTotalOpponentsTeamStats
           totalOpponentsTeamGoals: 0,
           totalOpponentsTeamPoints:0,
@@ -192,6 +195,8 @@ class StatsApp extends Component {
 
           displayIndividualPlayerStatsTable:false,
 
+          displayAccidentalSubPrompt: false,
+
           //Timer
           min: 0,
           sec: 0,
@@ -218,7 +223,7 @@ class StatsApp extends Component {
           EventFieldPositionPatternMessage: '',
 
           selectedEvent:'',
- 
+          SubbedValidation:false,
 
           color: 'green'
 
@@ -260,7 +265,7 @@ class StatsApp extends Component {
             OpponentsTeamsheetArray = params.opponentsData;
             this.setState({OpponentsTeamsheetArray: params.opponentsData});
 
-
+       
  
 
 
@@ -284,7 +289,10 @@ class StatsApp extends Component {
                         fullName: TeamsheetArray[i].fullName,
                         playerKitNumber: TeamsheetArray[i].playerKitNumber,
                         playerPosition: TeamsheetArray[i].playerPosition,
-                        status: TeamsheetArray[i].status
+                        status: TeamsheetArray[i].status,
+                        SubbedValidation: TeamsheetArray[i].SubbedValidation,
+                        PlayerMinutesTimer:0,
+                        PlayerSecondsTimer:0
                     }
 
                     this.state.StartingTeamArray.push(data);
@@ -302,7 +310,10 @@ class StatsApp extends Component {
                         fullName: TeamsheetArray[i].fullName,
                         playerKitNumber: TeamsheetArray[i].playerKitNumber,
                         playerPosition: TeamsheetArray[i].playerPosition,
-                        status: TeamsheetArray[i].status
+                        status: TeamsheetArray[i].status,
+                        SubbedValidation: TeamsheetArray[i].SubbedValidation,
+                        PlayerMinutesTimer:0,
+                        PlayerSecondsTimer:0
                     }
 
 
@@ -331,7 +342,10 @@ class StatsApp extends Component {
                         fullName: OpponentsTeamsheetArray[i].fullName,
                         playerKitNumber: OpponentsTeamsheetArray[i].playerKitNumber,
                         playerPosition: OpponentsTeamsheetArray[i].playerPosition,
-                        status: OpponentsTeamsheetArray[i].status
+                        status: OpponentsTeamsheetArray[i].status,
+                        SubbedValidation: OpponentsTeamsheetArray[i].SubbedValidation,
+                        PlayerMinutesTimer:0,
+                        PlayerSecondsTimer:0
                     };
 
 
@@ -352,7 +366,13 @@ class StatsApp extends Component {
                         fullName: OpponentsTeamsheetArray[i].fullName,
                         playerKitNumber: OpponentsTeamsheetArray[i].playerKitNumber,
                         playerPosition: OpponentsTeamsheetArray[i].playerPosition,
-                        status: OpponentsTeamsheetArray[i].status
+                        status: OpponentsTeamsheetArray[i].status,
+                        SubbedValidation: OpponentsTeamsheetArray[i].SubbedValidation,
+                        PlayerMinutesTimer:0,
+                        PlayerSecondsTimer:0
+
+
+                        
                     };
 
                     this.state.OpponentsSubBenchArray.push(data4);
@@ -375,12 +395,193 @@ class StatsApp extends Component {
                 let TeamName = teamObj.TeamName;
                 this.setState({TeamName:TeamName});
 
-                });
+            });
 
           
  
     
 }   
+
+
+
+// Sub logic - This is the accidental validation check
+ExecuteSubValidationCheck = value => () => {
+
+
+    // Obtain arrays  
+     var StartingTeamArray = this.state.StartingTeamArray;
+     var SubBench = this.state.SubBenchArray;
+    
+     //Get Selected Player
+     var getKitNumber = value;
+     var getPlayer = this.state.selectedPlayerKitNumber;
+    
+
+            if(getKitNumber == '')
+            {
+                // user has not selected a player to sub off 
+
+                // They have the option to undo the event selection by clicking the undo button
+            }
+            else
+            {
+                //We execute the sub now as player has been selected
+
+
+                //Get Game Timer ( Minutes and Seconds) 
+                //Remove from Starting team
+                for(var i = 0; i < StartingTeamArray.length; i++)
+                {
+
+                        if(StartingTeamArray[i].playerKitNumber == getPlayer)
+                        {
+                            //Check if person has been subbed before 
+                            //else then Execute sub as normal
+
+                            if(StartingTeamArray[i].SubbedValidation == true)
+                            {
+                                    //This is just incase that the user accidentally subbed the player before
+                                                    
+                                    //Frontend Toggle on - Option to cancel or continue to sub this player
+                                    this.setState({displayAccidentalSubPrompt: true});
+
+                                    //Yes no is prompt and then its linked with a button
+
+
+                        
+                        
+                            }
+                            else if(StartingTeamArray[i].SubbedValidation == false)
+                            {
+                                
+                                //Then we execute as normal as this player hasnt been subbed before
+
+                                this.ExecuteSub();
+
+
+
+                            }
+
+                        }
+                    }
+                    
+                }
+
+    }
+
+
+
+
+
+
+
+
+
+
+ExecuteSubFunction = value => () => {
+
+
+    
+        //Get Game Timer ( Minutes and Seconds) 
+
+        //minutes_Counter , Default is 00
+        //seconds_Counter , Default is 00
+
+        var minutes_Counter = this.state.minutes_Counter;
+        var seconds_Counter = this.state.seconds_Counter;
+
+        //timer - not sure if we need this
+        var timer = this.state.timer;
+
+
+        // Obtain arrays  
+         var StartingTeamArray = this.state.StartingTeamArray;
+         var SubBench = this.state.SubBenchArray;
+         //Gey Selected Player
+         var getKitNumber = value;
+         var getPlayer = this.state.selectedPlayerKitNumber;
+        
+
+
+
+
+
+    if(getKitNumber == '')
+    {
+        // user has not selected a player to sub off 
+
+        // They have the option to undo the event selection by clicking the undo button
+    }
+    else
+    {
+       //We execute the sub now as player has been selected
+
+
+        //Get Game Timer ( Minutes and Seconds) 
+                //Remove from Starting team
+                 for(var i = 0; i < StartingTeamArray.length; i++)
+                 {
+                        if(StartingTeamArray[i].playerKitNumber == getPlayer)
+                        {
+                            
+                            //Check if person has been subbed before 
+                            //else then Execute sub as normal
+
+                            if(StartingTeamArray[i].SubbedValidation == true)
+                            {
+                                    //This is just incase that the user accidentally subbed the player before
+                                
+                                    //Frontend Toggle on - Option to cancel or continue to sub this player
+                                    this.setState({displayAccidentalSubPrompt:true});
+
+                           
+                            }
+                            else if(StartingTeamArray[i].SubbedValidation == true && StartingTeamArray[i].status == 'StartingTeam' && StartingTeamArray[i].playerKitNumber == this.state.selectedPlayerKitNumber)
+                            {
+                                // Push the player subbing OFF to the SubBenchArray
+
+
+                            }
+
+
+
+                      
+
+                        }
+                 }
+
+
+
+
+
+
+
+       //Remove from Starting team + push it to the subbench
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+SubTimer = () => {
+
+// Start Specific Timer - This is the player that is is being subbed on
+
+
+// Stop Specific Timer - This is the player that is is being subbed off
+
+
+
+}
+
+
 
 ExitReviewDetailAnalysis = () => {
   // Toggles off all additional frontend that is not needed to proceed
@@ -945,6 +1146,8 @@ ExitReviewDetailAnalysis = () => {
                                                    playerKitNumber: OpponentsStartingTeamArray[i].playerKitNumber,
                                                    playerPosition: OpponentsStartingTeamArray[i].playerPosition,
                                                    status: 'SubBench',
+                                                   PlayerMinutesTimer: this.state.PlayerMinutesTimer,
+                                                   PlayerSecondsTimer: this.state.PlayerSecondsTimer
                                                };
                
                                                this.state.OpponentsSubBenchArray.push(playerData);
@@ -1006,6 +1209,8 @@ ExitReviewDetailAnalysis = () => {
                                 playerKitNumber: OpponentsSubBenchArray[i].playerKitNumber,
                                 playerPosition: OpponentsSubBenchArray[i].playerPosition,
                                 status: 'StartingTeam',
+                                PlayerMinutesTimer: this.state.PlayerMinutesTimer,
+                                PlayerSecondsTimer: this.state.PlayerSecondsTimer
                             };
         
                             this.state.OpponentsStartingTeamArray.push(playerData);
@@ -1041,137 +1246,124 @@ ExitReviewDetailAnalysis = () => {
                     }
 
 
-                    console.log(OpponentsStartingTeamArray);
-                    console.log(OpponentsSubBenchArray);
 
             }
 
     }
 
 
+ExecuteSub = value => () => {
 
-    ExecuteSub = value => () => {
+        // Obtain arrays  
+        var StartingTeamArray = this.state.StartingTeamArray;
+        var SubBench = this.state.SubBenchArray;
+        var getKitNumber = value;
+        var getPlayer = this.state.selectedPlayerKitNumber;
 
-             // Obtain arrays  
-             var StartingTeamArray = this.state.StartingTeamArray;
-             var SubBench = this.state.SubBenchArray;
-             var getKitNumber = value;
-             var getPlayer = this.state.selectedPlayerKitNumber;
+        var OpponentsStartingTeamArray = this.state.OpponentsStartingTeamArray;
+        var OpponentsSubBench = this.state.OpponentsSubBenchArray;
 
-             var OpponentsStartingTeamArray = this.state.OpponentsStartingTeamArray;
-             var OpponentsSubBench = this.state.OpponentsSubBenchArray;
+        var minutesPlayed = this.state.minutes_Counter;
+        var secondsPlayed = this.state.seconds_Counter;
 
-             var minutesPlayed = this.state.minutes_Counter;
-             var secondsPlayed = this.state.seconds_Counter;
+        var validDelete;
+        var validOpponentDelete;
 
-             var validDelete;
-             var validOpponentDelete;
-
-             var getEventType = this.state.selectedEventType;
-
-
-        if(getKitNumber == '')
-        {
-            // user has not selected a player to sub off 
-
-            // They have the option to undo the event selection by clicking the undo button
-        }
-        else
-        {
+        var getEventType = this.state.selectedEventType;
 
 
-            //we execute the sub now
+   if(getKitNumber == '')
+   {
+       // user has not selected a player to sub off 
 
-            //Remove from Starting team + push it to the subbench
-
-                //Remove from Starting team
-                for(var i = 0; i < StartingTeamArray.length; i++)
-                {
-                       if(StartingTeamArray[i].playerKitNumber == getPlayer)
-                       {
-                           
-                               if(StartingTeamArray[i].status == 'StartingTeam' && StartingTeamArray[i].playerKitNumber == this.state.selectedPlayerKitNumber)
-                               {
-                                          // Push the player subbing OFF to the SubBenchArray 
-           
-                                          // change status to 'SubBench'
-           
-                                           var playerData = {
-                                               
-                                               Goals: StartingTeamArray[i].Goals,
-                                               Passes:StartingTeamArray[i].Passes,
-                                               Points: StartingTeamArray[i].Points,
-                                               Shots: StartingTeamArray[i].Shots,
-                                               ShotsOnTarget: StartingTeamArray[i].ShotsOnTarget,
-                                               UserID: StartingTeamArray[i].UserID,
-                                               fullName: StartingTeamArray[i].fullName,
-                                               playerKitNumber: StartingTeamArray[i].playerKitNumber,
-                                               playerPosition: StartingTeamArray[i].playerPosition,
-                                               status: 'SubBench',
-
-                                                //
-
-                                               //Obtain timer - How long they played will be calculated by currentTimerMins - Starting timer mins = minutesPlayerd (Needs tested)
-                                               //calculated by currentTimersec - Starting timer secs = secsPlayerd
-                                                minutesPlayed:minutesPlayed,
-                                                secondsPlayed:secondsPlayed
-
-                                                //
+       // They have the option to undo the event selection by clicking the undo button
+   }
+   else
+   {
 
 
-                                           };
-           
-                                           this.state.SubBenchArray.push(playerData);
-   
+       //we execute the sub now
+
+           //Remove from Starting team + push it to the subbench
+
+           //Remove from Starting team
+           for(var i = 0; i < StartingTeamArray.length; i++)
+           {
+                  if(StartingTeamArray[i].playerKitNumber == getPlayer)
+                  {
+                      
+                          if(StartingTeamArray[i].status == 'StartingTeam' && StartingTeamArray[i].playerKitNumber == this.state.selectedPlayerKitNumber)
+                          {
+                                     // Push the player subbing OFF to the SubBenchArray 
+      
+                                     // change status to 'SubBench'
+      
+                                      var playerData = {
+                                          
+                                          Goals: StartingTeamArray[i].Goals,
+                                          Passes:StartingTeamArray[i].Passes,
+                                          Points: StartingTeamArray[i].Points,
+                                          Shots: StartingTeamArray[i].Shots,
+                                          ShotsOnTarget: StartingTeamArray[i].ShotsOnTarget,
+                                          UserID: StartingTeamArray[i].UserID,
+                                          fullName: StartingTeamArray[i].fullName,
+                                          playerKitNumber: StartingTeamArray[i].playerKitNumber,
+                                          playerPosition: StartingTeamArray[i].playerPosition,
+                                          status: 'SubBench',
+
+
+                                      };
+      
+                                      this.state.SubBenchArray.push(playerData);
+
                                             //Delete from StartingTeamArray
-   
-                                           for(var i = 0; i < StartingTeamArray.length; i++)
-                                           {
-                                           
-                                               //  //delete the record with status as 'StartingTeam' 
-                                               if(StartingTeamArray[i].status == 'StartingTeam' && StartingTeamArray[i].playerKitNumber == this.state.selectedPlayerKitNumber)
-                                               {
-                                                   StartingTeamArray.splice(i,1);
-                                               
-                                               }
-                                               else
-                                               {
-                                               
-                                               }
-                   
-                                           }
-           
-                                               // Make Events disappear
-                                                this.setState({displayEventsContainer: false});
-                        
-                        
-                                                // This will make all starting team players disappear
-                                                this.setState({displayStartingTeam: false});
-                        
-                                                //Sub bench container Appear
-                                                this.setState({displaySubBench: true});
-                                   
-                               }
 
-                        }
-
-                }
-
-
-            
-                // Obtain the Kit number/Player Selected
-                this.setState({
-                    selectedPlayerKitNumber: getKitNumber
-                        }, () => console.log(this.state.selectedPlayerKitNumber));
-
+                                            for(var i = 0; i < StartingTeamArray.length; i++)
+                                            {
+                                            
+                                                //delete the record with status as 'StartingTeam' 
+                                                if(StartingTeamArray[i].status == 'StartingTeam' && StartingTeamArray[i].playerKitNumber == this.state.selectedPlayerKitNumber)
+                                                {
+                                                    StartingTeamArray.splice(i,1);
+                                                }
+                                                else
+                                                {
+                                                
+                                                }
                     
+                                            }
+      
+                                           // Make Events disappear
+                                           this.setState({displayEventsContainer: false});
+                   
+                   
+                                           // This will make all starting team players disappear
+                                           this.setState({displayStartingTeam: false});
+                   
+                                           // Sub bench container Appear
+                                           this.setState({displaySubBench: true});
+                              
+                          }
+
+                   }
+
+           }
 
 
-                for(var i = 0; i < SubBench.length; i++)
-                {
+       
+           // Obtain the Kit number/Player Selected
+           this.setState({
+               selectedPlayerKitNumber: getKitNumber
+                   }, () => console.log(this.state.selectedPlayerKitNumber));
+
                
-                    if(SubBench[i].status == 'SubBench' && SubBench[i].playerKitNumber == getKitNumber)
-                    {
+
+
+           for(var i = 0; i < SubBench.length; i++)
+           {
+          
+               if(SubBench[i].status == 'SubBench' && SubBench[i].playerKitNumber == getKitNumber)
+               {
                     // Push the player subbing ON to the StartingTeamArray 
                 
                     // change status to 'StartingTeam'
@@ -1192,41 +1384,337 @@ ExitReviewDetailAnalysis = () => {
 
                     this.state.StartingTeamArray.push(playerData);
                     validDelete = true;
-                    }
-                    else
-                    {
-                    
-                    }
+               }
+               else
+               {
+               
+               }
 
-                }
-
-
-                if(validDelete == true)
-                {
-                
-
-                    for(var i = 0; i < SubBench.length; i++)
-                    {
-                    
-                        if(SubBench[i].status == 'SubBench' && SubBench[i].playerKitNumber == getKitNumber)
-                        {
-                        
-                                SubBench.splice(i,1);
-                        }
-                    }
+           }
 
 
-                    this.UndoEvent();
+           if(validDelete == true)
+           {
+           
 
-                }
+               for(var i = 0; i < SubBench.length; i++)
+               {
+               
+                   if(SubBench[i].status == 'SubBench' && SubBench[i].playerKitNumber == getKitNumber)
+                   {
+                   
+                           SubBench.splice(i,1);
+                   }
+               }
 
 
-    
- 
+               this.UndoEvent();
+
+           }
+
+
+
+
     }
 
 
 }
+
+
+    // ExecuteSub = value => () => {
+
+    //     // this where re code it , its buggy . start with Subbench validation then move on 
+
+    
+
+
+    //     //Obtain arrays that we need  
+    //          var StartingTeamArray = this.state.StartingTeamArray;
+    //          var SubBench = this.state.SubBenchArray;
+    //          var getKitNumber = value;
+    //          var getPlayer = this.state.selectedPlayerKitNumber;
+
+    //          var OpponentsStartingTeamArray = this.state.OpponentsStartingTeamArray;
+    //          var OpponentsSubBench = this.state.OpponentsSubBenchArray;
+
+    //          var SubbedValidation = this.state.SubbedValidation;
+
+
+    //          var validDelete;
+    //          var validOpponentDelete;
+
+    //          var getEventType = this.state.selectedEventType;
+
+
+    //         // Obtain the Kit number/Player Selected
+    //         this.setState({
+    //             selectedPlayerKitNumber: getKitNumber
+    //         }, () => console.log(this.state.selectedPlayerKitNumber));
+
+    //     // Make Events disappear
+    //     this.setState({displayEventsContainer: false});
+                        
+                        
+    //     // This will make all starting team players disappear
+    //     this.setState({displayStartingTeam: false});
+                            
+    //     //Sub bench container Appear
+    //     this.setState({displaySubBench: true});
+
+                    
+
+
+    //         //Subbing on player for Sub-Bench + Validation Checks
+
+    //          for(var i = 0; i < SubBench.length; i++)
+    //          {
+    //             //Check if the player has already been subbed before
+    //              if(SubBench[i].SubbedValidation == false && SubBench[i].status == 'SubBench' && SubBench[i].playerKitNumber == getKitNumber)
+    //              {
+                        
+    //                 // Push the player subbing ON to the StartingTeamArray - No prompt needed 1st time Sub
+            
+    //                     // change status to 'StartingTeam'
+    //                     var playerData = {
+                                            
+    //                         Goals: SubBench[i].Goals,
+    //                         Passes: SubBench[i].Passes,
+    //                         Points: SubBench[i].Points,
+    //                         Shots: SubBench[i].Shots,
+    //                         ShotsOnTarget: SubBench[i].ShotsOnTarget,
+                        
+    //                         UserID: SubBench[i].UserID,
+    //                         fullName: SubBench[i].fullName,
+    //                         playerKitNumber: SubBench[i].playerKitNumber,
+    //                         playerPosition: SubBench[i].playerPosition,
+    //                         status: 'StartingTeam',
+    //                     };
+
+    //                     this.state.StartingTeamArray.push(playerData);
+    //                     validDelete = true;
+
+
+    //                       // Remove Player from the sub bench as they are now on the starting team
+    //                       if(validDelete == true)
+    //                       {
+                          
+  
+    //                           for(var i = 0; i < SubBench.length; i++)
+    //                           {
+                              
+    //                               if(SubBench[i].status == 'SubBench' && SubBench[i].playerKitNumber == getKitNumber)
+    //                               {
+    //                                       SubBench.splice(i,1);
+    //                               }
+    //                           }
+  
+  
+    //                           this.UndoEvent();
+  
+    //                       }
+  
+
+    //               }
+    //               else if(SubBench[i].SubbedValidation == true && SubBench[i].status == 'SubBench' && SubBench[i].playerKitNumber == getKitNumber)
+    //               {
+    //                     console.log('This player has already been subbed before.');
+
+    //                     //Display Alert or Toggle on a menu to say are you sure as ... 
+
+
+    //               }
+                      
+
+
+
+
+
+
+
+    //         }
+
+    // }
+
+
+                // Push the player subbing ON to the StartingTeamArray 
+            
+        //         // change status to 'StartingTeam'
+        //         var playerData = {
+                                    
+        //             Goals: SubBench[i].Goals,
+        //             Passes: SubBench[i].Passes,
+        //             Points: SubBench[i].Points,
+        //             Shots: SubBench[i].Shots,
+        //             ShotsOnTarget: SubBench[i].ShotsOnTarget,
+                
+        //             UserID: SubBench[i].UserID,
+        //             fullName: SubBench[i].fullName,
+        //             playerKitNumber: SubBench[i].playerKitNumber,
+        //             playerPosition: SubBench[i].playerPosition,
+        //             status: 'StartingTeam',
+        //         };
+
+        //         this.state.StartingTeamArray.push(playerData);
+        //         validDelete = true;
+        //         }
+        //         else if(SubBench[i].SubbedValidation == true && SubBench[i].status == 'SubBench' && SubBench[i].playerKitNumber == getKitNumber)
+        //         {
+        //             console.log('This player has already been subbed for ');
+        //         }
+        //         else
+        //         {
+
+        //         }
+
+        //     }
+
+
+        //     if(validDelete == true)
+        //     {
+            
+
+        //         for(var i = 0; i < SubBench.length; i++)
+        //         {
+                
+        //             if(SubBench[i].status == 'SubBench' && SubBench[i].playerKitNumber == getKitNumber)
+        //             {
+                    
+        //                     SubBench.splice(i,1);
+        //             }
+        //         }
+
+
+        //         this.UndoEvent();
+
+        //     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // if(getKitNumber == '')
+        // {
+        //     // user has not selected a player to sub off 
+
+        //     // They have the option to undo the event selection by clicking the undo button
+        // }
+        // else
+        // {
+
+
+        //     //we execute the sub now
+
+        //     //Remove from Starting team + push it to the subbench
+
+        //         //Remove from Starting team
+        //         for(var i = 0; i < StartingTeamArray.length; i++)
+        //         {
+        //                if(StartingTeamArray[i].playerKitNumber == getPlayer)
+        //                {
+
+
+        //                        if(StartingTeamArray[i].status == 'StartingTeam' && StartingTeamArray[i].playerKitNumber == this.state.selectedPlayerKitNumber)
+        //                        {
+        //                                   // Push the player subbing OFF to the SubBenchArray 
+           
+        //                                   // change status to 'SubBench'
+           
+        //                                    var playerData = {
+                                               
+        //                                        Goals: StartingTeamArray[i].Goals,
+        //                                        Passes:StartingTeamArray[i].Passes,
+        //                                        Points: StartingTeamArray[i].Points,
+        //                                        Shots: StartingTeamArray[i].Shots,
+        //                                        ShotsOnTarget: StartingTeamArray[i].ShotsOnTarget,
+        //                                        UserID: StartingTeamArray[i].UserID,
+        //                                        fullName: StartingTeamArray[i].fullName,
+        //                                        playerKitNumber: StartingTeamArray[i].playerKitNumber,
+        //                                        playerPosition: StartingTeamArray[i].playerPosition,
+        //                                        status: 'SubBench',
+        //                                        SubbedValidation: true, // This is to determine if the player has been subbed before
+        //                                        PlayerMinutesTimer: this.state.minutes_Counter,
+        //                                        PlayerSecondsTimer: this.state.seconds_Counter,
+
+        //                                    };
+           
+        //                                    this.state.SubBenchArray.push(playerData);
+   
+        //                                         //Delete from StartingTeamArray
+   
+        //                                         for(var i = 0; i < StartingTeamArray.length; i++)
+        //                                         {
+                                                
+        //                                             //  //delete the record with status as 'StartingTeam' 
+        //                                             if(StartingTeamArray[i].status == 'StartingTeam' && StartingTeamArray[i].playerKitNumber == this.state.selectedPlayerKitNumber)
+        //                                             {
+        //                                                 StartingTeamArray.splice(i,1);
+                                                    
+        //                                             }
+        //                                             else
+        //                                             {
+                                                    
+        //                                             }
+                        
+        //                                         }
+           
+        //                                        // Make Events disappear
+        //                                         this.setState({displayEventsContainer: false});
+                        
+                        
+        //                                         // This will make all starting team players disappear
+        //                                         this.setState({displayStartingTeam: false});
+                        
+        //                                         //Sub bench container Appear
+        //                                         this.setState({displaySubBench: true});
+                                   
+        //                        }
+
+        //                     }
+        //                     else
+        //                     {
+
+        //                         console.log('dsadsadas');
+                                
+                    
+        //                     }
+
+        //                 }
+
+        //         }
+
+
+            
+        //         // Obtain the Kit number/Player Selected
+        //         this.setState({
+        //             selectedPlayerKitNumber: getKitNumber
+        //                 }, () => console.log(this.state.selectedPlayerKitNumber));
+
+                    
+
+
+    
+ 
+    
+
+
+
 
 
     ObtainEventSelected = value => () => {
@@ -2028,6 +2516,10 @@ ExitReviewDetailAnalysis = () => {
         var totalOpponentsPasses = this.state.totalOpponentsTeamPasses;
         var totalOpponentsTeamShots = this.state.totalOpponentsTeamShots;
         var totalOpponentsTeamShotsOnTarget = this.state.totalOpponentsTeamShotsOnTarget;
+
+        
+        var minutesPlayed = this.state.minutes_Counter;
+        var secondsPlayed = this.state.seconds_Counter;
         
         //Update YourTeam Game Record totals
         var updateGameRecord = firebase.database().ref('/teams').child(myUserId).child('games').child(GameRecordKey).child('YourTeamStats');
@@ -2044,6 +2536,13 @@ ExitReviewDetailAnalysis = () => {
         firebase.database().ref('/teams').child(myUserId)
         .child('gamecounter')
         .set(firebase.database.ServerValue.increment(1));
+
+
+
+
+
+
+
 
 
         //This can only be used by the HeadTeam Admin 
@@ -2207,8 +2706,21 @@ ExitReviewDetailAnalysis = () => {
                     // var Points = StartingTeamArray[i].Points;
                     var Shots = StartingTeamArray[i].Shots;
                     var ShotsOnTarget = StartingTeamArray[i].ShotsOnTarget;
-             
+                    var PlayerMinutesTimer = StartingTeamArray[i].PlayerMinutesTimer;
+                    var PlayerSecondsTimer = StartingTeamArray[i].PlayerSecondsTimer;
                 
+
+
+        //Calculate each player -Minutes + Seconds played           
+        var totalMins = PlayerMinutesTimer - minutesPlayed;
+        var totalSeconds = PlayerSecondsTimer - secondsPlayed;
+                    
+
+
+
+
+
+
                     //SEND DATA to (Player)User account
                      var updateUser = firebase.database().ref('/users').orderByChild("id").equalTo(UserID);
                          updateUser.on("child_added", function(snapshot) {
@@ -2245,6 +2757,13 @@ ExitReviewDetailAnalysis = () => {
                     var Shots = SubBenchArray[i].Shots;
                     var ShotsOnTarget = SubBenchArray[i].ShotsOnTarget;
              
+
+
+        //Calculate each player -Minutes + Seconds played
+
+
+
+
                 
                     //SEND DATA to (Player)User account
                     var updateUser = firebase.database().ref('/users').orderByChild("id").equalTo(UserID);
@@ -2585,88 +3104,6 @@ ExitReviewDetailAnalysis = () => {
 
     
 
-
-    //This is like a toggle, used in both the starting list of players and sub bench as if the player record is not found they are redirected to here as obviously they are a sub
-    SubOnPlayer  = async() => {
-
-        var StartingTeamArray = this.state.StartingTeamArray;
-        var SubBench = this.state.SubBenchArray;
-
-        var SportType = this.state.SportType;
-
-
-        //SportType to know the max number that legally can be on the pitch 
-        if(SportType == 'GAA')
-        {
-           //Check if Sub Bench is empty 
-           if (SubBench  === undefined || SubBench.length <= 1) 
-           {
-                  // array empty or does not exist
-                  alert('Cannot sub anymore players - You must have at least 1 player on the field');
-           }
-         
-           else
-           {
-               if(StartingTeamArray.length = 11) 
-               {
-                   alert('Cannot sub anymore players on - Max 15 players on the field')   
-               }
-               else
-               {
-               
-                   // This will make all starting team players disappear
-                   this.setState({displayStartingTeam: false});
-               
-                   // display all sub players on the screen 
-                   this.setState({displaySubBench: true}, () => {
-                       // put the things you wish to occur after you have set your state.
-              
-                   }); 
-
-               }
-           }
-       
-        }
-        else if(SportType == 'Soccer')
-        {
-
-            //Check if Sub Bench is empty 
-            if (SubBench  === undefined || SubBench.length <= 1) 
-            {
-                   // array empty or does not exist
-                   alert('Cannot sub anymore players - You must have at least 1 player on the field');
-            }
-          
-            else
-            {
-                if(StartingTeamArray.length = 11) 
-                {
-                    alert('Cannot sub anymore players on - Max 15 players on the field')   
-                }
-                else
-                {
-                
-                    // This will make all starting team players disappear
-                    this.setState({displayStartingTeam: false});
-                
-                    // display all sub players on the screen 
-                    this.setState({displaySubBench: true}, () => {
-                        // put the things you wish to occur after you have set your state.
-                     
-                    }); 
-
-                    
-                }
-            }
-
-        }
-
-
-
-
-       
-
-    }
 
 
 
@@ -4797,12 +5234,6 @@ ExecuteOpponentsPercentages = async() => {
 
         }
 
-
-
-
-
-
-
 }
 
 
@@ -4848,7 +5279,7 @@ ExecuteOpponentsPercentages = async() => {
             //Field Plot System
             var PlotOnField;
             var ViewFieldPlots;
-        
+            var PromptMessage;
 
             var ActivatePlotOnField = this.state.ActivatePlotOnField;
             var ActivateViewFieldPlots = this.state.ActivateViewFieldPlots;
@@ -4915,6 +5346,7 @@ ExecuteOpponentsPercentages = async() => {
             var displayReviewOpponentsIndividualPlayers = this.state.displayReviewOpponentsIndividualPlayers;
             var displayOpponentsStartingTeam = this.state.displayOpponentsStartingTeam;
             var displayOpponentsSubBench = this.state.displayOpponentsSubBench;
+            var displayAccidentalSubPrompt = this.state.displayAccidentalSubPrompt;
 
 
 
@@ -7251,6 +7683,9 @@ if(ExecuteTeamDetailAnalysisView == true)
              }
 
 
+
+
+
              if(displaySubBench == true)
              {
                 SubPlayerContainer = (
@@ -7263,7 +7698,7 @@ if(ExecuteTeamDetailAnalysisView == true)
                             return (
                                 <View key={element} style={styles.listItemContainer}>
                                     <View style={styles.playerColumnView}>
-                                        <TouchableOpacity style={styles.SubKitNumberbutton} value={data.playerKitNumber}  onPress={this.ExecuteSub(data.playerKitNumber)}>
+                                        <TouchableOpacity style={styles.SubKitNumberbutton} value={data.playerKitNumber}  onPress={this.ExecuteSubValidationCheck(data.playerKitNumber)}>
                                             <Text style={styles.buttonText}>{data.playerKitNumber}</Text>
                                         </TouchableOpacity> 
 
@@ -7284,6 +7719,27 @@ if(ExecuteTeamDetailAnalysisView == true)
 
 
              }
+
+
+            if(displayAccidentalSubPrompt == true)
+            {
+                SubPrompt = (
+                    
+                    <View style={styles.GetYourTeamPlayers}>     
+                        <Text style={styles.buttonText}>This player has been subbed before </Text>
+
+                        <TouchableOpacity style={styles.OpponentsModeBtn} onPress={this.ExecuteSub}>
+                            <Text style={styles.buttonText}>Yes</Text>
+                        </TouchableOpacity> 
+
+                        <TouchableOpacity style={styles.OpponentsModeBtn} onPress={this.UndoEvent}>
+                            <Text style={styles.buttonText}>No</Text>
+                        </TouchableOpacity> 
+
+                    </View>
+
+                );
+            }
 
 
 
@@ -8224,6 +8680,34 @@ if(ExecuteTeamDetailAnalysisView == true)
 
                 }
 
+                if(displayAccidentalSubPrompt == true)
+                {
+                    PromptMessage = (
+                        <View style = {styles.EventsPatternContainer}>
+                            <Text style={styles.StatsText}>This player has been subbed before. Did you mean to execute this event?</Text>
+                                <TouchableOpacity
+                                    onPress={this.UndoEvent}
+                                    activeOpacity={0.6}
+                                    style={[styles.buttonUndo, { backgroundColor:'#FF6F00' }]} 
+                                > 
+                                <Text style={styles.buttonText}>Yes</Text>
+                                            
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                onPress={this.UndoEvent}
+                                activeOpacity={0.6}
+                                style={[styles.buttonUndo, { backgroundColor:'#FF6F00' }]} 
+                            > 
+                                <Text style={styles.buttonText}>No</Text>
+                                            
+                            </TouchableOpacity>
+                        
+                        </View>
+                    );
+
+                }
+
 
             return (
 
@@ -8249,7 +8733,7 @@ if(ExecuteTeamDetailAnalysisView == true)
                         
                             {ReviewDetailGameAnalysis}
                   
-
+                        {PromptMessage}
  
                    
 

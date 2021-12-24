@@ -12,7 +12,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-
 const screenWidth = Dimensions.get('window').width;
 
 const screenHeight = Dimensions.get('window').height;
@@ -47,7 +46,7 @@ class LoginScreen extends Component {
         fullname: 'dsa'
        
 
-         };
+        };
          
          
     
@@ -61,8 +60,9 @@ class LoginScreen extends Component {
 
       this.state.SelectedStartingTeam.push(tempArr);
 
-
     
+
+
 
 
  
