@@ -5,7 +5,7 @@ Stats app for Sport - Primary created for Soccer as i did not have enough knowle
 This project uses React Native , Firebase(RealTime database), Expo  
 https://github.com/ConorHoey22/StatAttackV1Repo/tree/master/screens to view Screens code
 
-*Registeration 
+-Registeration 
 *Login 
 *Stats App Record 
 *Plot positions on the football field where the event taken place and review previous events 
