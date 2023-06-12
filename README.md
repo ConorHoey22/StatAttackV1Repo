@@ -1,6 +1,6 @@
 # StatAttackV1Repo
 
-Stats app for Sport - Primary created for Soccer as i did not have enough knowledge of GAA
+Stats app for Sport - primarily created for Soccer as i did not have enough knowledge of GAA
 
 This project uses React Native , Firebase(RealTime database), Expo  
 https://github.com/ConorHoey22/StatAttackV1Repo/tree/master/screens to view Screens code
