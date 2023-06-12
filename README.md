@@ -3,7 +3,7 @@
 Stats app for Sport - Primary created for Soccer as i did not have enough knowledge of GAA
 
 This project uses React Native , Firebase(RealTime database), Expo  
-
+https://github.com/ConorHoey22/StatAttackV1Repo/tree/master/screens to view Screens code
 
 -Registeration 
 -Login 
@@ -14,7 +14,7 @@ This project uses React Native , Firebase(RealTime database), Expo
 -All users to Create their own team and players 
 -Invite Players to create an account and join the team to access their Stat recorded previously.
 
-
+https://github.com/ConorHoey22/StatAttackV1Repo/tree/master/screens
 *Functions*
 Register/Login
 Register/Login validation
