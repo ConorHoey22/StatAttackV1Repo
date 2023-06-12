@@ -83,6 +83,11 @@ User can add would add and remove players to the Team Sheet before the game star
 ![image](https://github.com/ConorHoey22/StatAttackV1Repo/assets/43609586/9eec5262-a52f-4d2f-a6cf-1969c0a5bebd)
 
 
+*once the game is over the user can go and view Previous games and stats*
+![image](https://github.com/ConorHoey22/StatAttackV1Repo/assets/43609586/91458531-c4f3-47f7-8858-a9de9d698a01)
+
+
+
 
 
 
