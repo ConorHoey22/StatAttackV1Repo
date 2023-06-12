@@ -69,14 +69,20 @@ User can add would add and remove players to the Team Sheet before the game star
 ![image](https://github.com/ConorHoey22/StatAttackV1Repo/assets/43609586/23b7a550-7c21-4085-b0bf-290c311bdb69)
 
 *Scoreboard is then updated and saved data and Event History is displayed*
-![image](https://github.com/ConorHoey22/StatAttackV1Repo/assets/43609586/d0011fd8-74a3-4fbc-8550-34afd8b62d19)
+
+![image](https://github.com/ConorHoey22/StatAttackV1Repo/assets/43609586/fb9499c8-70a4-44d1-8085-3d373ce0b561)
+
+*If an Event becomes a pattern , the user is told via the Event Patterns column*
+![image](https://github.com/ConorHoey22/StatAttackV1Repo/assets/43609586/5d7587ad-820c-4842-94be-390391160966)
+
+
+*User can pause the game to review game stats*
+![image](https://github.com/ConorHoey22/StatAttackV1Repo/assets/43609586/968e804a-945f-4570-877c-569d9849d524)
+
+
+![image](https://github.com/ConorHoey22/StatAttackV1Repo/assets/43609586/9eec5262-a52f-4d2f-a6cf-1969c0a5bebd)
 
 
 
 
-
-
-Frontend 
-Alerts - Login Validation 
-![image](https://github.com/ConorHoey22/StatAttackV1Repo/assets/43609586/422b6fc9-3a6e-442e-97ad-f9e256ab5965)
 
