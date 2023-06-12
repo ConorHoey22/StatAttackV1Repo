@@ -13,6 +13,8 @@ Save Game data to the Firebase Real time database
 
 Screenshots *note this app is still a work inprogress*
 
-Login Page 
+* Login Page *
+
+
 ![image](https://github.com/ConorHoey22/StatAttackV1Repo/assets/43609586/8ec9c1e7-7736-4e21-b069-d5d29fedb3cd)
 
