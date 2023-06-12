@@ -11,6 +11,11 @@ Stats App Record
 Plot positions on the football field where the event taken place and review previous events 
 Save Game data to the Firebase Real time database
 
+Frontend 
+Alerts 
+![image](https://github.com/ConorHoey22/StatAttackV1Repo/assets/43609586/422b6fc9-3a6e-442e-97ad-f9e256ab5965)
+
+
 Screenshots *note this app is still a work inprogress*
 
 * Login Page *
